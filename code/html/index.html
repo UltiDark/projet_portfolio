@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+    <head>
+        <meta charset="utf-8" />
+        <title>Maxime LOPES - Accueil</title>
+        <link rel="stylesheet" href="../css/style.css" />
+    </head>
+
+    <body>
+        <!--ENTETE-->
+        <header>
+            <a href="index.html">
+                <img class="logo" src="../../media/image/picto.png" alt="logo invisible"/>
+            </a>
+        
+            <nav>
+                <ul>
+                    <li><a href="index.html" class="active">Accueil</a></li>
+                    <li class="menu"><a href="#">Projet</a>
+                        <ul class="sous">
+                            <li><a href="#">Game</a></li>
+                            <li><a href="#">Web</a></li>
+                        </ul>
+                    </li>
+                    <li class="menu"><a href="#">Galerie</a>
+                        <ul class="sous">
+                            <li><a href="#">Modèles 3D</a></li>
+                            <li><a href="#">Assets 2D</a></li>
+                        </ul>
+                    </li>
+                    <li class="menu"><a href="#">Contacts</a></li>
+                </ul>
+            </nav>
+        </header>
+
+        <!--Parallax-->
+        <section class="parallax">
+            <img src="../../media/image/Parallax/stars.png" id="stars" alt="étoile invisible"/>
+            <img src="../../media/image/Parallax/moon.png" id="moon" alt="lune invisible"/>
+            <img src="../../media/image/Parallax/mountains_behind.png" id="mountains_behind"   alt="montagne1 invisible"/>
+            <h1 id="text">Maxime Lopes</h1>
+            <a href="#sec" id="btn">Explore</a>
+            <img src="../../media/image/Parallax/mountains_front.png" id="mountains_front" alt="montage2 invisible"/>
+        </section>
+
+        <!--Script-->
+        <script>
+            let stars = document.getElementById('stars');
+            let moon = document.getElementById('moon');
+            let mountains_behind = document.getElementById('mountains_behind');
+            let text = document.getElementById('text');
+            let btn = document.getElementById('btn');
+            let mountains_front = document.getElementById('mountains_front');   
+            window.addEventListener('scroll', function(){
+                let value = window.scrollY;
+                stars.style.left = value *0.25 + 'px';
+                moon.style.top = value *1.05 +'px';
+                mountains_behind.style.top = value *0.5 + 'px';
+                mountains_front.style.top = value *0 + 'px';
+                text.style.marginBottom = value *5 + 'px';
+                text.style.marginRight = value *1.5 + 'px';
+                btn.style.marginTop = value *1.5 + 'px';})
+        </script>
+
+        <!--MAIN-->
+        <main class="sec" id="sec" >
+        <!--Introduction-->
+            <article class="img-gauche">
+                <img src="../../media/image/Logo.png" alt="logo invisible"/>
+                <div>
+                    <h2>Profil</h2>
+                    <p>
+                        Je m'appelle Maxime LOPES et j'ai 21 ans. J'ai terminé mon cursus Game Design dans l'école ICAN, il m'a permis d'apprendre à conceptualiser et produire des jeux vidéo.
+                    </p>
+                    <p>
+                        Passionné par les jeux vidéos j'ai toujours voulu apprendre les rouages de leur céation et pouvoir en créer par moi-même. J'y ai appris un grand nombre de métiers différent ce qui me permet d'être polyvalent sur n'importe quel projet.
+                    </p>
+                    <p>
+                        Aujourd'hui, étant un formation de Développeur Web et Web Mobile, je suis à la recherche d'un stage d'un mois pour la valider.
+                    </p>
+                    <p>
+                        À long terme, j'aimerais pouvoir évoluer dans le milieu de la création de Jeu Vidéo et Web en ayant appris le plus possible sur toutes les étapes de création (programmation,conception, modélisation, level design, UI, sound design...).
+                    </p>
+                </div>
+            </article>
+
+            <!--Domaines-->
+            <section class="basic2">
+                <h2>Domaines</h2>
+                <div>
+                    <div class="case">
+                        <h3>Game Design</h3>
+                        <div>
+                            <ul>
+                                <li>Logiciels : Indesign, Yed, Trello, Gsuite, Adobe XD</li>
+                                <li>Compétences : Conception Théorique/Document, Gestion de Projet/d'Équipe</li>
+                                <li>Méthodes : Agile, Top-Down, Bottom-Up</li>
+                            </ul>
+                        </div>
+
+                    </div>
+                    <div class="case">
+                        <h3>Graphic Design</h3>
+                        <ul>
+                            <li>Logiciels : Blender, 3dsMax, Photoshop, Illustrator, Marmoset, Substance</li>
+                            <li>Compétences : Modélisation 3D, Asset 2D</li>
+                            <li>Styles : 2D - Flat design / 3D - Cartoon, Low Poly</li>
+                        </ul>
+                    </div>
+
+                    <div class="case">
+                        <h3>Front-End & Back-End</h3>
+                        <ul>
+                            <li>Logiciels : Node.js, Unity, My SQL </li>
+                            <li>Langages : C++, HTML, CSS, Javascript, PHP</li>
+                            <li>Framework : MonoDevelop (.Net / Gtk+), Symfony, JQuery</li>
+
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!--Frise-->
+            <section>
+                <h2>Frise Chrono</h2>
+                <div class="frise">
+
+                <ol>
+                    <li>
+                        <div class="formation">
+                            <time>2017</time>
+                            Baccalauréat Scientifique
+                        </div>
+                      </li>
+                    <li>
+                        <a href="index.html#mystic">
+                            <div class="project">
+                                <time>2018</time>
+                                Mystic Mask
+                            </div>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <div class="job">
+                                <time>2018</time>
+                                Assistant Administratif
+                            </div>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="index.html#tentacule">
+                            <div class="project">
+                                <time>2019</time>
+                                Tentacule
+                            </div>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <div class="job">
+                                <time>2019</time>
+                                Infographiste
+                            </div>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="index.html#ujdp">
+                            <div class="project">
+                                <time>2019</time>
+                                Un Jour de Plus
+                            </div>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="index.html#ican">
+                            <div class="formation">
+                                <time>2020</time>
+                                Bachelor Game Design
+                            </div>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="index.html#philiance">
+                            <div class="formation">
+                                <time>2021</time>
+                                Certificat Développeur Web et Web Mobile
+                            </div>
+                        </a>
+                    </li>
+                    <li>
+                        <div>
+                        </div>
+                    </li>
+                </ol>
+            </div>
+            </section>
+
+            <!--Formations-->
+            <!--ICAN-->
+            <aside id="ican" class="img-droite">
+                <div>
+                    <p>
+                        Parcours de trois années dans l'école ICAN (Institut de Création et Animation Numérique) pendant lesquels j'ai étudié le domaine du Game Design, mais également un grand nombre d'autres domaines du milieu du Jeu Vidéo (Level Design, Modélisation 3D, Programmation, Sound Design...). Pendant mes études, j'ai également produit des projets, disponibles dans mon portfolio.
+                    </p>
+                </div>
+                <div><img src="../../media/image/site/ican.png" alt="ICAN invisible"/></div>
+            </aside>
+
+            <!--Philiance-->
+            <aside id="philiance" class="img-droite">
+                <div class="invisible">
+                    <p>
+                        Formation de 6 mois qui me permettra de créer des pages web en front-end et back-end grâce au langage de programmation HTML, CSS, JAVASCRIPT, PHP. Tous en utilisant des outils tel que SYMFONY et en apprenant les bases du SEO, sécurité...
+                    </p>
+                </div>
+                <div class="invisible"><img src="../../media/image/site/philiance.png" alt="philiance invisible"/></div>
+            </aside>
+
+            <!--Mystic Mask-->
+            <aside id="mystic" class="img-droite">
+                <div class="invisible">
+                    <p>
+                        Pitch : Alors qu'un affrontement entre deux tribus fait rage. Les esprits protecteurs de chaque tribu décide de prendre part à la bataille. Dans ce jeu, chaque joueur contrôle deux avatars aux déplacements opposés sur l'axe horizontal.
+                    </p>
+                    <p>
+                        Rôles : Game Design (création de gameplay et document de conception) et Graphic Design 2D (feedbacks visuels, avatar apparence animale).
+
+                    </p>
+                    <p>
+                        Technologies : Unity, 3Ds Max, FMOD et la suite Adobe.
+                    </p>
+                </div>
+                <div class="invisible"><img src="../../media/image/MysticMask/Screen4.png" alt="philiance invisible"/></div>
+            </aside>
+
+            <!--Tentacule-->
+            <aside id="tentacule" class="img-droite">
+                <div class="invisible">
+                    <p>
+                        Pitch : Contrôlez un personnage possédant un tentacule collant manipulez tant bien que mal des objets du quotidien.
+                    </p>
+                    <p>
+                        Rôle : du Game Design (création de gameplay et document conception) et du Graphic Design (mobilier, jouets d'éveil et UI).
+                    </p>
+                    <p>
+                        Technologies : Unity, 3Ds Max, FMOD et la suite Adobe.
+                    </p>
+                </div>
+                <div class="invisible" ><img src="../../media/image/Tentacule/Screen8.png" alt="philiance invisible"/></div>
+            </aside>
+
+            <!--Un jour de Plus-->
+            <aside id="ujdp" class="img-droite">
+                <div class="invisible">
+                    <p>
+                        Pitch : Vous vous perdez en montagne, sans moyen de communiquer avec le monde extérieur et sans repère pour rentrer chez vous. Heureusement, vous trouvez un abri au loin pour passer la nuit et survivre... Mais pour combien de temps ?
+
+                    </p>
+                    <p>
+                        Rôles : Projet dans lequel j'ai fait du Game Design (création de gameplay et document de conception) et du Graphic Design 2D (animation, divers modèle 3D, intégration Unity, UI menu start/pause).
+                    </p>
+                    <p>
+                        Technologies : Unity, Blender, 3Ds max, Substance et la suite Adobe.
+                    </p>
+                </div>
+                <div class="invisible"><img src="../../media/image/UJDP/Screen32.PNG" alt="philiance invisible"/></div>
+            </aside>
+        </main>
+
+        <footer>
+            <div class="aligne">
+                <p>Mail : maxime.lopes@hotmail.com</p>
+                <p>Téléphone : +33 6 22 65 86 70</p>
+                <p>Site réalisé par LOPES Maxime en 2021</p>
+            </div>
+        </footer>
+    </body>
+</html>

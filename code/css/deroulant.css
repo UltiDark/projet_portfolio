@@ -1,0 +1,66 @@
+html, body{
+    margin : 0px;
+    padding : 0px;
+}
+
+nav{
+    width : 100%;
+    background-color: #424558;
+}
+
+nav > ul {
+    margin: 0px;
+    padding: 0px;
+    padding-bottom: 20px;
+}
+
+nav >ul::after{
+    content:"";
+    display: block;
+    clear: both;
+}
+
+nav > ul > li{
+    float: left;
+    position: relative;
+}
+nav > ul >li >a{
+    padding: 20px 30px;
+    color:#fff;
+
+}
+
+nav li{
+    list-style-type: none;
+}
+
+.sous{
+    display:none;
+}
+
+nav a{
+    display: inline-block;
+    text-decoration: none;
+}
+
+/*sous*/
+
+nav li:hover .sous{
+    display: inline-block;
+    position: absolute;
+    top:100%;
+    left:0px;
+    padding: 0;
+    z-index: 1000;
+}
+
+.sous li{
+    border-bottom: 1px solid #ccc;
+}
+
+.sous li a{
+    padding: 15px 30px;
+    font-size: 13px;
+    color:#222538;
+    width: 270px;
+}
