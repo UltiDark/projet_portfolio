@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="../css/style.css" />
+        <title>Maxime Lopes - Contacts</title>
+    </head>
+
+    <body>
+
+            <!--ENTETE-->
+            <header>
+                <a href="index.html">
+                    <img class="logo" src="../../media/image/picto.png" alt="logo invisible"/>
+                </a>
+            
+                <nav>
+                    <ul>
+                        <li><a href="index.html">Accueil</a></li>
+                        <li class="menu"><a href="#">Projet</a>
+                            <ul class="sous">
+                                <li><a href="#">Game</a></li>
+                                <li><a href="#">Web</a></li>
+                            </ul>
+                        </li>
+                        <li class="menu"><a href="#">Galerie</a>
+                            <ul class="sous">
+                                <li><a href="#">Modèles 3D</a></li>
+                                <li><a href="#">Assets 2D</a></li>
+                            </ul>
+                        </li>
+                        <li class="menu"><a href="contact.html" class="active">Contacts</a></li>
+                    </ul>
+                </nav>
+            </header>
+
+        <!--Parallax-->
+        <section class="parallax">
+            <img src="../../media/image/Parallax/stars.png" id="stars" alt="étoile invisible"/>
+            <img src="../../media/image/Parallax/moon.png" id="moon" alt="lune invisible"/>
+            <img src="../../media/image/Parallax/mountains_behind.png" id="mountains_behind"   alt="montagne1 invisible"/>
+            <h1 id="text">Contacts</h1>
+            <a href="#sec" id="btn">Explore</a>
+            <img src="../../media/image/Parallax/mountains_front.png" id="mountains_front" alt="montage2 invisible"/>
+        </section>
+
+        <!--Script-->
+        <script>
+            let stars = document.getElementById('stars');
+            let moon = document.getElementById('moon');
+            let mountains_behind = document.getElementById('mountains_behind');
+            let text = document.getElementById('text');
+            let btn = document.getElementById('btn');
+            let mountains_front = document.getElementById('mountains_front');   
+            window.addEventListener('scroll', function(){
+                let value = window.scrollY;
+                stars.style.left = value *0.25 + 'px';
+                moon.style.top = value *1.05 +'px';
+                mountains_behind.style.top = value *0.5 + 'px';
+                mountains_front.style.top = value *0 + 'px';
+                text.style.marginBottom = value *5 + 'px';
+                text.style.marginRight = value *1.5 + 'px';
+                btn.style.marginTop = value *1.5 + 'px';})
+        </script>
+
+
+        <main>
+            <section class = formul>
+                <div>
+                    <div>
+                        <h2>Une question, une offre d'emploi, un projet ?</h2>
+                        <p>Contactez-moi par mail, téléphone ou en message privé sur les réseaux sociaux !</p>
+                        <div>
+                            <a href="www.linkedin.com/in/maxime-lopes" target="_blank"><img src="../../media/image/site/linkedin.png" alt="logo linkedin invisible"/></a>
+                            <a href="https://twitter.com/UltiDarkness" target="_blank"><img src="../../media/image/site/twitterjpg.jpg" alt="logo twitter invisible"/></a>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <form action="index.html" method="post">
+                        <h3>Me Contacter par Email</h3>
+            
+                        <!--Nom et Prénom-->
+                        <div class="content">
+                            <div class="content2">
+                                <input type="text" id="lastname" name="user_lastname" placeholder="Nom (Requis)" pattern="[A-Za-z]" required/>
+                            </div>
+                            <div class="content3">
+                                <input type="text" id="firstname" name="user_firstname" placeholder="Prénom (Requis)" pattern="[A-Za-z]" required/>
+                            </div>
+                        </div>
+
+                        <!--Email-->
+                        <div>
+                            <input type="email" id="mail" name="user_email" placeholder="Email (Requis)" required/>
+                        </div>
+            
+                        <div>
+                            <input type="text" id="object" name="user_object" placeholder="Objet de l'email (Requis)" required/>
+                        </div>
+
+                        <!--Message-->
+                        <div>
+                            <label for="msg">Message :</label>
+                            <textarea id="msg" name="user_message" placeholder="Commentaire (Requis)" required></textarea>
+                        </div>
+            
+                        <!--Validation-->
+                        <input type="submit" value="Envoyer"/>
+                    </form>
+                </div>
+            </section>
+        </main>
+
+        <footer>
+            <div class="aligne">
+                <p>Mail : maxime.lopes@hotmail.com</p>
+                <p>Téléphone : +33 6 22 65 86 70</p>
+                <p>Site réalisé par LOPES Maxime en 2021</p>
+            </div>
+        </footer>
+    </body>
+</html>

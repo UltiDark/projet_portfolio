@@ -197,7 +197,7 @@ header ul li a.active{
 
 /*START BODY*/
 /*Base*/
-h2,h3,h4,h5,h6,p,li,time{
+h2,h3,h4,h5,h6,p,li,time, label, input, legend{
     color: #fff;
 }
 
@@ -235,11 +235,12 @@ time{
     display: block;
 }
 
-p, li{
+p, li, label, input, legend, textarea{
     margin-top: 3px;
     font-family: "Lato", sans-serif;
     font-weight: 700;
     font-size: 14pt;
+
 }
 
 li{
@@ -486,7 +487,7 @@ footer{
     color : white;
     height: 15vh;
     width: 100%;
-    margin-top : 0px;
+    margin-top : 20px;
 }
 
 footer div{
@@ -503,6 +504,97 @@ footer p{
     font-style: italic;
 }
 /*END FOOTER*/
+
+
+/*START PAGE CONTACTS*/
+
+/*Formulaire*/
+form{
+    width: 100%;
+    background-color: #562c61;
+    border-radius:  50px;
+    padding: 50px;
+    justify-content: center;
+    -webkit-filter: drop-shadow(5px 5px 5px #901AAD);
+    filter: drop-shadow(5px 5px 5px #901AAD);
+}
+
+.formul {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 70px;
+}
+
+form > h3{
+    margin : 0px 0px 3px 0px;
+}
+
+.formul a{
+    background-color: blueviolet;
+    border-radius: 10px;
+}
+
+.content{
+    display: flex;
+}
+
+.formul div{
+    width: 40%;
+}
+
+.formul div div{
+    width: 100%;
+}
+
+.formul > div > div > div img{
+    width: 12%;
+    height: auto;
+    border-radius: 5px;
+    margin: 20px 10px;
+}
+
+.content2{
+    margin-right: 10px;
+}
+
+.content3{
+    margin-left: 10px ;
+}
+
+textarea{
+    resize: vertical;
+}
+
+
+input[type=email], input[type=text],input[type=submit], textarea{
+    width:100%;
+    padding: 12px 20px;
+    margin: 15px 0px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+input[type=submit]{
+    cursor: pointer;
+    border-radius: 40px;
+    background-color: #901AAD;
+    border: 1px solid #562c61;
+}
+
+input[type=submit]:hover{
+    background-color: #e3e3e3;
+
+}
+
+input[pattern]:invalid, input[required]:invalid, input[type="email"]:invalid{
+   color: #dc3545;
+}
+input[pattern]:valid, input[required]:valid, input[type="email"]:valid{
+    color: green;
+}
+
+/*END PAGE CONTACTS*/
 
 @font-face {
     font-family: 'Lato';
@@ -592,6 +684,17 @@ footer p{
     h1{
         font-size: 50pt;
     }
+    .formul{
+        flex-direction: column;
+        align-items: center;
+    }
+    .formul div{
+        width: 80%;
+    }
+    form{
+        margin-top: 50px;
+    }
+    
 }
 
 @media(max-width: 992px){
@@ -647,5 +750,17 @@ footer p{
 
     #btn{
         display: none;
+    }
+
+    .content{
+        display: inline;
+    }
+    
+    .content2{
+        margin-right: 0px;
+    }
+
+    .content3{
+        margin-left: 0px;
     }
 }
