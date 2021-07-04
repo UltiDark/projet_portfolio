@@ -197,7 +197,7 @@ header ul li a.active{
 
 /*START BODY*/
 /*Base*/
-h1,h2,h3,h4,h5,h6,p,li,time{
+h2,h3,h4,h5,h6,p,li,time{
     color: #fff;
 }
 
@@ -214,8 +214,11 @@ h1,h2,h3, time{
 
 
 h1{
+    justify-content: center;
+    align-content: center;
     font-size: 70pt;
     margin: 5px;
+    color : rgb(132, 159, 168);
 }
 
 h2{
@@ -252,9 +255,9 @@ li{
     position: absolute;
     /*right: -350px;*/
     top: 210px;
-    color :#fff;
+    /*color :#fff;*/
     white-space: nowrap;
-    font-size: 5.5vw;
+    font-size: 70pt;
     z-index: 9;
 }
 
@@ -560,11 +563,11 @@ footer p{
     font-weight: 900;
     src: url('../../typo/catamarancatamaran-v8-latin-900.eot'); /* IE9 Compat Modes */
     src: local(''),
-        url('../../typo/catamarancatamaran-v8-latin-900.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
-        url('../../typo/catamarancatamaran-v8-latin-900.woff2') format('woff2'), /* Super Modern Browsers */
-        url('../../typo/catamarancatamaran-v8-latin-900.woff') format('woff'), /* Modern Browsers */
-        url('../../typo/catamarancatamaran-v8-latin-900.ttf') format('truetype'), /* Safari, Android, iOS */
-        url('../../typo/catamarancatamaran-v8-latin-900.svg#Catamaran') format('svg'); /* Legacy iOS */
+        url('../../typo/catamaran/catamaran-v8-latin-900.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+        url('../../typo/catamaran/catamaran-v8-latin-900.woff2') format('woff2'), /* Super Modern Browsers */
+        url('../../typo/catamaran/catamaran-v8-latin-900.woff') format('woff'), /* Modern Browsers */
+        url('../../typo/catamaran/catamaran-v8-latin-900.ttf') format('truetype'), /* Safari, Android, iOS */
+        url('../../typo/catamaran/catamaran-v8-latin-900.svg#Catamaran') format('svg'); /* Legacy iOS */
 }
 
 @keyframes loop {
@@ -577,11 +580,17 @@ footer p{
     main{
         margin :0px 6% 5px 6%;
     }
+    h1{
+        font-size: 60pt;
+    }
 }
 
 @media(max-width: 1300px){
     main{
         margin :0px 3% 5px 3%;
+    }
+    h1{
+        font-size: 50pt;
     }
 }
 
@@ -589,6 +598,7 @@ footer p{
     article{
         flex-direction: column;
     }
+
     aside{
         flex-direction: column-reverse;
     }
@@ -597,10 +607,15 @@ footer p{
         margin-left :0px;
         width: 100%;
     }
+
     .img-droite div{
         margin-right :0px;
         width: 100%;
         text-align: center;
+    }
+
+    #text{
+        top: 310px;
     }
 
     .img-gauche img, .img-droite img{
@@ -608,6 +623,10 @@ footer p{
         width: 100%;
         height: auto;
         align-self: center;
+    }
+
+    .img-gauche img{
+        width:50%;
     }
 
     .img-droite div p{
@@ -624,5 +643,9 @@ footer p{
 
     .case{
         width: 250px;
+    }
+
+    #btn{
+        display: none;
     }
 }
