@@ -13,7 +13,7 @@
         <!--ENTETE-->
         <header>
             <a href="index.html">
-                <img class="logo" src="../../media/image/picto.png" alt="logo invisible"/>
+                <img src="../../media/image/picto.png" alt="logo invisible"/>
             </a>
         
             <nav>
@@ -42,31 +42,12 @@
             <img src="../../media/image/Parallax/moon.png" id="moon" alt="lune invisible"/>
             <img src="../../media/image/Parallax/mountains_behind.png" id="mountains_behind"   alt="montagne1 invisible"/>
             <h1 id="text">Maxime Lopes</h1>
-            <a href="#sec" id="btn">Explore</a>
+            <a href="#explo" id="btn">Explore</a>
             <img src="../../media/image/Parallax/mountains_front.png" id="mountains_front" alt="montage2 invisible"/>
         </section>
 
-        <!--Script-->
-        <script>
-            let stars = document.getElementById('stars');
-            let moon = document.getElementById('moon');
-            let mountains_behind = document.getElementById('mountains_behind');
-            let text = document.getElementById('text');
-            let btn = document.getElementById('btn');
-            let mountains_front = document.getElementById('mountains_front');   
-            window.addEventListener('scroll', function(){
-                let value = window.scrollY;
-                stars.style.left = value *0.25 + 'px';
-                moon.style.top = value *1.05 +'px';
-                mountains_behind.style.top = value *0.5 + 'px';
-                mountains_front.style.top = value *0 + 'px';
-                text.style.marginBottom = value *5 + 'px';
-                text.style.marginRight = value *1.5 + 'px';
-                btn.style.marginTop = value *1.5 + 'px';})
-        </script>
-
         <!--MAIN-->
-        <main class="sec" id="sec" >
+        <main class="profil" id="explo">
         <!--Introduction-->
             <article class="img-gauche">
                 <img src="../../media/image/Logo.png" alt="logo invisible"/>
@@ -88,7 +69,7 @@
             </article>
 
             <!--Domaines-->
-            <section class="basic2">
+            <section class="domaine">
                 <h2>Domaines</h2>
                 <div>
                     <div class="case">
@@ -115,7 +96,7 @@
                         <h3>Front-End & Back-End</h3>
                         <ul>
                             <li>Logiciels : Node.js, Unity, My SQL </li>
-                            <li>Langages : C++, HTML, CSS, Javascript, PHP</li>
+                            <li>Langages : C#, HTML, CSS, Javascript, PHP</li>
                             <li>Framework : MonoDevelop (.Net / Gtk+), Symfony, JQuery</li>
 
                         </ul>
@@ -272,11 +253,13 @@
         </main>
 
         <footer>
-            <div class="aligne">
+            <div>
                 <p>Mail : maxime.lopes@hotmail.com</p>
                 <p>Téléphone : +33 6 22 65 86 70</p>
                 <p>Site réalisé par LOPES Maxime en 2021</p>
             </div>
         </footer>
     </body>
+
+    <script src="../js/parallax.js"></script>
 </html>
