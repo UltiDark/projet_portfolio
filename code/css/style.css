@@ -18,7 +18,7 @@ body{
 
 main{
     flex:1;
-    margin :0px 12% 5px 12%;
+    margin :0px 33% 5px 33%;
     padding: 0px;
 }
 
@@ -39,7 +39,6 @@ nav{
     margin :0;
     padding :0;
     border-radius: 40px;
-    -webkit-filter: drop-shadow(5px 5px 5px #901AAD);
     filter: drop-shadow(5px 5px 5px #901AAD);
 }
 
@@ -112,7 +111,6 @@ header img{
     font-size: 25pt;
     height: 50px;
     width: auto;
-    -webkit-filter: drop-shadow(5px 5px 5px rgb(100, 100, 100) );
     filter: drop-shadow(5px 5px 5px rgb(100,100,100));
 }
 
@@ -124,7 +122,6 @@ header ul{
 
 header ul li{
     list-style-type: none;
-    margin-left: 20px;
 }
 
 header ul li a{
@@ -139,7 +136,6 @@ header ul li a{
 header ul li.menu a:hover:not(.sous), header ul li a.active{
     background-color: #fff;
     color: rgb(77, 77, 77);
-    -webkit-filter: drop-shadow(5px 5px 5px rgb(100, 100, 100));
     filter: drop-shadow(5px 5px 5px rgb(100,100,100));
 }
 
@@ -272,7 +268,6 @@ li{
     font-size: 1.5em;
     z-index: 9;
     transform: translateY(100px);
-    -webkit-filter: drop-shadow(5px 5px 5px rgb(100, 100, 100) );
     filter: drop-shadow(5px 5px 5px rgb(100,100,100));
     animation-name: loop;
     animation-duration: 2s;
@@ -345,7 +340,7 @@ aside div>p{
 }
 
 .frise{
-    width: 2000px;
+    width: 5000px;
 }
 
 .img-gauche img{
@@ -353,7 +348,6 @@ aside div>p{
     width: 33%;
     height: 33%;
     /*align-items: center;*/
-    -webkit-filter: drop-shadow(5px 5px 5px rgb(100, 100, 100) );
     filter: drop-shadow(5px 5px 5px rgb(100,100,100));
 }
 
@@ -375,16 +369,15 @@ aside div>p{
 /*Set Up container*/
 .frise {
     white-space: nowrap; /**/
+    display: flex;
     overflow-x: scroll; /*Mettre de scroll sur l'axe horizontale*/
     width: 100%; /*prendre toute la place horizontale*/
-
+    align-content: center;
+    justify-content: center;
 }
 
 /*Set up de la liste*/
 .frise ol {
-    display: flex;
-    align-content: center;
-    justify-content: center;
     padding: 200px 0px 250px 0px; /*Distance avec la hauteur*/
 }
 
@@ -394,14 +387,14 @@ aside div>p{
     position: relative; /*Type de positionnement*/
     display: inline-block; /*Positionnement à la suite*/
     list-style-type: none; /*Retire la numération*/
-    width: 200px; /*Longueur de la ligne*/
+    width: 100px; /*Longueur de la ligne*/
     height: 3px; /*Largeur de la ligne*/
     background: white; /*Couleur de la ligne*/
 }
  
 /*Definir la taille du dernier morceau de ligne*/
 .frise ol li:last-child {
-    width: 200px;
+    width: 100px;
 }
 
 .frise ol li:last-child div{
@@ -420,7 +413,7 @@ aside div>p{
 .frise ol li div {
     position: absolute; /*Type de positionnement*/
     left: calc(100% + 7px);
-    width: 200px; /*Longueur de la case*/
+    width: 150px; /*Longueur de la case*/
     padding: 15px; /*Espacement dans la case*/
     white-space: normal; /*Type espace vide*/
     color: white; /*Couleur du texte*/
@@ -500,7 +493,7 @@ footer div{
 
 footer p{
     margin: 0px;
-    font-size: 18px;
+    font-size: 14pt;
     font-style: italic;
 }
 /*END FOOTER*/
@@ -515,7 +508,6 @@ form{
     border-radius:  50px;
     padding: 50px;
     justify-content: center;
-    -webkit-filter: drop-shadow(5px 5px 5px #901AAD);
     filter: drop-shadow(5px 5px 5px #901AAD);
 }
 
@@ -672,18 +664,13 @@ input[pattern]:valid, input[required]:valid, input[type="email"]:valid{
     main{
         margin :0px 6% 5px 6%;
     }
-    h1{
-        font-size: 60pt;
-    }
 }
 
 @media(max-width: 1300px){
     main{
         margin :0px 3% 5px 3%;
     }
-    h1{
-        font-size: 50pt;
-    }
+
     .formul{
         flex-direction: column;
         align-items: center;
@@ -698,6 +685,19 @@ input[pattern]:valid, input[required]:valid, input[type="email"]:valid{
 }
 
 @media(max-width: 992px){
+    header{
+        padding: 30px 50px;
+
+    }
+    
+    header a{
+        font-size: 14pt;
+    }
+
+    header ul li a.active{
+        font-size: 21pt;
+    }
+    
     article{
         flex-direction: column;
     }
@@ -715,10 +715,6 @@ input[pattern]:valid, input[required]:valid, input[type="email"]:valid{
         margin-right :0px;
         width: 100%;
         text-align: center;
-    }
-
-    #text{
-        top: 310px;
     }
 
     .img-gauche img, .img-droite img{
@@ -744,8 +740,14 @@ input[pattern]:valid, input[required]:valid, input[type="email"]:valid{
         margin-top: 10px;
     }
 
+    .basic2 div{
+        flex-direction: column;
+        align-self: center;
+        justify-content: center;
+    }
+
     .case{
-        width: 250px;
+        margin-bottom : 30px;
     }
 
     #btn{
@@ -762,5 +764,87 @@ input[pattern]:valid, input[required]:valid, input[type="email"]:valid{
 
     .content3{
         margin-left: 0px;
+    }
+
+    .frise {
+        align-content: left;
+        justify-content: left;
+    }
+
+    .frise ol{
+        padding: 150px 0px 200px 0px; /*Distance avec la hauteur*/
+    }
+
+    .frise ol li {
+        width: 60px; /*Longueur de la ligne*/
+        height: 3px; /*Largeur de la ligne*/
+    }
+
+    /* Set up de la case qui contient le texte*/
+    .frise ol li div {
+    width: 130px; /*Longueur de la case*/
+    padding: 15px; /*Espacement dans la case*/
+    }
+
+    footer p{
+        font-size:14pt;
+    }
+}
+
+@media(max-width: 750px){
+    header a{
+        font-size: 10pt;
+    }
+
+    header ul li a{
+        padding: 3px 8px 3px 8px;
+    }
+
+    header ul li a.active{
+        font-size: 17pt;
+    }
+    
+    footer p{
+        font-size: 12pt;
+    }
+
+    footer div{
+        width: 80%;
+    }
+
+    form{
+        padding : 25px;
+    }
+
+    input[type=email], input[type=text],input[type=submit], textarea{
+        padding: 6px 10px;
+        margin: 7.5px 0px;
+    }
+    #text{
+        font-size: 60pt;
+        top: 230px;
+    }
+}
+
+@media(max-width: 500px){
+    header ul{
+        flex-direction: column;
+
+    }
+
+    footer p{
+        font-size:10pt;
+    }
+    #text{
+        font-size: 40pt;
+        top : 250px;
+    }
+
+    li{
+        font-size: 12pt;
+    }
+
+    h3, time{
+        font-size: 18pt;
     }
 }
