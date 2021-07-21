@@ -13,4 +13,5 @@ window.addEventListener('scroll', function(){
     mountains_front.style.top = value *0 + 'px';
     text.style.marginBottom = value *5 + 'px';
     text.style.marginRight = value *1.5 + 'px';
-    btn.style.marginTop = value *1.5 + 'px';})
+    btn.style.marginTop = value *1.5 + 'px';
+})

@@ -79,7 +79,7 @@ header{
     padding: 30px 100px;
     display: flex;
     justify-content: space-between;
-    z-index: 1000;
+    z-index: 998;
     align-items: center;
 }
 
@@ -165,7 +165,7 @@ nav li:hover .sous{
     left:0px;
     padding: 0;
     padding: 40px 5px 5px 5px;
-    z-index: 1000;
+    z-index: 998;
 }
 
 .sous li{
@@ -214,7 +214,7 @@ nav li:hover .sous{
     width: 100%;
     height: 100px;
     background: linear-gradient(to top,#1c0522,transparent);
-    z-index: 999;
+    z-index: 997;
 }
 
 
@@ -448,10 +448,9 @@ aside div>p{
     filter: drop-shadow(5px 5px 5px #901AAD);
 }
 
-.invisible{
+aside{
     display: none;
 }
-
 /*-------------------------------------- END BODY --------------------------------------*/
 
 

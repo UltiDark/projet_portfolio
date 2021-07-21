@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../css/style.css" />
+    <link rel="stylesheet" href="../css/asset.css"/>
+    <link rel="icon" href="../../media/image/Logo.png">
+    <title>Maxime Lopes - Modélisation</title>
+</head>
+<body>
+    <header>
+        <a href="index.html">
+            <img src="../../media/image/picto.png" alt="logo invisible"/>
+        </a>
+    
+        <nav>
+            <ul>
+                <li><a href="index.html" class="active">Accueil</a></li>
+                <li class="menu"><a href="#">Projet</a>
+                    <ul class="sous">
+                        <li><a href="game.html">Game</a></li>
+                        <li><a href="#">Web</a></li>
+                    </ul>
+                </li>
+                <li class="menu"><a href="#">Galerie</a>
+                    <ul class="sous">
+                        <li><a href="modelisation.html">Modèles 3D</a></li>
+                        <li><a href="sprite.html">Assets 2D</a></li>
+                    </ul>
+                </li>
+                <li class="menu"><a href="contact.html">Contacts</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!--Parallax-->
+    <section class="parallax">
+        <img src="../../media/image/Parallax/stars.png" id="stars" alt="étoile invisible"/>
+        <img src="../../media/image/Parallax/moon.png" id="moon" alt="lune invisible"/>
+        <img src="../../media/image/Parallax/mountains_behind.png" id="mountains_behind"   alt="montagne1 invisible"/>
+        <h1 id="text">Galerie</h1>
+        <a href="#explo" id="btn">Explore</a>
+        <img src="../../media/image/Parallax/mountains_front.png" id="mountains_front" alt="montage2 invisible"/>
+    </section>
+
+    <main>
+        <section>
+            <h2>Mes Réalisations 3D</h2>
+            <div id="main">
+                <div><img src="../../media/image/tour-min.jpg" alt="Monstre invisible"/></div>
+                <div><img src="../../media/image/sac.png" alt="Monstre invisible"/></div>
+                <div><img src="../../media/image/cubeworld.png" alt="Monstre invisible"/></div>
+                <div><img src="../../media/image/tour-min.jpg" alt="Monstre invisible"/></div>
+                <div><img src="../../media/image/cave.png" alt="Monstre invisible"/></div>
+                <div><img src="../../media/image/chambre.png" alt="Monstre invisible"/></div>
+                <div><img src="../../media/image/jouet.PNG" alt="Monstre invisible"/></div>
+            </div>
+        </section>
+
+        <div id="myModal" class="modal">
+            <span class="close">&times;</span>
+            <img class="modal-content" id="img01">
+        </div>
+
+    </main>
+
+    <footer>
+        <div>
+            <p>Mail : maxime.lopes@hotmail.com</p>
+            <p>Téléphone : +33 6 22 65 86 70</p>
+            <p>Site réalisé par LOPES Maxime en 2021</p>
+        </div>
+    </footer>
+
+    <script src="../js/parallax.js"></script>
+    <script src="../framework/jquery-3.6.0.min.js"></script>
+    <script src="../js/asset.js"></script>
+</body>
+</html>
