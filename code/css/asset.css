@@ -25,6 +25,10 @@
   filter: grayscale(100%);
 }
 
+svg{
+  margin: 5px;
+}
+
 /*Affichage Modal*/
 
 .modal{
@@ -41,12 +45,24 @@
   background-color: rgba(0,0,0,0.9);
 }
 
+.modal div{
+  width: 100%;
+  height: auto;
+  display: flex;
+  justify-content: center;
+}
+
 #selectedImg{
   max-height: 700px;
   width: auto;
-  margin: auto;
   display: block;
   max-width: 700px;
+  border : 5px solid #ccc;
+  border-radius: 40px 0px 0px 40px;
+  filter: drop-shadow(5px 5px 5px #901AAD);
+  background-color: #ccc;
+
+
 }
 
 #caption {
@@ -58,6 +74,24 @@
   color: #ccc;
   padding: 10px 0;
   height: 150px;
+}
+
+#com{
+  display: flex;
+  width: 300px;
+  height: auto;
+  background-color: #562c61;
+  flex-direction: column;
+  margin: 0px;
+  padding: 10px;
+  border-radius: 0px 40px 40px 0px;
+  border : 5px solid #ccc;
+  border-left: 0px;
+  filter: drop-shadow(5px 5px 5px #901AAD);
+}
+
+textarea{
+  resize: none;
 }
 
 .close{
