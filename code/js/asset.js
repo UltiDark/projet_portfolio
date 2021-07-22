@@ -1,7 +1,7 @@
 $(document).ready(function(){
     $('img').on('click', function(){
         $("#myModal").show("fold");
-        $("#img01").attr('src',$(this).attr("src"));
+        $("#selectedImg").attr('src',$(this).attr("src"));
         $("body").addClass("stopScroll");
     })
     
