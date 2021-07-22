@@ -10,7 +10,8 @@
 
 #main div{
     margin-bottom : 3%;
-    width: 22%;
+    width: 318.172px;
+    height: auto;
 }
   
 #main div img{
@@ -109,9 +110,42 @@ textarea{
   cursor: pointer;
 }
 
-@media only screen and (max-width: 700px){
-  #selectedImg{
-    width: 95%;
+@media(max-width: 1000px){
+  .modal{
+    padding-top : 50px;
+  }
+  
+  .modal div{
+    width: 100%;
     height: auto;
+    flex-direction: column;
+    align-items: center;
+
+  }
+  #com{
+    width: 75%;
+    height: auto;
+    border-radius: 0px 0px 40px 40px;
+    border : 5px solid #ccc;
+    border-top: 0px;
+  }
+  #com div{
+    flex-direction: row;
+  }
+  #selectedImg{
+    width: 75%;
+    height: auto;
+    border-radius: 40px 40px 0px 0px;
+
+  }
+
+  h3{
+    margin: 0;
+  }
+}
+
+@media(max-width: 800){
+  #main div{
+    width: 100%;
   }
 }
