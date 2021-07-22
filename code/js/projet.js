@@ -18,15 +18,30 @@ let titreProjet =
     "Un Jour de Plus",
 ]
 
-$('.rea div div img').on('click',function(){
+$('.rea div img').mouseenter(function(){
     $('.tempo').remove();
-
+    $(this).css('filter','blur(1em) grayscale(75%)');
+    let x = $(this).position().left;
+    let y = $(this).position().top;
+    let widthX = $('.rea div').css('width');
+    let heightY= $('.rea div').css('height');
     for (i=0; i<textProjet.length; i++)
     {
         if($(this).attr('id') == i){
-            $('.rea').css("flex-direction","column")
             $(this).parent().after('<div class="tempo"><h3>'+titreProjet[i]+'</h3><p>'+textProjet[i]+'</p></div>');
+            $('.tempo').css({
+                'left' : x,
+                'top' : y,
+                'width' : widthX,
+                'height' : heightY,
+            });
+
             return;
         }
     }
+});
+
+$('.rea div img').mouseleave(function(){
+    $(this).css('filter','blur(0em) grayscale(0%)');
+    $('.tempo').remove();
 });
