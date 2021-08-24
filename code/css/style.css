@@ -515,6 +515,8 @@ form{
 
 form > h3{
     margin : 0px 0px 3px 0px;
+    text-align: center;
+
 }
 
 .formul a{
@@ -554,8 +556,7 @@ textarea{
     color: black;
 }
 
-
-input[type=email], input[type=text],input[type=submit],input[type=button], textarea{
+input[type=email], input[type=text], input[type=submit], input[type=button], input[type=password], textarea{
     width:100%;
     padding: 12px 20px;
     margin: 15px 0px;
@@ -835,7 +836,7 @@ input[pattern]:valid, input[required]:valid, input[type="email"]:valid{
         padding : 25px;
     }
 
-    input[type=email], input[type=text],input[type=submit], textarea{
+    input[type=email], input[type=text],input[type=submit], input[type=password] textarea{
         padding: 6px 10px;
         margin: 7.5px 0px;
     }

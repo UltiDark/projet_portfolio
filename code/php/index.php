@@ -26,6 +26,14 @@ if (isset($_GET['route'])) {
 	{
 		require DOSSIER_VIEWS . '/contact.html.php';
 	}
+	elseif ($route == 'connexion')
+	{
+		require DOSSIER_VIEWS . '/connexion.html.php';
+	}
+	elseif ($route == 'inscription')
+	{
+		require DOSSIER_VIEWS . '/connexion.html.php';
+	}
 	elseif ($route == 'accueil')
 	{
 		require DOSSIER_CONTROLLERS . '/info_controller.php';

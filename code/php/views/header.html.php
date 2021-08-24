@@ -35,6 +35,7 @@
                         </ul>
                     </li>
                     <li class="menu"><a href="<?= url('contact')?>">Contacts</a></li>
+                    <li class="menu"><a href="<?= url('connexion')?>">Connexion</a></li>
                 </ul>
             </nav>
         </header>
