@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{frise.titre}}{% endblock %}
+
+{% block body %}
+    <h1>Frise</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ frise.id }}</td>
+            </tr>
+            <tr>
+                <th>Date</th>
+                <td>{{ frise.date ? frise.date|date('Y-m-d') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Titre</th>
+                <td>{{ frise.titre }}</td>
+            </tr>
+            <tr>
+                <th>Contenu</th>
+                <td>{{ frise.contenu }}</td>
+            </tr>
+            <tr>
+                <th>Image</th>
+                <td>{{ frise.image }}</td>
+            </tr>
+            <tr>
+                <th>Id_div</th>
+                <td>{{ frise.idDiv }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('listefrise') }}">back to list</a>
+
+    <a href="{{ path('modiffrise', {'id': frise.id}) }}">edit</a>
+
+    {{ include('frise/_delete_form.html.twig') }}
+{% endblock %}

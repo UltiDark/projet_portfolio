@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Maxime LOPES - {% block title %}Didier{% endblock %}</title>
+        <link rel="stylesheet" href="{{asset('css/style.css')}}" />
+        <link rel="stylesheet" href="{{asset('css/projet.css')}}" />
+        <link rel="stylesheet" href="{{asset('css/asset.css')}}" />
+        <link rel="icon" href="{{asset('img/Logo.png')}}">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    </head>
+
+    <body>
+        <!--ENTETE-->
+        <header>
+            <a href="{{path('accueil')}}">
+                <img src="{{asset('img/picto.png')}}" alt="logo invisible"/>
+            </a>
+        
+            <nav>
+                <ul>
+                    <li><a href="{{path('accueil')}}" class="active">Accueil</a></li>
+                    <li class="menu"><a>Projet</a>
+                        <ul class="sous">
+                            <li><a href="{{ path('listeprojets', {type : 'game'}) }}">Game</a></li>
+                            <li><a href="{{ path('listeprojets', {type : 'web'}) }}" class="notActive">Web</a></li>
+                        </ul>
+                    </li>
+                    <li class="menu"><a>Galerie</a>
+                        <ul class="sous">
+                            <li><a href="{{ path('listegaleries', {type : 'modelisation'}) }}">Modèles 3D</a></li>
+                            <li><a href="{{ path('listegaleries', {type : 'sprite'}) }}">Assets 2D</a></li>
+                        </ul>
+                    </li>
+                    <li class="menu"><a href="{{path('listefrise')}}">Frise</a></li>
+                    <li class="menu"><a href="{{path('contact')}}">Contacts</a></li>
+                    <li class="menu"><a href="{{path('connexion', {route: 'connexion'})}}">Connexion</a></li>
+                </ul>
+            </nav>
+        </header>
+
+        <!--Parallax-->
+        <section class="parallax">
+            <img src="{{asset('img/Parallax/stars.png')}}" id="stars" alt="étoile invisible"/>
+            <img src="{{asset('img/Parallax/moon.png')}}" id="moon" alt="lune invisible"/>
+            <img src="{{asset('img/Parallax/mountains_behind.png')}}" id="mountains_behind" alt="montagne1 invisible"/>
+            <h1 id="text">{{titre}}</h1>
+            <a href="#explo" id="btn">Explorer</a>
+            <img src="{{asset('img/Parallax/mountains_front.png')}}" id="mountains_front" alt="montage2 invisible"/>
+        </section>
+
+        {% block body %}Default body{% endblock %}
+
+        <footer>
+            <div>
+                <p>Mail : maxime.lopes@hotmail.com</p>
+                <p>Téléphone : +33 6 22 65 86 70</p>
+                <p>Site réalisé par LOPES Maxime en 2021</p>
+            </div>
+        </footer>
+
+        <script src="{{asset('framework/jquery-3.6.0.min.js')}}"></script>
+        <script src="{{asset('js/parallax.js')}}"></script>
+        <script src="{{asset('js/frise.js')}}"></script>
+        <script src="{{asset('js/projet.js')}}"></script>
+        <script src="{{asset('js/asset.js')}}"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+
+    </body>
+
+</html>
