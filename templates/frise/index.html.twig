@@ -21,9 +21,9 @@
             {% for frise in frises %}
                 <tr>
                     <td>{{ frise.date ? frise.date|date('Y') : '' }}</td>
-                    <td>{{ frise.titre }}</td>
+                    <td>{{ frise.nom }}</td>
                     <td>{{ frise.contenu ? 'Oui' : '' }}</td>
-                    <td>{{ frise.image ? 'Oui' : '' }}</td>
+                    <td>{{ frise.lien ? 'Oui' : '' }}</td>
                     <td>
                             <a class="none" onclick="return confirm('Es-tu sûr de vouloir supprimer cet élément?');" href="{{ path( 'supfrise', {'id': frise.id}) }}?csrf={{csrf_token('delete' ~ frise.id)}}">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" class="bi bi-trash-fill trash" viewBox="0 0 16 16">

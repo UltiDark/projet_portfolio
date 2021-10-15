@@ -19,13 +19,15 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class DomaineController extends AbstractController
 {
     /**
-     * @Route("/liste", name="listedomaine")
+     * @Route("/liste", name="listedomaines")
      */
     public function index(DomaineRepository $domaineRepository): Response
     {
-        $domaine = $domaineRepository->findAll();
-        return $this->render('home.html.twig', [
-            'domaines' => $domaineRepository->findAll(),
+        $domaines = $domaineRepository->getGroupe();
+
+        //dd($domaines);
+        return $this->render('domaine/index.html.twig', [
+            'domaines' => $domaines,
             'titre' => 'Liste des Domaines'
 
         ]);
@@ -99,7 +101,7 @@ class DomaineController extends AbstractController
         ]);
     }
 /*
-    #[Route('/{id}', name: 'domaine_show', methods: ['GET'])]
+    #[Route('/{id}', name: 'detaildomaine', methods: ['GET'])]
     public function show(Domaine $domaine): Response
     {
         return $this->render('domaine/show.html.twig', [
@@ -110,17 +112,25 @@ class DomaineController extends AbstractController
     }*/
 
     /**
-     * @Route("/modif", name="modifdomaine")
+     * @Route("/modif/{id}", name="modifdomaine")
      */
     public function edit(Request $request, Domaine $domaine): Response
     {
-        $form = $this->createForm(DomaineType::class, $domaine);
+
+        $form = $this->createFormBuilder()
+        ->add("Domaine_nom", DomaineType::class )
+        ->add('Capacite', CapaciteType::class)
+        ->add('submit', SubmitType::class, [
+            'label' => 'Envoyer'
+        ])
+        ->getForm();
+
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('domaine_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('listedomaines', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('commun/edit.html.twig', [
@@ -131,16 +141,17 @@ class DomaineController extends AbstractController
     }
 
     /**
-     * @Route("/sup", name="supdomaine")
+     * @Route("/sup/{id}", name="supdomaine")
      */
-    public function delete(Request $request, Domaine $domaine): Response
+    public function delete(Request $requete, Domaine $domaine): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$domaine->getId(), $request->request->get('_token'))) {
+
+        if ($this->isCsrfTokenValid('delete'.$domaine->getId(), $requete->query->get('csrf'))) {
             $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->remove($domaine);
+            $entityManager->remove($domaine->getIdCapacite());
             $entityManager->flush();
         }
 
-        return $this->redirectToRoute('accueil', [], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('listedomaines', [], Response::HTTP_SEE_OTHER);
     }
 }

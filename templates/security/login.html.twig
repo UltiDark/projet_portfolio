@@ -1,0 +1,48 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{titre}}{% endblock %}
+
+{% block body %}
+<main id="explo">
+    <h2 id="form">Demande de {{titre}}</h2>
+    <section class ='formul'>
+        <div>
+            <form method="post">
+                {% if error %}
+                    <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+                {% endif %}
+                
+                {% if app.user %}
+                    <div class="mb-3">
+                        Vous êtes déja connecté en tant que {{ app.user.email }}, <a href="{{ path('app_logout') }}">Deconnecter</a>
+                    </div>
+                {% endif %}
+
+                <!--Email-->
+                <div>
+                    <input type="email" value="{{ last_username }}" id="inputEmail" name="email" placeholder="Email (Requis)" required/>
+                </div>
+
+                <!--Mot de Passe-->
+                <div>
+                    <input type="password" id="inputPassword" name="password" placeholder="Mot de Passe (Requis)" required/>
+                </div>
+
+                <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+
+                <!--Validation-->
+            
+                <button class="btn btn-lg btn-primary" type="submit">Envoyer</button>
+
+                    <p>Pas de compte ? <a href="{{path('app_register')}}">Inscrivez-vous !</a></p>
+                    <label for="connect" class="check">
+                        <input type="checkbox" name="_remember_me" id="_remember_me" value="true" class="inputcheck">
+                         Rester connecté ?
+                    </label>
+
+            </div>
+            </form>
+        </div>
+    </section>
+</main>
+{% endblock %}

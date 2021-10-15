@@ -22,7 +22,6 @@ class FriseController extends AbstractController
     public function index(FriseRepository $friseRepository, EntityManagerInterface $em): Response
     {
         $date = time();
-        $test = $friseRepository->getByOrder();
 
         // affichage de l'entièreté des entité de la liste
         return $this->render('frise/index.html.twig', [

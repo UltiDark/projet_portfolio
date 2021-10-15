@@ -24,6 +24,9 @@ class ProjetController extends AbstractController
      */
     public function new($type, Request $request, CategorieRepository $categorieRepository, SluggerInterface $slugger): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
+
+        
         $projet = new Projet();
         $form = $this->createForm(ProjetType::class, $projet);
         $categorie = $categorieRepository->findOneBy(['nom'=>$type]);

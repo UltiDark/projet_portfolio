@@ -29,6 +29,10 @@ class FriseType extends AbstractType
                 'choice_label' => 'nom',
                 'label' => 'Catégorie'
             ])
+            ->add('id_div',TextType::class,[
+                'label' => 'Div'
+            ])
+
             ->add('lien',UrlType::class,[
                 'required' => false,
                 'label' => 'Image'

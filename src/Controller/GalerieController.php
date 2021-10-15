@@ -21,6 +21,8 @@ class GalerieController extends AbstractController
      */
     public function ajoutGalerie(Request $request): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
+
         $galerie = new Galerie();
         $form = $this->createForm(GalerieType::class, $galerie);
         $form->handleRequest($request);
@@ -55,6 +57,8 @@ class GalerieController extends AbstractController
      */
     public function edit(Request $request, Galerie $galerie): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
+
         $form = $this->createForm(GalerieType::class, $galerie);
         $form->handleRequest($request);
 
@@ -78,6 +82,8 @@ class GalerieController extends AbstractController
      */
     public function delete(Request $requete, Galerie $galerie): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
+
         if ($this->isCsrfTokenValid('delete'.$galerie->getId(), $requete->query->get('csrf'))) {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($galerie);
@@ -91,7 +97,6 @@ class GalerieController extends AbstractController
      * @Route("/{type}", name="listegaleries")
      */
     public function afficheGaleries($type, GalerieRepository $repository){
-        $_SESSION['role'] = "admin";
         $galeries = $repository->findByJoin($type);
         if ($type == "modelisation"){
             $titre = "Modélisations 3D";
@@ -105,7 +110,6 @@ class GalerieController extends AbstractController
             [
                 'titre' => $titre,
                 'galeries' => $galeries,
-                'autorisation' => $_SESSION['role'],
                 'i' => 0
             ]);
     }

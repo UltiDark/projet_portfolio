@@ -47,7 +47,7 @@ h2{
     margin : 0px;
 }
 
-h3, th, label, button[type=submit]{
+h3, th, label:not(.check), button[type=submit]{
     font-size: 20pt;
 }
 
@@ -344,7 +344,7 @@ article, aside{
     align-content: center;
 }
 
-article, section:not(.parallax){
+article, section:not(.parallax, .formul){
     margin-top: 150px;
 }
 
@@ -414,6 +414,12 @@ article, section:not(.parallax){
 
 .frise ol li div.Projet{
     background-color: #CC67E6;
+}
+
+.frise ol li div.add{
+    background-color: #29152e;
+    border-color: #ccc;
+    border-style: dashed;
 }
 
 /* Positionnement au dessus de la ligne des élément dans la liste impair*/
@@ -525,7 +531,13 @@ form, .table{
     display: flex;
     justify-content: space-around;
     margin-bottom: 70px;
+    margin-top: 50px;
 }
+
+#form{
+    text-align: center;
+}
+
 
 form > h3{
     margin : 0px 0px 3px 0px;
@@ -788,9 +800,12 @@ input[pattern]:valid, input[required]:valid, input[type="email"]:valid{
     }
 
     .domaine div{
-        flex-direction: column;
         align-self: center;
         justify-content: center;
+    }
+
+    .domaine div:not(.centre){
+        flex-direction: column;
     }
 
     .case{
@@ -994,3 +1009,22 @@ svg{
     display:flex;
     justify-content: center;
 }
+
+.check{
+    width: auto;
+    font-size: 14pt;
+    font-weight: 600;
+    margin : 5px;
+}
+
+.inputcheck{
+    width: auto;
+    margin : 5px;
+}
+
+.demi{
+    width: 100% !important;
+    display: flex;
+    justify-content: space-around;
+}
+

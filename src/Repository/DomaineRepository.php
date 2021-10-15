@@ -22,22 +22,57 @@ class DomaineRepository extends ServiceEntityRepository
     public function getDomaine()
     {
         $sql = 
-        'SELECT 
+        "SELECT 
+            `domaine`.id AS domaine_id, 
             `domaine`.nom AS domaine, 
             `groupe`.nom AS groupe, 
-            GROUP_CONCAT(`capacite`.`nom` SEPARATOR \', \')  AS `capacite`
+            GROUP_CONCAT(`capacite`.`nom` SEPARATOR ', ')  AS `capacite`
         FROM `domaine` 
             LEFT OUTER JOIN `domaine_capacite` ON `domaine`.`id` = `domaine_capacite`.`domaine_id` 
             LEFT OUTER JOIN `capacite` ON `domaine_capacite`.`capacite_id` = `capacite`.`id` 
             LEFT OUTER JOIN `groupe` ON `groupe`.`id` = `capacite`.`id_groupe_id` 
-        GROUP BY `groupe`.`id`, `domaine`.`id`
-        ORDER BY `domaine`.`nom` ASC';
+        GROUP BY `domaine`.`id`, `groupe`.`id`
+        ORDER BY `domaine`.`nom` ASC
+        ";
+
+        $conn = $this->getEntityManager()->getConnection();
+        $stmt = $conn->prepare($sql);
+        $stmt->execute();
+        $groupes = $stmt->fetchAll();
+        $domaines = [];
+
+        foreach ($groupes as $groupe) {
+            $domaines[$groupe['domaine_id']]['id'] = $groupe['domaine_id'];
+            $domaines[$groupe['domaine_id']]['nom'] = $groupe['domaine'];
+            $domaines[$groupe['domaine_id']]['groupes'][] = $groupe;
+        }
+
+        return $domaines;
+    }
+
+    public function getGroupe()
+    {
+        $sql = 
+        "SELECT 
+            `domaine`.nom AS domaine, 
+            `domaine`.id AS domaine_id, 
+            `groupe`.nom AS groupe, 
+            `groupe`.id AS groupe_id, 
+            GROUP_CONCAT(`capacite`.`nom` SEPARATOR ', ')  AS `capacite`
+        FROM `domaine` 
+            LEFT OUTER JOIN `domaine_capacite` ON `domaine`.`id` = `domaine_capacite`.`domaine_id` 
+            LEFT OUTER JOIN `capacite` ON `domaine_capacite`.`capacite_id` = `capacite`.`id` 
+            LEFT OUTER JOIN `groupe` ON `groupe`.`id` = `capacite`.`id_groupe_id` 
+        GROUP BY `domaine`.`id`,`groupe`.`id`
+        ORDER BY `domaine`.`nom` ASC
+        ";
 
         $conn = $this->getEntityManager()->getConnection();
         $stmt = $conn->prepare($sql);
         $stmt->execute();
         return $stmt->fetchAll();
     }
+
 
     // /**
     //  * @return Domaine[] Returns an array of Domaine objects

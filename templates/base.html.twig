@@ -36,9 +36,20 @@
                             <li><a href="{{ path('listegaleries', {type : 'sprite'}) }}">Assets 2D</a></li>
                         </ul>
                     </li>
-                    <li class="menu"><a href="{{path('listefrise')}}">Frise</a></li>
+                    {% if is_granted('ROLE_ADMIN') %}
+                        <li class="menu"><a href="{{path('listefrise')}}">Frise</a></li>
+                        <li class="menu"><a href="{{path('listedomaines')}}">Domaine</a></li>
+                        <li class="menu"><a href="{{path('listeutilisateurs')}}">Utilisateur</a></li>
+                    {% endif %}
+
+
                     <li class="menu"><a href="{{path('contact')}}">Contacts</a></li>
-                    <li class="menu"><a href="{{path('connexion', {route: 'connexion'})}}">Connexion</a></li>
+                    {% if not app.user %}
+                        <li class="menu"><a href="{{path('app_login')}}">Connexion</a></li>
+                    {% else %}
+                        <li class="menu"><a href="{{path('app_logout')}}">Deconnexion</a></li>
+                    {% endif %}
+
                 </ul>
             </nav>
         </header>

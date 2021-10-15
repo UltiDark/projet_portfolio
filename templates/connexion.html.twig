@@ -17,7 +17,7 @@
 
                     <!--Email-->
                     <div>
-                        <input type="email" id="mail" name="user_email" placeholder="Email (Requis)" required/>
+                        <input type="email" id="email" name="user_email" placeholder="Email (Requis)" required/>
                     </div>
 
                     <!--Mot de Passe-->
@@ -34,7 +34,7 @@
                     {% if titre == "Inscription" %}
 					    <p>Déjà un compte ? <a href="{{path('connexion', {route: 'connexion'})}}">Connectez-vous !</a></p>
                     {% else %}
-                        <p>Pas de compte ? <a href="{{path('connexion', {route: 'inscription'})}}">Inscrivez-vous !</a></p>
+                        <p>Pas de compte ? <a href="{{path('connexion', {route: 'connexion'})}}">Inscrivez-vous !</a></p>
 					    <label for="connect">
 						    <input type="checkbox" name="connect" id="connect" value="true"> Rester connecté ?
 					    </label>
