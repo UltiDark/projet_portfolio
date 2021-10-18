@@ -26,6 +26,8 @@ class DomaineRepository extends ServiceEntityRepository
             `domaine`.id AS domaine_id, 
             `domaine`.nom AS domaine, 
             `groupe`.nom AS groupe, 
+            `groupe`.id AS groupe_id, 
+
             GROUP_CONCAT(`capacite`.`nom` SEPARATOR ', ')  AS `capacite`
         FROM `domaine` 
             LEFT OUTER JOIN `domaine_capacite` ON `domaine`.`id` = `domaine_capacite`.`domaine_id` 
@@ -71,6 +73,42 @@ class DomaineRepository extends ServiceEntityRepository
         $stmt = $conn->prepare($sql);
         $stmt->execute();
         return $stmt->fetchAll();
+    }
+
+    public function getOneDomaine($id)
+    {
+        $sql = 
+        "SELECT
+            `domaine`.id AS domaine_id,
+            `domaine`.nom AS domaine,
+            `groupe`.nom AS groupe,
+            `groupe`.id AS groupe_id,
+            GROUP_CONCAT(`capacite`.`nom` SEPARATOR ', ') AS `capacite`
+        FROM `domaine`
+            LEFT OUTER JOIN `domaine_capacite` ON `domaine`.`id` = `domaine_capacite`.`domaine_id`
+            LEFT OUTER JOIN `capacite` ON `domaine_capacite`.`capacite_id` = `capacite`.`id`
+            LEFT OUTER JOIN `groupe` ON `groupe`.`id` = `capacite`.`id_groupe_id`
+        WHERE
+            `domaine`.`id` = 27
+        GROUP BY
+            `domaine`.`id`,
+            `groupe`.`id`
+        ";
+
+        $conn = $this->getEntityManager()->getConnection();
+        $stmt = $conn->prepare($sql);
+        //$stmt->bindParam(1, $id);
+        $stmt->execute();
+        $groupes = $stmt->fetchAll();
+        $domaines = [];
+
+        foreach ($groupes as $groupe) {
+            $domaines[$groupe['domaine_id']]['id'] = $groupe['domaine_id'];
+            $domaines[$groupe['domaine_id']]['nom'] = $groupe['domaine'];
+            $domaines[$groupe['domaine_id']]['groupes'][] = $groupe;
+        }
+
+        return $domaines;
     }
 
 

@@ -40,14 +40,27 @@
                 </tr>
             {% else %}
                 <tr>
-                    <td colspan="3">no records found</td>
+                    <td colspan="7">Aucun élément trouvé</td>
                 </tr>
             {% endfor %}
             </tbody>
         </table>
-        <h3><a class="ajout" href="{{ path('ajoutdomaine') }}">Nouveau</a></h3>
+        <h3 ><a class="ajout" href="{{ path('ajoutdomaine') }}">Nouveau</a></h3>
 
     </div>
+
+    <div id="myModal" class="modal">
+        <span class="close">&times;</span>
+        <div>
+            <div>
+                <h3>Ajouter un Domaine</h3>
+                <label for="msg">Combien de Categorie ?</label>
+                <input type="number" id="inputNombre" name="inputNombre" placeholder="..." rows="5"></textarea>
+                <input type="button" value="Envoyer"/>
+            </div>
+        </div>
+    </div>
+
 </main>
 
     {% endblock %}

@@ -6,10 +6,13 @@ use App\Entity\Frise;
 use App\Form\FriseType;
 use App\Repository\FriseRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\String\Slugger\SluggerInterface;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
 
 /**
  * @Route("/frise")
@@ -34,7 +37,7 @@ class FriseController extends AbstractController
     /**
      * @Route("/ajout", name="ajoutfrise")
      */
-    public function new(Request $request): Response
+    public function new(Request $request, SluggerInterface $slugger): Response
     {
         // création d'une nouvelle entité
         $frise = new Frise();
@@ -44,6 +47,21 @@ class FriseController extends AbstractController
 
         // si le formulaire est conforme
         if ($form->isSubmitted() && $form->isValid()) {
+            $lienFile = $form->get('lien')->getData();
+            if (!empty($lienFile)) {
+                $originalFilename = pathinfo($lienFile->getClientOriginalName(), PATHINFO_FILENAME);
+                $safeFilename = $slugger->slug($originalFilename);
+                $newFilename = 'img/Frise/'.$safeFilename.'-'.uniqid().'.'.$lienFile->guessExtension();
+                try {
+                    $lienFile->move(
+                        $this->getParameter('imgFrise_directory'),
+                        $newFilename
+                    );
+                } catch (FileException $e) {
+                    // ... handle exception if something happens during file upload
+                }
+                $frise->setLien($newFilename);
+            }
             $entityManager = $this->getDoctrine()->getManager();
             // mise en place de la requête indiquant que la donnée selectionnée doit être ajouté
             $entityManager->persist($frise);
@@ -77,8 +95,11 @@ class FriseController extends AbstractController
     /**
      * @Route("/modif/{id}", name="modiffrise")
      */
-    public function edit(Request $request, Frise $frise): Response
+    public function edit(Request $request, Frise $frise, SluggerInterface $slugger): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
+
+        $oldFile = basename($frise->getLien());
         // création du formulaire lié à la frise
         $form = $this->createForm(FriseType::class, $frise);
 
@@ -87,6 +108,30 @@ class FriseController extends AbstractController
         // si le formulaire est conforme
         if ($form->isSubmitted() && $form->isValid()) {
             // mise en place et execusion de la requete de "update"
+            $lienFile = $form->get('lien')->getData();
+            if (!empty($lienFile)) {
+                $originalFilename = pathinfo($lienFile->getClientOriginalName(), PATHINFO_FILENAME);
+                $safeFilename = $slugger->slug($originalFilename);
+                $newFilename = 'img/Frise/'.$safeFilename.'-'.uniqid().'.'.$lienFile->guessExtension();
+
+                try {
+                    $lienFile->move(
+                        $this->getParameter('imgFrise_directory'),
+                        $newFilename
+                    );
+                } catch (FileException $e) {
+                    // ... handle exception if something happens during file upload
+                }
+
+                if(!empty($oldFile)){
+                    $ancienFilename = $this->getParameter('imgFrise_directory') . $oldFile;
+                    $filesystem= new Filesystem();
+                    $filesystem->remove($ancienFilename);
+                }
+
+
+                $frise->setLien($newFilename);
+            }
             $this->getDoctrine()->getManager()->flush();
             
             // Retour liste frise
@@ -97,7 +142,8 @@ class FriseController extends AbstractController
         return $this->renderForm('commun/edit.html.twig', [
             'frise' => $frise,
             'form' => $form,
-            'titre' => 'Modification dans la Frise'
+            'titre' => 'Modification',
+            'titre2' => 'Modification Frise',
         ]);
     }
 

@@ -16,13 +16,20 @@ class DomaineType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-        ->add('nom', TextType::class,[]);
+        ->add('nom', TextType::class,[
+            'allow_extra_fields' => true,
+            'attr' =>['value' => $options['domaine']['nom']]
+        ]);
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
             'data_class' => Domaine::class,
+            'allow_extra_fields' => true,
+            'allow_add' => true,
+            'domaine' => ""
+
         ]);
     }
 }

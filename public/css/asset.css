@@ -47,11 +47,30 @@ svg{
   background-color: rgba(0,0,0,0.9);
 }
 
+.modal form{
+  display: inline-block;
+  width: 50%;
+}
+
+
+.modal > div > div{
+  display: block;
+
+}
+.modal div input:not(.modalGalerie){
+  width: 25%;
+}
+
+.modal div button{
+  width: 50%;
+}
+
 .modal div{
   width: 100%;
   height: auto;
   display: flex;
   justify-content: center;
+  text-align: center;
 }
 
 #selectedImg{
@@ -116,13 +135,14 @@ textarea{
     padding-top : 50px;
   }
   
-  .modal div{
+  /*.modal div{
     width: 100%;
     height: auto;
     flex-direction: column;
     align-items: center;
 
-  }
+  }*/
+  
   #com{
     width: 75%;
     height: auto;

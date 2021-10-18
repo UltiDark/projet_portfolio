@@ -5,10 +5,13 @@ namespace App\Controller;
 use App\Entity\Galerie;
 use App\Form\GalerieType;
 use App\Repository\GalerieRepository;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\String\Slugger\SluggerInterface;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
 
 /**
  * @Route("/galeries")
@@ -19,7 +22,7 @@ class GalerieController extends AbstractController
     /**
      * @Route("/ajout", name="ajoutgalerie")
      */
-    public function ajoutGalerie(Request $request): Response
+    public function ajoutGalerie(Request $request, SluggerInterface $slugger): Response
     {
         $this->denyAccessUnlessGranted('ROLE_ADMIN');
 
@@ -29,6 +32,22 @@ class GalerieController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $data = $form->getData();
+
+            $lienFile = $form->get('lien')->getData();
+            if (!empty($lienFile)) {
+                $originalFilename = pathinfo($lienFile->getClientOriginalName(), PATHINFO_FILENAME);
+                $safeFilename = $slugger->slug($originalFilename);
+                $newFilename = 'img/Frise/'.$safeFilename.'-'.uniqid().'.'.$lienFile->guessExtension();
+                try {
+                    $lienFile->move(
+                        $this->getParameter('imgGalerie_directory'),
+                        $newFilename
+                    );
+                } catch (FileException $e) {
+                    // ... handle exception if something happens during file upload
+                }
+                $galerie->setLien($newFilename);
+            }
 
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($galerie);
@@ -55,15 +74,43 @@ class GalerieController extends AbstractController
     /**
      * @Route("/modif/{id}", name="modifgalerie")
      */
-    public function edit(Request $request, Galerie $galerie): Response
+    public function edit(Request $request, Galerie $galerie, SluggerInterface $slugger): Response
     {
         $this->denyAccessUnlessGranted('ROLE_ADMIN');
+
+        $oldFile = basename($galerie->getLien());
 
         $form = $this->createForm(GalerieType::class, $galerie);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $data = $form->getData();
+
+            $lienFile = $form->get('lien')->getData();
+            if (!empty($lienFile)) {
+                $originalFilename = pathinfo($lienFile->getClientOriginalName(), PATHINFO_FILENAME);
+                $safeFilename = $slugger->slug($originalFilename);
+                $newFilename = 'img/Galerie/'.$safeFilename.'-'.uniqid().'.'.$lienFile->guessExtension();
+
+                try {
+                    $lienFile->move(
+                        $this->getParameter('imgLogo_directory'),
+                        $newFilename
+                    );
+                } catch (FileException $e) {
+                    // ... handle exception if something happens during file upload
+                }
+
+                if(!empty($oldFile)){
+                    $ancienFilename = $this->getParameter('imgLogo_directory') . $oldFile;
+                    $filesystem= new Filesystem();
+                    $filesystem->remove($ancienFilename);
+                }
+
+
+                $galerie->setLien($newFilename);
+            }
+
 
             $this->getDoctrine()->getManager()->flush();
 

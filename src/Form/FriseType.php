@@ -7,12 +7,15 @@ use App\Entity\Classe;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Symfony\Component\Form\Extension\Core\Type\UrlType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\File;
+
+
 
 class FriseType extends AbstractType
 {
@@ -33,9 +36,18 @@ class FriseType extends AbstractType
                 'label' => 'Div'
             ])
 
-            ->add('lien',UrlType::class,[
+            ->add('lien',FileType::class,[
                 'required' => false,
-                'label' => 'Image'
+                'data_class' => null,
+                'label' => 'Image (.PNG, .JPEG, .GIF, .SVG file)',
+                'constraints' => [
+                    new File([
+                        'maxSize' => '512k',
+                        'mimeTypes' => [
+                            'image/*',
+                        ],
+                    ])
+                ],
             ])
             ->add('contenu',TextareaType::class,[
                 'required' => false,

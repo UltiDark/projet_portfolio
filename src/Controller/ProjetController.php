@@ -4,14 +4,15 @@ namespace App\Controller;
 
 use App\Entity\Projet;
 use App\Form\ProjetType;
-use App\Repository\CategorieRepository;
 use App\Repository\ProjetRepository;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\File\Exception\FileException;
+use App\Repository\CategorieRepository;
+use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\String\Slugger\SluggerInterface;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
 
 /**
  * @Route("/projets")
@@ -38,10 +39,10 @@ class ProjetController extends AbstractController
             if ($lienFile) {
                 $originalFilename = pathinfo($lienFile->getClientOriginalName(), PATHINFO_FILENAME);
                 $safeFilename = $slugger->slug($originalFilename);
-                $newFilename = 'img/'.$safeFilename.'-'.uniqid().'.'.$lienFile->guessExtension();
+                $newFilename = 'img/Projet/'.$safeFilename.'-'.uniqid().'.'.$lienFile->guessExtension();
                 try {
                     $lienFile->move(
-                        $this->getParameter('img_directory'),
+                        $this->getParameter('imgProjet_directory'),
                         $newFilename
                     );
                 } catch (FileException $e) {
@@ -78,13 +79,42 @@ class ProjetController extends AbstractController
     /**
      * @Route("/modif/{id}", name="modifprojet")
      */
-    public function edit(Request $request, Projet $projet): Response
+    public function edit(Request $request, Projet $projet, SluggerInterface $slugger): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
+
+        $oldFile = basename($projet->getLien());
+
         $form = $this->createForm(ProjetType::class, $projet);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $data = $form->getData();
+
+            $lienFile = $form->get('lien')->getData();
+            if (!empty($lienFile)) {
+                $originalFilename = pathinfo($lienFile->getClientOriginalName(), PATHINFO_FILENAME);
+                $safeFilename = $slugger->slug($originalFilename);
+                $newFilename = 'img/Galerie/'.$safeFilename.'-'.uniqid().'.'.$lienFile->guessExtension();
+
+                try {
+                    $lienFile->move(
+                        $this->getParameter('imgLogo_directory'),
+                        $newFilename
+                    );
+                } catch (FileException $e) {
+                    // ... handle exception if something happens during file upload
+                }
+
+                if(!empty($oldFile)){
+                    $ancienFilename = $this->getParameter('imgLogo_directory') . $oldFile;
+                    $filesystem= new Filesystem();
+                    $filesystem->remove($ancienFilename);
+                }
+
+
+                $projet->setLien($newFilename);
+            }
 
             $this->getDoctrine()->getManager()->flush();
 

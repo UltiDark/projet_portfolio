@@ -1,5 +1,5 @@
 $(document).ready(function(){
-    $('.galerie').on('click', function(){
+    $('.galerie, .addDomaine').on('click', function(){
         $("#myModal").show("fold");
         $("#selectedImg").attr('src',$(this).attr("src"));
         $("body").addClass("stopScroll");

@@ -4,9 +4,13 @@ namespace App\Controller;
 
 use App\Entity\Domaine;
 use App\Entity\Capacite;
+use App\Entity\Groupe;
 use App\Form\DomaineType;
 use App\Form\CapaciteType;
+use App\Form\DomaineTotalType;
+use App\Repository\CapaciteRepository;
 use App\Repository\DomaineRepository;
+use App\Repository\GroupeRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -36,71 +40,77 @@ class DomaineController extends AbstractController
     /**
      * @Route("/ajout", name="ajoutdomaine")
      */
-    public function new(Request $request): Response
+    public function new(Request $request, CapaciteRepository $capaciteRepository, GroupeRepository $groupeRepository): Response
     {
         $tab = [];
-        $mot = "";
+        $post = intval($request->request->get('nombre'));
+
         $domaine = new Domaine();
-        $form = $this->createFormBuilder()
-        ->add("Domaine_nom", DomaineType::class )
-        ->add('Capacite', CapaciteType::class)
-        ->add('submit', SubmitType::class, [
-            'label' => 'Envoyer'
-        ])
-        ->getForm(); 
+
+        $form = $this->createForm(DomaineTotalType::class, null, ['nombre' => $post]);
 
         $form->handleRequest($request);
 
-        
-        if ($form->isSubmitted() && $form->isValid()) {
-            $nomCapacité = $form->get('Capacite')->get('nom')->getData();
-            for($i = 0 ; $i < strlen($nomCapacité) ; $i++){
-                if($nomCapacité[$i] == " " || $nomCapacité[$i] == "?" || $nomCapacité[$i] == ",")
-                {
-                    $mot = ucfirst($mot);
-                    if ($mot > 1 && $mot != ""){
-                        array_push($tab, $mot);
-                    }
-                    $mot = "";
 
-                }
-                elseif($nomCapacité[$i] == "_"){
-                    $mot = $mot . " ";
-                }
-                else{
-                    $mot = $mot . $nomCapacité[$i];
-                }
-            }
-            array_push($tab, $mot);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $post = $form->get('post')->getData();
 
             $entityManager = $this->getDoctrine()->getManager();
+            for ($j = 0; $j < $post; $j++) {
+                $groupe = $groupeRepository->findOneBy(['id' => $form->getExtraData()['Capacite_'.$j]['id_groupe']]);
+                $tab = preg_split('/ ?[\/\?,] ?/',  $form->getExtraData()['Capacite_'.$j]['nom']);
 
+                for ($i = 0; $i < count($tab); $i++) {
+                    $capacites = $capaciteRepository->findAll();
 
-            for($i = 0; $i < count($tab); $i++){
-                $capacite = new Capacite();
-                $capacite->setNom($tab[$i]);
-                $capacite->setIdGroupe($form->get('Capacite')->get('id_groupe')->getData());
-                $entityManager->persist($capacite);
-                $entityManager->flush();
-                $domaine->addIdCapacite($capacite);
+                    $resultat = self::isExiste($capacites, $tab[$i]);
+
+                    if (empty($resultat)) {
+                        $capacite = new Capacite();
+                        $capacite->setNom($tab[$i]);
+                        $capacite->setIdGroupe($groupe);
+                        $domaine->addIdCapacite($capacite);
+                        $entityManager->persist($capacite);
+
+                    } else {
+                        $capacite = $capaciteRepository->findBy(['nom' => $resultat]);
+                        $domaine->addIdCapacite($capacite[0]);
+                    }
+                }
             }
 
-            $domaine->setNom($form->get('Domaine_nom')->get('nom')->getData());
-            
+            $domaine->setNom($form->get('Domaine')->get('nom')->getData());
+
             $entityManager->persist($domaine);
+
             $entityManager->flush();
 
             return $this->redirectToRoute('accueil', [], Response::HTTP_SEE_OTHER);
+        }
+        elseif ($form->isSubmitted()){
+            dd('erreur');
         }
 
         return $this->renderForm('commun/new.html.twig', [
             'domaine' => $domaine,
             'form' => $form,
-            'titre' => 'Ajout d\'un nouveau domaine'
+            'titre' => 'Ajout d\'un nouveau domaine',
+            'post' => $post,
 
         ]);
     }
-/*
+
+    static function isExiste($variableA, $variableB)
+    {
+        foreach ($variableA as $value) {
+            if ($variableB == $value->getNom()) {
+                return $value->getNom();
+            }
+        }
+        return null;
+    }
+    /*
     #[Route('/{id}', name: 'detaildomaine', methods: ['GET'])]
     public function show(Domaine $domaine): Response
     {
@@ -114,21 +124,61 @@ class DomaineController extends AbstractController
     /**
      * @Route("/modif/{id}", name="modifdomaine")
      */
-    public function edit(Request $request, Domaine $domaine): Response
+    public function edit($id, Request $request, DomaineRepository $domaineRepository, GroupeRepository $groupeRepository, CapaciteRepository $capaciteRepository): Response
     {
+        $domaine = $domaineRepository->getOneDomaine($id);
+        $domaineEdit = $domaineRepository->findOneBy(['id' => $id]);
+        $groupes =[];
+        
+        for($j = 0; $j < count($domaine[$id]['groupes']); $j++){
+            $groupe = $groupeRepository->findOneBy(['id' => $domaine[$id]['groupes'][$j]['groupe_id']]);
+            $groupes[] = $groupe;
+        }
 
-        $form = $this->createFormBuilder()
-        ->add("Domaine_nom", DomaineType::class )
-        ->add('Capacite', CapaciteType::class)
-        ->add('submit', SubmitType::class, [
-            'label' => 'Envoyer'
-        ])
-        ->getForm();
-
+        $form = $this->createForm(DomaineTotalType::class, $domaine, [
+            'nombre' => count($domaine[$id]['groupes']),
+            'domaine' => $domaine[$id],
+            'groupes' => $groupes,
+        ]);
+        
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->getDoctrine()->getManager()->flush();
+            //$this->getDoctrine()->getManager()->flush();
+            $post = $form->get('post')->getData();
+
+            $entityManager = $this->getDoctrine()->getManager();
+            for ($j = 0; $j < $post; $j++) {
+                $capaciteGroupe =$form->get('Capacite_'.$j)->getData();
+                $tab = preg_split('/ ?[\/\?,] ?/',  ($capaciteGroupe['nom']));
+
+                for ($i = 0; $i < count($tab); $i++) {
+                    $capacites = $capaciteRepository->findAll();
+
+                    $resultat = self::isExiste($capacites, $tab[$i]);
+
+                    if (empty($resultat)) {
+                        $capacite = new Capacite();
+                        $capacite->setNom($tab[$i]);
+                        $domaineEdit->addIdCapacite($capacite);
+                        $capacite->setIdGroupe($capaciteGroupe['id_groupe']);
+                        $entityManager->persist($capacite);
+
+                    } else {
+                        $capacite = $capaciteRepository->findBy(['nom' => $resultat]);
+                        $domaineEdit->addIdCapacite($capacite[0]);
+                        $capacite[0]->setIdGroupe($capaciteGroupe['id_groupe']);
+                        $entityManager->persist($capacite[0]);
+                    }
+
+                }
+            }
+
+            $domaineEdit->setNom($form->get('Domaine')->get('nom')->getData());
+
+            $entityManager->persist($domaineEdit);
+
+            $entityManager->flush();
 
             return $this->redirectToRoute('listedomaines', [], Response::HTTP_SEE_OTHER);
         }
@@ -136,19 +186,22 @@ class DomaineController extends AbstractController
         return $this->renderForm('commun/edit.html.twig', [
             'domaine' => $domaine,
             'form' => $form,
-            'titre' => 'Modification d\'un Domaine'
+            'titre' => 'Modification',
+            'titre2' => 'Modification Domaine',
         ]);
     }
 
     /**
      * @Route("/sup/{id}", name="supdomaine")
      */
-    public function delete(Request $requete, Domaine $domaine): Response
+    public function delete(Domaine $domaine, Request $requete, DomaineRepository $domaineRepository): Response
     {
 
-        if ($this->isCsrfTokenValid('delete'.$domaine->getId(), $requete->query->get('csrf'))) {
+        if ($this->isCsrfTokenValid('delete' . $domaine->getId(), $requete->query->get('csrf'))) {
             $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->remove($domaine->getIdCapacite());
+            $entityManager->remove($domaine);
+            $entityManager->remove($domaine);
+            $entityManager->remove($domaine);
             $entityManager->flush();
         }
 

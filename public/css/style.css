@@ -352,7 +352,7 @@ article, section:not(.parallax, .formul){
 .frise {
     white-space: nowrap; /**/
     display: flex;
-    overflow-x: scroll; /*Mettre de scroll sur l'axe horizontale*/
+    overflow-x: auto; /*Mettre de scroll sur l'axe horizontale*/
     width: 100%; /*prendre toute la place horizontale*/
     align-content: center;
     justify-content: center;
@@ -1026,5 +1026,16 @@ svg{
     width: 100% !important;
     display: flex;
     justify-content: space-around;
+}
+
+a{
+    text-decoration: none;
+}
+
+a > span{
+    margin-left : 10px;
+    position: absolute;
+    top: 50%; /* poussé de la moitié de hauteur du référent */
+    transform: translateY(-50%); 
 }
 

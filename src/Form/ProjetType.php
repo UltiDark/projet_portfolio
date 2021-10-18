@@ -33,10 +33,7 @@ class ProjetType extends AbstractType
                 new File([
                     'maxSize' => '512k',
                     'mimeTypes' => [
-                        'application/png',
-                        'application/x-png',
-                        'application/jpg',
-                        'application/x-jpg',
+                        'image/*',
                     ],
                 ])
             ],
@@ -51,11 +48,8 @@ class ProjetType extends AbstractType
                     'maxSize' => '512k',
                     'mimeTypes' => [
                         'application/pdf',
-                        'application/x-pdf',
                         'application/rar',
-                        'application/x-rar',
                         'application/zip',
-                        'application/x-zip',
                     ],
                 ])
             ],        ])
@@ -67,9 +61,7 @@ class ProjetType extends AbstractType
                     'maxSize' => '512k',
                     'mimeTypes' => [
                         'application/rar',
-                        'application/x-rar',
                         'application/zip',
-                        'application/x-zip',
                     ],
                 ])
             ],
@@ -84,16 +76,7 @@ class ProjetType extends AbstractType
                 new File([
                     'maxSize' => '512k',
                     'mimeTypes' => [
-                        'image/png',
-                        'image/x-png',
-                        'image/jpg',
-                        'image/x-jpg',
-                        'image/jpeg',
-                        'image/x-jpeg',
-                        'image/gif',
-                        'image/x-gif',
-                        'image/svg',
-                        'image/x-svg',
+                        'image/*',
                     ],
                 ])
             ],
