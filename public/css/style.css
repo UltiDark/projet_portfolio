@@ -29,7 +29,7 @@ main{
 }
 
 /*Texte*/
-h1,h2,h3, time, th, label, button[type=submit]{
+h1,h2,h3, h4, time, th, label, button[type=submit]{
     font-family: 'Catamaran', sans-serif;
     font-weight: 900;
 }
@@ -51,11 +51,15 @@ h3, th, label:not(.check), button[type=submit]{
     font-size: 20pt;
 }
 
+h4{
+    font-size: 16pt;  
+}
+
 button[type=submit]{
     margin-top: 20px;
 }
 
-h3, th{
+h3,h4, th{
     margin: 20px 20px 3px 20px;
 
 }
@@ -399,7 +403,7 @@ article, section:not(.parallax, .formul){
 }
 
 /*Couleur de contour en blanc quand on survole la frise*/
-.frise ol li div:hover:not(.Emploi, #bac){
+.visible:hover{
     border: solid #ccc;
 }
 
@@ -545,10 +549,10 @@ form > h3{
 
 }
 
-.formul a{
+/*.formul a{
     background-color: blueviolet;
     border-radius: 10px;
-}
+}*/
 
 .content{
     display: flex;
@@ -562,7 +566,7 @@ form > h3{
     width: 100%;
 }
 
-.formul > div > div > div img{
+.formul > div > div > div img, .formul svg:not(.dash){
     width: 12%;
     height: auto;
     border-radius: 5px;
@@ -912,6 +916,10 @@ input[pattern]:valid, input[required]:valid, input[type="email"]:valid{
     h3, time{
         font-size: 18pt;
     }
+
+    h4{
+        font-size: 14pt;
+    }
 }
 
 /*------------------------------------ END RESPONSIVE ----------------------------------*/
@@ -1005,7 +1013,7 @@ svg{
     width: 100%;
 }
 
-.add{
+.add:not(.formul .add){
     display:flex;
     justify-content: center;
 }
@@ -1039,3 +1047,6 @@ a > span{
     transform: translateY(-50%); 
 }
 
+.cgu li{
+    margin-left: 100px;
+}

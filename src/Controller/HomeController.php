@@ -25,4 +25,18 @@ class HomeController extends AbstractController
                 'frises' => $frises,
             ]);
     }
+
+        /**
+     * @Route("/cgu", name="cgu")
+     */
+    public function afficheCGU(){
+        
+        return $this->render(
+            'cgu.html.twig',
+            [
+                'titre' => 'CGU',
+                'titre2' => "Mentions Légales",
+
+            ]);
+    }
 }

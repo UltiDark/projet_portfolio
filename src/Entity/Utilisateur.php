@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\UtilisateurRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
@@ -51,6 +53,16 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $pseudo;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Reseau::class, mappedBy="id_utilisateur", orphanRemoval=true)
+     */
+    private $reseaux;
+
+    public function __construct()
+    {
+        $this->reseaux = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -173,6 +185,36 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
     public function setPseudo(?string $pseudo): self
     {
         $this->pseudo = $pseudo;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Reseau[]
+     */
+    public function getReseaux(): Collection
+    {
+        return $this->reseaux;
+    }
+
+    public function addReseaux(Reseau $reseaux): self
+    {
+        if (!$this->reseaux->contains($reseaux)) {
+            $this->reseaux[] = $reseaux;
+            $reseaux->setIdUtilisateur($this);
+        }
+
+        return $this;
+    }
+
+    public function removeReseaux(Reseau $reseaux): self
+    {
+        if ($this->reseaux->removeElement($reseaux)) {
+            // set the owning side to null (unless already changed)
+            if ($reseaux->getIdUtilisateur() === $this) {
+                $reseaux->setIdUtilisateur(null);
+            }
+        }
 
         return $this;
     }
