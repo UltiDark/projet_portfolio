@@ -15,10 +15,20 @@ class RegistrationController extends AbstractController
     #[Route('/register', name: 'app_register')]
     public function register(Request $request, UserPasswordHasherInterface  $userPasswordHasherInterface): Response
     {
+        //$this->denyAccessUnlessGranted('ROLE_ADMIN');
+
         $user = new Utilisateur();
         $form = $this->createForm(RegistrationFormType::class, $user);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
+
+            if(preg_match('/^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[$&+,:;=?@#|<>.^*()%!]).{12,}$/', $form->get('plainPassword')->getData()) === 0){
+                $this->addFlash('error', 'Le mot de passe n\'est pas valide');
+                return $this->renderForm('registration/register.html.twig', [
+                    'registrationForm' => $form,
+                    'titre' => 'Incription',
+                ]);
+            }
             // encode the plain password
             $user->setPassword(
                 $userPasswordHasherInterface->hashPassword(
@@ -31,7 +41,16 @@ class RegistrationController extends AbstractController
             $entityManager->persist($user);
             $entityManager->flush();
 
+            $this->addFlash('success', 'L\'utilisateur a bien été créé !');
             return $this->redirectToRoute('accueil');
+        }
+        elseif($form->isSubmitted()){
+            if(preg_match('/^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[$&+,:;=?@#|<>.^*()%!]).{12,}$/', $form->get('plainPassword')->getData()) === 0){
+                $this->addFlash('error', 'Le mot de passe n\'est pas valide');
+            }
+            else{
+                $this->addFlash('error', 'Une erreur c\'est produite !');
+            }
         }
 
         return $this->render('registration/register.html.twig', [

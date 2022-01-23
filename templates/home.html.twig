@@ -11,25 +11,42 @@
         <article class="img-gauche">
             <img src="{{asset('img/Logo.png')}}" alt="logo invisible"/>
             <div>
-                <h2>Profil</h2>
-                <p>
-                    Je m'appelle Maxime LOPES et j'ai 21 ans. J'ai terminé mon cursus Game Design dans l'école ICAN, il m'a permis d'apprendre à conceptualiser et produire des jeux vidéo.
-                </p>
-                <p>
-                    Passionné par les jeux vidéos j'ai toujours voulu apprendre les rouages de leur céation et pouvoir en créer par moi-même. J'y ai appris un grand nombre de métiers différent ce qui me permet d'être polyvalent sur n'importe quel projet.
-                </p>
-                <p>
-                    Aujourd'hui, étant un formation de Développeur Web et Web Mobile, je suis à la recherche d'un stage d'un mois pour la valider.
-                </p>
-                <p>
-                    À long terme, j'aimerais pouvoir évoluer dans le milieu de la création de Jeu Vidéo et Web en ayant appris le plus possible sur toutes les étapes de création (programmation, conception, modélisation, level design, UI, sound design...).
-                </p>
+                <h2>Profil
+                    {% if is_granted('ROLE_ADMIN') %}
+                    <a class="none" href="{{ path('listeintros')}}">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="currentColor" class="bi bi-info-circle-fill dash" viewBox="0 0 16 16">
+                            <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm.93-9.412-1 4.705c-.07.34.029.533.304.533.194 0 .487-.07.686-.246l-.088.416c-.287.346-.92.598-1.465.598-.703 0-1.002-.422-.808-1.319l.738-3.468c.064-.293.006-.399-.287-.47l-.451-.081.082-.381 2.29-.287zM8 5.5a1 1 0 1 1 0-2 1 1 0 0 1 0 2z"/>
+                        </svg>
+                    </a>
+                {% endif %}
+                </h2>
+                {% for intro in intros %}
+                    <p class="intro"> {{intro.paragraphe}}</p>
+                {% endfor %}
+
+                {% if is_granted('ROLE_ADMIN') %}
+                    <div class="add addIntro">
+                        <a class="none" href="{{ path('ajoutintro') }}">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="150" height="150" class="bi bi-plus-square-dotted" viewBox="0 0 16 16">
+                            <path d="M2.5 0c-.166 0-.33.016-.487.048l.194.98A1.51 1.51 0 0 1 2.5 1h.458V0H2.5zm2.292 0h-.917v1h.917V0zm1.833 0h-.917v1h.917V0zm1.833 0h-.916v1h.916V0zm1.834 0h-.917v1h.917V0zm1.833 0h-.917v1h.917V0zM13.5 0h-.458v1h.458c.1 0 .199.01.293.029l.194-.981A2.51 2.51 0 0 0 13.5 0zm2.079 1.11a2.511 2.511 0 0 0-.69-.689l-.556.831c.164.11.305.251.415.415l.83-.556zM1.11.421a2.511 2.511 0 0 0-.689.69l.831.556c.11-.164.251-.305.415-.415L1.11.422zM16 2.5c0-.166-.016-.33-.048-.487l-.98.194c.018.094.028.192.028.293v.458h1V2.5zM.048 2.013A2.51 2.51 0 0 0 0 2.5v.458h1V2.5c0-.1.01-.199.029-.293l-.981-.194zM0 3.875v.917h1v-.917H0zm16 .917v-.917h-1v.917h1zM0 5.708v.917h1v-.917H0zm16 .917v-.917h-1v.917h1zM0 7.542v.916h1v-.916H0zm15 .916h1v-.916h-1v.916zM0 9.375v.917h1v-.917H0zm16 .917v-.917h-1v.917h1zm-16 .916v.917h1v-.917H0zm16 .917v-.917h-1v.917h1zm-16 .917v.458c0 .166.016.33.048.487l.98-.194A1.51 1.51 0 0 1 1 13.5v-.458H0zm16 .458v-.458h-1v.458c0 .1-.01.199-.029.293l.981.194c.032-.158.048-.32.048-.487zM.421 14.89c.183.272.417.506.69.689l.556-.831a1.51 1.51 0 0 1-.415-.415l-.83.556zm14.469.689c.272-.183.506-.417.689-.69l-.831-.556c-.11.164-.251.305-.415.415l.556.83zm-12.877.373c.158.032.32.048.487.048h.458v-1H2.5c-.1 0-.199-.01-.293-.029l-.194.981zM13.5 16c.166 0 .33-.016.487-.048l-.194-.98A1.51 1.51 0 0 1 13.5 15h-.458v1h.458zm-9.625 0h.917v-1h-.917v1zm1.833 0h.917v-1h-.917v1zm1.834-1v1h.916v-1h-.916zm1.833 1h.917v-1h-.917v1zm1.833 0h.917v-1h-.917v1zM8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3v-3z"/>
+                            </svg>
+                        </a>
+                    </div>
+                {% endif %}
             </div>
         </article>
 
         <!--Domaines-->
         <section class="domaine">
-            <h2>Domaines</h2>
+            <h2>Domaines
+                {% if is_granted('ROLE_ADMIN') %}
+                <a class="none" href="{{ path('listedomaines')}}">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="currentColor" class="bi bi-info-circle-fill dash" viewBox="0 0 16 16">
+                        <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm.93-9.412-1 4.705c-.07.34.029.533.304.533.194 0 .487-.07.686-.246l-.088.416c-.287.346-.92.598-1.465.598-.703 0-1.002-.422-.808-1.319l.738-3.468c.064-.293.006-.399-.287-.47l-.451-.081.082-.381 2.29-.287zM8 5.5a1 1 0 1 1 0-2 1 1 0 0 1 0 2z"/>
+                      </svg>
+                    </a>
+                {% endif %}
+            </h2>
             <div>
                 {% for domaine in domaines %}
                     <div class="case">
@@ -62,7 +79,7 @@
             </div>
             {% if is_granted('ROLE_ADMIN') %}
                 <div class="add addDomaine">
-                    <a class="none" href="{{ path('ajoutdomaine') }}">
+                    <a class="none" href="#">
                         <svg xmlns="http://www.w3.org/2000/svg" width="150" height="150" class="bi bi-plus-square-dotted" viewBox="0 0 16 16">
                             <path d="M2.5 0c-.166 0-.33.016-.487.048l.194.98A1.51 1.51 0 0 1 2.5 1h.458V0H2.5zm2.292 0h-.917v1h.917V0zm1.833 0h-.917v1h.917V0zm1.833 0h-.916v1h.916V0zm1.834 0h-.917v1h.917V0zm1.833 0h-.917v1h.917V0zM13.5 0h-.458v1h.458c.1 0 .199.01.293.029l.194-.981A2.51 2.51 0 0 0 13.5 0zm2.079 1.11a2.511 2.511 0 0 0-.69-.689l-.556.831c.164.11.305.251.415.415l.83-.556zM1.11.421a2.511 2.511 0 0 0-.689.69l.831.556c.11-.164.251-.305.415-.415L1.11.422zM16 2.5c0-.166-.016-.33-.048-.487l-.98.194c.018.094.028.192.028.293v.458h1V2.5zM.048 2.013A2.51 2.51 0 0 0 0 2.5v.458h1V2.5c0-.1.01-.199.029-.293l-.981-.194zM0 3.875v.917h1v-.917H0zm16 .917v-.917h-1v.917h1zM0 5.708v.917h1v-.917H0zm16 .917v-.917h-1v.917h1zM0 7.542v.916h1v-.916H0zm15 .916h1v-.916h-1v.916zM0 9.375v.917h1v-.917H0zm16 .917v-.917h-1v.917h1zm-16 .916v.917h1v-.917H0zm16 .917v-.917h-1v.917h1zm-16 .917v.458c0 .166.016.33.048.487l.98-.194A1.51 1.51 0 0 1 1 13.5v-.458H0zm16 .458v-.458h-1v.458c0 .1-.01.199-.029.293l.981.194c.032-.158.048-.32.048-.487zM.421 14.89c.183.272.417.506.69.689l.556-.831a1.51 1.51 0 0 1-.415-.415l-.83.556zm14.469.689c.272-.183.506-.417.689-.69l-.831-.556c-.11.164-.251.305-.415.415l.556.83zm-12.877.373c.158.032.32.048.487.048h.458v-1H2.5c-.1 0-.199-.01-.293-.029l-.194.981zM13.5 16c.166 0 .33-.016.487-.048l-.194-.98A1.51 1.51 0 0 1 13.5 15h-.458v1h.458zm-9.625 0h.917v-1h-.917v1zm1.833 0h.917v-1h-.917v1zm1.834-1v1h.916v-1h-.916zm1.833 1h.917v-1h-.917v1zm1.833 0h.917v-1h-.917v1zM8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3v-3z"/>
                         </svg>
@@ -75,9 +92,9 @@
         <section>
             <h2>Frise Chrono
                 {% if is_granted('ROLE_ADMIN') %}
-                <a class="none" href="{{ path('listefrise')}}">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" class="bi bi-gear-fill param" viewBox="0 0 16 16">
-                            <path d="M9.405 1.05c-.413-1.4-2.397-1.4-2.81 0l-.1.34a1.464 1.464 0 0 1-2.105.872l-.31-.17c-1.283-.698-2.686.705-1.987 1.987l.169.311c.446.82.023 1.841-.872 2.105l-.34.1c-1.4.413-1.4 2.397 0 2.81l.34.1a1.464 1.464 0 0 1 .872 2.105l-.17.31c-.698 1.283.705 2.686 1.987 1.987l.311-.169a1.464 1.464 0 0 1 2.105.872l.1.34c.413 1.4 2.397 1.4 2.81 0l.1-.34a1.464 1.464 0 0 1 2.105-.872l.31.17c1.283.698 2.686-.705 1.987-1.987l-.169-.311a1.464 1.464 0 0 1 .872-2.105l.34-.1c1.4-.413 1.4-2.397 0-2.81l-.34-.1a1.464 1.464 0 0 1-.872-2.105l.17-.31c.698-1.283-.705-2.686-1.987-1.987l-.311.169a1.464 1.464 0 0 1-2.105-.872l-.1-.34zM8 10.93a2.929 2.929 0 1 1 0-5.86 2.929 2.929 0 0 1 0 5.858z"/>
+                    <a class="none" href="{{ path('listefrise')}}">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="currentColor" class="bi bi-info-circle-fill dash" viewBox="0 0 16 16">
+                        <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm.93-9.412-1 4.705c-.07.34.029.533.304.533.194 0 .487-.07.686-.246l-.088.416c-.287.346-.92.598-1.465.598-.703 0-1.002-.422-.808-1.319l.738-3.468c.064-.293.006-.399-.287-.47l-.451-.081.082-.381 2.29-.287zM8 5.5a1 1 0 1 1 0-2 1 1 0 0 1 0 2z"/>
                         </svg>
                     </a>
                 {% endif %}
@@ -86,26 +103,26 @@
             <ol>                    
                 {% for frise in frises  %}
                     <li>
-                        <a href="#{{frise.getIdDiv()}}Info">
+                        <a href="#{{frise.getIdDiv}}Info">
                             <div id="{{frise.getIdDiv()}}" class="{{frise.getIdClasse.nom}} visible">
                                 <time>{{frise.date.format('Y')}}</time>
-                                {{frise.nom}}
+                                <p>{{frise.nom}}</p>
                             </div>
                         </a>
                         {% if is_granted('ROLE_ADMIN') %}
                             <div class="centre">
-                                    <a class="none" onclick="return confirm('Es-tu sûr de vouloir supprimer cet élément?');" href="{{ path( 'supfrise', {'id': frise.id}) }}?csrf={{csrf_token('delete' ~ frise.id)}}">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" class="bi bi-trash-fill trash" viewBox="0 0 16 16">
+                                <a class="none" onclick="return confirm('Es-tu sûr de vouloir supprimer cet élément?');" href="{{ path( 'supfrise', {'id':frise.id}) }}?csrf={{csrf_token('delete' ~ frise.id)}}">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" class="bi bi-trash-fill trash" viewBox="0 0 16 16">
                                             <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0z"/>
-                                        </svg>
-                                    </a>
-                                    <a class="none" href="{{ path('modiffrise', {'id': frise.id}) }}">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" class="bi bi-gear-fill param" viewBox="0 0 16 16">
+                                    </svg>
+                                </a>
+                                <a class="none" href="{{ path('modiffrise', {'id': frise.id}) }}">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" class="bi bi-gear-fill param" viewBox="0 0 16 16">
                                             <path d="M9.405 1.05c-.413-1.4-2.397-1.4-2.81 0l-.1.34a1.464 1.464 0 0 1-2.105.872l-.31-.17c-1.283-.698-2.686.705-1.987 1.987l.169.311c.446.82.023 1.841-.872 2.105l-.34.1c-1.4.413-1.4 2.397 0 2.81l.34.1a1.464 1.464 0 0 1 .872 2.105l-.17.31c-.698 1.283.705 2.686 1.987 1.987l.311-.169a1.464 1.464 0 0 1 2.105.872l.1.34c.413 1.4 2.397 1.4 2.81 0l.1-.34a1.464 1.464 0 0 1 2.105-.872l.31.17c1.283.698 2.686-.705 1.987-1.987l-.169-.311a1.464 1.464 0 0 1 .872-2.105l.34-.1c1.4-.413 1.4-2.397 0-2.81l-.34-.1a1.464 1.464 0 0 1-.872-2.105l.17-.31c.698-1.283-.705-2.686-1.987-1.987l-.311.169a1.464 1.464 0 0 1-2.105-.872l-.1-.34zM8 10.93a2.929 2.929 0 1 1 0-5.86 2.929 2.929 0 0 1 0 5.858z"/>
-                                        </svg>
-                                    </a>
-                                </div>
-                            {% endif %}
+                                    </svg>
+                                </a>
+                            </div>
+                        {% endif %}
                     </li>
                 {% endfor %}
                 {% if is_granted('ROLE_ADMIN') %}
@@ -128,26 +145,29 @@
         </div>
         </section>
 
-        <!--Formations-->
+        <!--Contenu Frise-->
         {% for frise in frises %}
             {% if frise.contenu is not empty %}
-                <aside id="{{frise.getIdDiv}}Info" class="img-droite">
-                    <div>
+                <aside id="{{frise.getIdDiv}}Info" class="aside img-droite">
+                    <div class="margin-droite">
                         <p>{{frise.contenu}}</p>
                     </div>
-                    <div><img src="{{asset(frise.lien)}}"/></div>
+                    {% if frise.lien is not empty %}
+                        <div><img src="{{asset(frise.lien)}}" alt="image invisible"/></div>
+                    {% endif %}
                 </aside >
             {% endif %}
         {% endfor %}
 
 
+        <!--Modal Domaine Création-->
         <div id="myModal" class="modal">
             <span class="close">&times;</span>
             <div>
                 <form action ="{{ path('ajoutdomaine')}}" method="post">
                     <h2>Domaine</h2>
                     <!--Email-->
-                    <div>
+                    <div class="center">
                         <p>Combien de Categorie ?</p>
                         <input type="number" value="" id="inputNombre" name="nombre" min="1" max="100" required/>
                     </div>
@@ -156,7 +176,6 @@
                 
                     <button class="" type="submit">Créer</button>
     
-                </div>
                 </form>
             </div>
         </div>

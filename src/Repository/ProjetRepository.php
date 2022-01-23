@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Entity\BanqueImage;
 use App\Entity\Categorie;
 use App\Entity\Projet;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
@@ -23,10 +24,16 @@ class ProjetRepository extends ServiceEntityRepository
 
     public function findByJoin($value)
     {
-        return $this->createQueryBuilder('g')
-            ->innerJoin(Categorie::class, 'c', Join::WITH,'g.id_categorie = c.id')
+        return $this->createQueryBuilder('p')
+            ->innerJoin(Categorie::class, 'c', Join::WITH,'p.id_categorie = c.id')
+            ->innerjoin(BanqueImage::class, 'b', Join::WITH,'p.id = b.id_projet')
+            ->addSelect('c.nom AS nomCategorie')
+            ->addSelect('b.nom AS nomImage')
+            ->addSelect('b.lien AS lienImage')
             ->andWhere('c.nom = :val')
+            ->andWhere('b.nom = :val2')
             ->setParameter('val', $value)
+            ->setParameter('val2', 'logo')
             ->getQuery()
             ->getResult()
         ;

@@ -41,3 +41,185 @@
   height: auto;
   border-radius: 25px;
 }
+
+.projet{
+    margin-right : 50px;
+}
+
+.grandeImage{
+    text-align: center;
+}
+
+.grandeImage img{
+    width: 50%;
+    height: auto;
+    border-radius: 20px;
+}
+
+.petiteImage{
+    display:flex;
+    justify-content: space-between;
+}
+
+.petiteImage img{
+    width: 40%;
+    height: auto;
+    border-radius: 20px;
+}
+
+.flexIntro{
+    display: flex;
+    align-items: flex-start ;
+    margin-top: 150px;
+}
+
+.flexIntro h2, .flexDev h2, .asideInfoProjet h2{
+    margin-bottom: 50px;
+}
+
+
+.asideInfoProjet{
+    width: 25%;
+    height: auto;
+    background-color: #562c61;
+    border-radius: 10px;
+    padding: 10px;
+    filter: drop-shadow(5px 5px 5px #901AAD);
+}
+
+.asideInfoProjet p{
+    margin: 20px 0px;
+}
+
+.projet p{
+    margin: 50px 0px;
+}
+
+.asideInfoProjet h2{
+    text-align: center;
+}
+
+.asideInfoProjet span{
+    text-decoration: 3px underline;
+    font-style: italic;
+}
+
+.asideInfoProjet img{
+    width: 75%;
+}
+
+.asideImage{
+    text-align: center;
+}
+
+.small{
+    font-size: medium;
+    font-style: italic;
+}
+
+.iconeImage img{
+    width: 100%;
+    border-radius: 20px;
+}
+
+
+.flexDev > div{
+    display: flex;
+    align-items: center;
+}
+
+.droite{
+    margin-left:50px;
+    position: relative;
+}
+
+
+.gauche{
+    margin-right:50px;
+}
+
+.gameplay{
+    justify-content: space-between;
+}
+
+.videoProjet{
+    text-align: center;
+    width: 80%;
+    position: relative;
+    margin-bottom: 150px;
+}
+
+.videoProjet::after{
+    content: "";
+    display: block;
+    width: 100%;
+    padding-bottom: calc(315/560*100%);
+}
+
+.videoProjet iframe{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 50%;
+    transform: translate(-40%);
+}
+
+
+.membres{
+    display: flex;
+    text-align: center;
+    flex-wrap: wrap;
+    justify-content: space-around;
+
+}
+
+.membres div{
+    min-width: 90px;
+    margin : 20px 10px;
+}
+
+.membres p{
+    margin: 10px 0px;
+}
+
+.membres p{
+    margin: 10px 0px;
+}
+
+@media(max-width: 800px){
+    .flexIntro{
+        flex-direction: column-reverse;
+    }
+
+    .asideInfoProjet{
+        width: 100%;
+    }
+
+    .flexDev div    {
+        flex-direction: column;
+        text-align: left;
+    }
+
+    .iconeImage{
+        width: 80%;
+    }
+
+    .droite{
+        margin:0px;
+        margin-top :50px;
+        position: relative;
+    }
+    
+    
+    .gauche{
+        margin:0px;
+        margin-bottom :50px;
+
+    }
+
+    .petiteImage{
+        display: none;
+    }
+    
+}

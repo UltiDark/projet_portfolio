@@ -1,42 +1,137 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Projet{% endblock %}
+{% block title %}Projet - {{projet.nom}} {% endblock %}
 
 {% block body %}
-    <h1>Projet</h1>
 
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ projet.id }}</td>
-            </tr>
-            <tr>
-                <th>Type</th>
-                <td>{{ projet.type }}</td>
-            </tr>
-            <tr>
-                <th>Lien</th>
-                <td>{{ projet.lien }}</td>
-            </tr>
-            <tr>
-                <th>Alt</th>
-                <td>{{ projet.alt }}</td>
-            </tr>
-            <tr>
-                <th>Titre</th>
-                <td>{{ projet.titre }}</td>
-            </tr>
-            <tr>
-                <th>Contenu</th>
-                <td>{{ projet.contenu }}</td>
-            </tr>
-        </tbody>
-    </table>
+    <main id="explo">
+        <div class="container">
+            <h1>{{titre}}</h1>
 
-    <a href="{{ path('projet_index') }}">back to list</a>
+            <div class="flexIntro">
+                <!--Introduction-->
+                <section class="projet">
+                    <h2>Introduction</h2>
+                    <!--Screen 1-->
+                    {% if images[0] is not empty %}
+                    <div class ='grandeImage'>
+                        <img src="{{asset(images[0].lien)}}" alt="{{images[0].nom}} invisible"/>
+                    </div>
+                    {% endif %}
+                    <!--Pitch-->
+                    <div>
+                        <p>{{projet.pitch}}</p>
+                    </div>
+                    <!--Screen 2/3-->
+                    {% if images[1] is not empty and images[2] is not empty %}
+                        <div class ='petiteImage'>
+                            <img src="{{asset(images[1].lien)}}" alt="{{images[1].nom}} invisible"/>
+                            <img src="{{asset(images[2].lien)}}" alt="{{images[2].nom}} invisible"/>
+                        </div>
+                    {% endif %}
+                </section>
 
-    <a href="{{ path('projet_edit', {'id': projet.id}) }}">edit</a>
+                <!--Information complémentaire-->
+                <aside class="asideInfoProjet">
+                    <h2>Informations</h2>
+                    <div class ='asideImage'>
+                        <img src="{{asset(logo[0].lien)}}" alt="{{logo[0].nom}} invisible"/>
+                    </div>
+                    <p><span>Date :</span> {{ projet.date|date('Y-m-d')}}</p>
+                    <div>
+                        <p><span>Camera :</span> {{ projet.camera ? projet.camera : 'Inconnu' }}</p>
+                        <p><span>Character(s) :</span> {{ projet.characters ? projet.characters : 'Inconnu' }}</p>
+                        <p><span>Controller(s) :</span> {{ projet.controllers ? projet.controllers : 'Inconnu' }}</p>
+                        {% if utilisateurs is not empty %}
+                            <p><span>Membre(s) :</span></p>
+                            <div class='membres'>
+                                {% for utilisateur in utilisateurs %}
+                                <div class="membre">
+                                    <a href="{{ utilisateur.lien ? utilisateur.lien : '' }}" target="_blank">
+                                            {% if utilisateur.photo is not empty %}
+                                            <div class="iconeUtilisateur">
+                                                <img src="{{asset(utilisateur.photo)}}" alt="{{projet.banqueImages[1].nom}} invisible"/>
+                                            </div>  
+                                            {% endif %}
+                                            {% if utilisateur.pseudo is not empty %}
+                                                <p>{{utilisateur.pseudo}}</p>
+                                            {% elseif utilisateur.nom is not empty %}
+                                                <p>{{utilisateur.nom}}</p>
+                                            {% endif %}
+                                    </a>
+                                </div>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
 
-    {{ include('projet/_delete_form.html.twig') }}
+
+                    </div>
+                </aside>
+        
+            </div>
+
+            <!--Gameplay-->
+            <section class="flexDev">
+                <h2>Gameplay</h2>
+                <div class='gameplay'>
+                    <!--Pitch-->
+                    <div>
+                        <p>{{projet.gameplay}}</p>
+                        {% if projet.build is not empty %}
+                            <a href="{{asset(projet.build)}}" download>
+                                <p class="small">Pour télécharger le jeu cliquez ici !</p>
+                            </a>
+                        {% endif %}
+
+                    </div>
+                    <!--Screen 4-->
+                    {% if images[3] is not empty %}
+                        <div class ='iconeImage droite'>
+                            <img src="{{asset(images[3].lien)}}" alt="{{images[3].nom}} invisible"/>
+                        </div>
+                    {% endif %}
+                </div>
+            </section>
+
+            <!--Visuel-->
+            <section class='flexDev'>
+                <h2>Chartes Graphiques</h2>
+                <div>
+                    <!--Screen 5-->
+                    {% if images[4] is not empty %}
+                        <div class ='iconeImage gauche'>
+                            <img src="{{asset(images[4].lien)}}" alt="{{images[4].nom}} invisible"/>
+                        </div>
+                    {% endif %}
+                    <!--Pitch-->
+                    <div>
+                        <p>{{projet.visuel}}</p>
+                        {% if projet.document is not empty %}
+                            <a href="{{asset(projet.document)}}" download>
+                                <p class="small">Pour télécharger la documentation cliquez ici !</p>
+                            </a>
+                        {% endif %}
+                    </div>
+                </div>
+            </section>
+
+
+
+            <!--Demonstration-->
+            <section class='flexDev'>
+                <h2>Démonstration</h2>
+
+                {% if projet.lien is empty %}
+                    <div class="videoProjet">
+                        <iframe src="https://www.youtube.com/embed/Jx75L2jfhtw" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>    
+                    </div>
+
+                {% endif %}
+
+            </section>
+
+
+        </div>
+    </main>
+
 {% endblock %}

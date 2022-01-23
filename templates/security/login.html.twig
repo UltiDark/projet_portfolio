@@ -8,15 +8,8 @@
     <section class ='formul'>
         <div>
             <form method="post">
-                {% if error %}
-                    <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
-                {% endif %}
+                <h3>{{titre}}</h3>
                 
-                {% if app.user %}
-                    <div class="mb-3">
-                        Vous êtes déja connecté en tant que {{ app.user.email }}, <a href="{{ path('app_logout') }}">Deconnecter</a>
-                    </div>
-                {% endif %}
 
                 <!--Email-->
                 <div>
@@ -34,13 +27,14 @@
             
                 <button class="btn btn-lg btn-primary" type="submit">Envoyer</button>
 
-                    <p>Pas de compte ? <a href="{{path('app_register')}}">Inscrivez-vous !</a></p>
-                    <label for="connect" class="check">
-                        <input type="checkbox" name="_remember_me" id="_remember_me" value="true" class="inputcheck">
-                         Rester connecté ?
-                    </label>
+                <p><a class='rose' href="{{path('oublimdp')}}">Mot de Passe oublié</a></p>
 
-            </div>
+
+                <label for="_remember_me" class="check">
+                    <input type="checkbox" name="_remember_me" id="_remember_me" value="true" class="inputcheck">
+                     Rester connecté ?
+                </label>
+
             </form>
         </div>
     </section>

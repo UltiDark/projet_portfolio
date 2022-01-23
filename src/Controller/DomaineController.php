@@ -4,9 +4,6 @@ namespace App\Controller;
 
 use App\Entity\Domaine;
 use App\Entity\Capacite;
-use App\Entity\Groupe;
-use App\Form\DomaineType;
-use App\Form\CapaciteType;
 use App\Form\DomaineTotalType;
 use App\Repository\CapaciteRepository;
 use App\Repository\DomaineRepository;
@@ -14,7 +11,6 @@ use App\Repository\GroupeRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 /**
@@ -27,9 +23,9 @@ class DomaineController extends AbstractController
      */
     public function index(DomaineRepository $domaineRepository): Response
     {
-        $domaines = $domaineRepository->getGroupe();
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
 
-        //dd($domaines);
+        $domaines = $domaineRepository->getGroupe();
         return $this->render('domaine/index.html.twig', [
             'domaines' => $domaines,
             'titre' => 'Liste des Domaines'
@@ -42,16 +38,18 @@ class DomaineController extends AbstractController
      */
     public function new(Request $request, CapaciteRepository $capaciteRepository, GroupeRepository $groupeRepository): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
+
         $tab = [];
         $post = intval($request->request->get('nombre'));
-
         $domaine = new Domaine();
-
-        $form = $this->createForm(DomaineTotalType::class, null, ['nombre' => $post]);
+        $form = $this->createForm(DomaineTotalType::class, null, [
+            'nombre' => $post,
+            'domaine' => null,
+            'groupes' => null,
+        ]);
 
         $form->handleRequest($request);
-
-
 
         if ($form->isSubmitted() && $form->isValid()) {
             $post = $form->get('post')->getData();
@@ -72,7 +70,7 @@ class DomaineController extends AbstractController
                         $capacite->setIdGroupe($groupe);
                         $domaine->addIdCapacite($capacite);
                         $entityManager->persist($capacite);
-
+                        $this->addFlash('success', 'La capacité a bien été créé !');
                     } else {
                         $capacite = $capaciteRepository->findBy(['nom' => $resultat]);
                         $domaine->addIdCapacite($capacite[0]);
@@ -81,15 +79,16 @@ class DomaineController extends AbstractController
             }
 
             $domaine->setNom($form->get('Domaine')->get('nom')->getData());
-
             $entityManager->persist($domaine);
-
             $entityManager->flush();
+
+            $this->addFlash('success', 'Le domaine a bien été créé !');
+
 
             return $this->redirectToRoute('accueil', [], Response::HTTP_SEE_OTHER);
         }
         elseif ($form->isSubmitted()){
-            dd('erreur');
+            $this->addFlash('error', 'Une erreur c\'est produite !');
         }
 
         return $this->renderForm('commun/new.html.twig', [
@@ -117,7 +116,6 @@ class DomaineController extends AbstractController
         return $this->render('domaine/show.html.twig', [
             'domaine' => $domaine,
             'titre' => 'Domaine'
-
         ]);
     }*/
 
@@ -126,6 +124,8 @@ class DomaineController extends AbstractController
      */
     public function edit($id, Request $request, DomaineRepository $domaineRepository, GroupeRepository $groupeRepository, CapaciteRepository $capaciteRepository): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
+
         $domaine = $domaineRepository->getOneDomaine($id);
         $domaineEdit = $domaineRepository->findOneBy(['id' => $id]);
         $groupes =[];
@@ -175,12 +175,16 @@ class DomaineController extends AbstractController
             }
 
             $domaineEdit->setNom($form->get('Domaine')->get('nom')->getData());
-
             $entityManager->persist($domaineEdit);
-
             $entityManager->flush();
 
-            return $this->redirectToRoute('listedomaines', [], Response::HTTP_SEE_OTHER);
+            $this->addFlash('success', 'Le domaine a bien été modifié !');
+
+            return $this->redirectToRoute('accueil', [], Response::HTTP_SEE_OTHER);
+        }
+        elseif ($form->isSubmitted()){
+            $this->addFlash('error', 'Une erreur c\'est produite !');
+ 
         }
 
         return $this->renderForm('commun/edit.html.twig', [
@@ -196,6 +200,7 @@ class DomaineController extends AbstractController
      */
     public function delete(Domaine $domaine, Request $requete, DomaineRepository $domaineRepository): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
 
         if ($this->isCsrfTokenValid('delete' . $domaine->getId(), $requete->query->get('csrf'))) {
             $entityManager = $this->getDoctrine()->getManager();
@@ -203,6 +208,11 @@ class DomaineController extends AbstractController
             $entityManager->remove($domaine);
             $entityManager->remove($domaine);
             $entityManager->flush();
+            $this->addFlash('success', 'Le domaine a bien été supprimé !');
+
+        }
+        else{
+            $this->addFlash('error', 'Une erreur c\'est produite !');
         }
 
         return $this->redirectToRoute('listedomaines', [], Response::HTTP_SEE_OTHER);

@@ -33,7 +33,7 @@ class DomaineRepository extends ServiceEntityRepository
             LEFT OUTER JOIN `domaine_capacite` ON `domaine`.`id` = `domaine_capacite`.`domaine_id` 
             LEFT OUTER JOIN `capacite` ON `domaine_capacite`.`capacite_id` = `capacite`.`id` 
             LEFT OUTER JOIN `groupe` ON `groupe`.`id` = `capacite`.`id_groupe_id` 
-        GROUP BY `domaine`.`id`, `groupe`.`id`
+        GROUP BY `domaine`.`id`,`groupe`.`id`
         ORDER BY `domaine`.`nom` ASC
         ";
 
@@ -89,7 +89,7 @@ class DomaineRepository extends ServiceEntityRepository
             LEFT OUTER JOIN `capacite` ON `domaine_capacite`.`capacite_id` = `capacite`.`id`
             LEFT OUTER JOIN `groupe` ON `groupe`.`id` = `capacite`.`id_groupe_id`
         WHERE
-            `domaine`.`id` = 27
+            `domaine`.`id` = ?
         GROUP BY
             `domaine`.`id`,
             `groupe`.`id`
@@ -97,7 +97,7 @@ class DomaineRepository extends ServiceEntityRepository
 
         $conn = $this->getEntityManager()->getConnection();
         $stmt = $conn->prepare($sql);
-        //$stmt->bindParam(1, $id);
+        $stmt->bindParam(1, $id);
         $stmt->execute();
         $groupes = $stmt->fetchAll();
         $domaines = [];

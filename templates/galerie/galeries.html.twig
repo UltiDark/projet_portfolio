@@ -8,7 +8,7 @@
         <section>
             <h2>  Mes Réalisations {{titre|slice(titre|length -2)}}</h2>
 
-            <div class="rea"id="main">
+            <div class="rea" id="main">
                 {% for galerie in galeries %}
                     <div>
                         <img class="galerie" src="{{asset(galerie.lien)}}" alt="{{galerie.nom}} invisible"/>
@@ -47,9 +47,11 @@
                 <img id="selectedImg" src="../../media/image/Logo.png" alt="Retour Invisible"/>
                 <div id="com">
                     <h3>Commentaire</h3>
-                    <label for="msg">Message :</label>
-                    <textarea id="msg" name="user_message" placeholder="..." rows="5"></textarea>
-                    <input class="modalGalerie" type="submit" value="Envoyer"/>
+                    {{form_start(form)}}
+                        {{form_widget(form.email)}}
+                        {{form_widget(form.commentaire)}}
+                        {{form_widget(form.submit)}}
+                    {{form_end(form)}}
                 </div>
             </div>
         </div>

@@ -28,9 +28,13 @@
                         <input type="password" id="mdpV" name="user_mdpV" placeholder="Vérification Mot de Passe (Requis)" required/>
                     </div>
 
+
+
                     <!--Validation-->
                 
                     <input type="submit" value="Envoyer"/>
+
+
                     {% if titre == "Inscription" %}
 					    <p>Déjà un compte ? <a href="{{path('connexion', {route: 'connexion'})}}">Connectez-vous !</a></p>
                     {% else %}

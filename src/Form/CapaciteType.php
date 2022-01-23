@@ -14,24 +14,40 @@ class CapaciteType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        if(!empty($options['groupes']) && !empty($options['domaine']['groupes'][$options['iGroupe']]['capacite'])){
+            $builder
+            ->add('id_groupe', EntityType::class,[
+                'class' => Groupe::class,    
+                'choice_label' => 'nom',
+                'label' => 'Catégorie',
+                'allow_extra_fields' => true,
+                'data' => $options['groupes']
+    
+            ])
+            ->add('nom', TextareaType::class,[
+                'attr' => ['rows'=>'10'],
+                'label' => 'Capacités',
+                'allow_extra_fields' => true,
+                'data' => $options['domaine']['groupes'][$options['iGroupe']]['capacite']
+            ]);
+        }
+        else{
+            $builder
+            ->add('id_groupe', EntityType::class,[
+                'class' => Groupe::class,    
+                'choice_label' => 'nom',
+                'label' => 'Catégorie',
+                'allow_extra_fields' => true,
+    
+            ])
+            ->add('nom', TextareaType::class,[
+                'attr' => ['rows'=>'10'],
+                'label' => 'Capacités',
+                'allow_extra_fields' => true,    
+            ]); 
+        }
 
-        $builder
-        ->add('id_groupe', EntityType::class,[
-            'class' => Groupe::class,    
-            'choice_label' => 'nom',
-            'label' => 'Catégorie',
-            'allow_extra_fields' => true,
-            'data' => $options['groupes']
 
-        ])
-        ->add('nom', TextareaType::class,[
-            'attr' => ['rows'=>'10'],
-            'label' => 'Capacités',
-            'allow_extra_fields' => true,
-            'data' => $options['domaine']['groupes'][$options['iGroupe']]['capacite']
-
-
-        ]);
     }
 
     public function configureOptions(OptionsResolver $resolver)

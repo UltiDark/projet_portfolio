@@ -15,11 +15,20 @@ class DomaineType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder
-        ->add('nom', TextType::class,[
-            'allow_extra_fields' => true,
-            'attr' =>['value' => $options['domaine']['nom']]
-        ]);
+        if(!empty($options['domaine']['nom'])){
+            $builder
+            ->add('nom', TextType::class,[
+                'allow_extra_fields' => true,
+                'attr' =>['value' => $options['domaine']['nom']]
+            ]);
+        }
+        else{
+            $builder
+            ->add('nom', TextType::class,[
+                'allow_extra_fields' => true,
+            ]);
+        }
+
     }
 
     public function configureOptions(OptionsResolver $resolver)
@@ -29,7 +38,6 @@ class DomaineType extends AbstractType
             'allow_extra_fields' => true,
             'allow_add' => true,
             'domaine' => ""
-
         ]);
     }
 }

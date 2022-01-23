@@ -22,8 +22,10 @@ class FriseController extends AbstractController
     /**
      * @Route("/liste", name="listefrise")
      */
-    public function index(FriseRepository $friseRepository, EntityManagerInterface $em): Response
+    public function index(FriseRepository $friseRepository): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
+
         $date = time();
 
         // affichage de l'entièreté des entité de la liste
@@ -67,9 +69,13 @@ class FriseController extends AbstractController
             $entityManager->persist($frise);
             // exécution de la requête de "insert"
             $entityManager->flush();
+            $this->addFlash('success', 'Un élément a bien été ajouté dans la liste !');
 
             // Retour liste frise
             return $this->redirectToRoute('listefrise', [], Response::HTTP_SEE_OTHER);
+        }
+        elseif($form->isSubmitted()){
+            $this->addFlash('error', 'Une erreur c\'est produite !');
         }
 
         // affichage du formulaire
@@ -129,13 +135,16 @@ class FriseController extends AbstractController
                     $filesystem->remove($ancienFilename);
                 }
 
-
                 $frise->setLien($newFilename);
             }
             $this->getDoctrine()->getManager()->flush();
-            
+            $this->addFlash('success', 'La frise a bien été modifié !');
+
             // Retour liste frise
             return $this->redirectToRoute('listefrise', [], Response::HTTP_SEE_OTHER);
+        }
+        elseif($form->isSubmitted()){
+            $this->addFlash('error', 'Une erreur c\'est produite !');
         }
 
         // affichage du formulaire
@@ -152,18 +161,29 @@ class FriseController extends AbstractController
      */
     public function delete(Request $requete, Frise $frise): Response
     {
+        // Autorise L'Admin
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
 
         // si le token CRSF et present et conforme
         if ($this->isCsrfTokenValid('delete'.$frise->getId(), $requete->query->get('csrf'))) {
             $entityManager = $this->getDoctrine()->getManager();
+
+            $oldFile = basename($frise->getLien());
+
+
+            if(!empty($oldFile)){
+                $ancienFilename = $this->getParameter('imgFrise_directory') . $oldFile;
+                $filesystem= new Filesystem();
+                $filesystem->remove($ancienFilename);
+            }
             // mise en place de la requête indiquant que la donnée selectionnée doit être supprimée
             $entityManager->remove($frise);
             // exécution de la requête de "delete"
             $entityManager->flush();
+            $this->addFlash('success', 'L\'élément a bien été modifié de la frise !');
         }
         else{
-            return $this->redirectToRoute('accueil');
-
+            $this->addFlash('error', 'Une erreur c\'est produite !');
         }
 
         // Retour liste frise

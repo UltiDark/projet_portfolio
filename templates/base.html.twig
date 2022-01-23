@@ -17,12 +17,16 @@
     <body>
         <!--ENTETE-->
         <header>
-            <a href="{{path('accueil')}}">
-                <img src="{{asset('img/picto.png')}}" alt="logo invisible"/>
+            <div>
+                <a href="{{path('accueil')}}">
+                    <img src="{{asset('img/picto.png')}}" alt="logo invisible"/>
+                </a>
                 {% if app.user %}
-                <span> {{app.user.nom}} {{app.user.prenom}} </span>
+                    <a href="{{path('detailsutilisateur',{id : app.user.id})}}">
+                        <span> {{app.user.nom}} {{app.user.prenom}} </span>
+                    </a>
                 {% endif %}
-            </a>
+            </div>
         
             <nav>
                 <ul>
@@ -40,13 +44,8 @@
                         </ul>
                     </li>
                     {% if is_granted('ROLE_ADMIN') %}
-                        <li class="menu"><a href="{{path('listefrise')}}">Frise</a></li>
-                        <li class="menu"><a href="{{path('listedomaines')}}">Domaine</a></li>
-                        <li class="menu"><a href="{{path('listeutilisateurs')}}">Utilisateur</a></li>
-                        <li class="menu"><a href="{{path('listereseaux')}}">Réseau</a></li>
-
+                        <li class="menu"><a href="{{path('dashboard')}}">Dashboard</a></li>
                     {% endif %}
-
 
                     <li class="menu"><a href="{{path('contact')}}">Contacts</a></li>
                     {% if not app.user %}
@@ -57,7 +56,53 @@
 
                 </ul>
             </nav>
+
+            <div class="menu-btn">
+                <div class="menu-btn_burger"></div>
+            </div>
+
+            <div class="menu-mobile">
+                <ul>
+                    <li class="menuMobile"><a onclick="affichageSous(1)">Projet</a>
+                        <ul class="sousMobile 1">
+                            <li><a href="{{ path('listeprojets', {type : 'game'}) }}">Game</a></li>
+                            <li><a href="{{ path('listeprojets', {type : 'web'}) }}" class="notActive">Web</a></li>
+                        </ul>
+                    </li>
+                    <li class="menuMobile"><a onclick="affichageSous(2)">Galerie</a>
+                        <ul class="sousMobile 2">
+                            <li><a href="{{ path('listegaleries', {type : 'modelisation'}) }}">Modèles 3D</a></li>
+                            <li><a href="{{ path('listegaleries', {type : 'sprite'}) }}">Assets 2D</a></li>
+                        </ul>
+                    </li>
+                    {% if is_granted('ROLE_ADMIN') %}
+                        <li class="menu"><a href="{{path('dashboard')}}">Dashboard</a></li>
+                    {% endif %}
+
+                    <li class="menuMobile"><a href="{{path('contact')}}">Contacts</a></li>
+                    {% if not app.user %}
+                        <li class="menuMobile"><a href="{{path('app_login')}}">Connexion</a></li>
+                    {% else %}
+                        <li class="menuMobile"><a href="{{path('app_logout')}}">Déconnexion</a></li>
+                    {% endif %}
+
+                </ul>
+            </div>
         </header>
+
+        {% for message in app.flashes('success') %}
+            <div class="succes">
+                <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span> 
+                <strong>Succes ! </strong>{{ message }}
+            </div>
+        {% endfor %}
+
+        {% for message in app.flashes('error') %}
+            <div class="alert">
+                <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span> 
+                <strong>Erreur ! </strong>{{ message }}
+            </div>  
+        {% endfor %}
 
         <!--Parallax-->
         <section class="parallax">
@@ -76,20 +121,21 @@
                 <p>Mail : maxime.lopes@hotmail.com</p>
                 <p>Téléphone : +33 6 22 65 86 70</p>
                 <p>Site réalisé par LOPES Maxime en 2021</p>
-                <a href="{{path('cgu')}}">
-                    <small>Mentions Légales</small>
-                </a>
+                <a href="{{path('politique')}}">Mentions Légales</a>
+                <a href="{{path('cgu')}}">CGU</a>
             </div>
         </footer>
 
         <script src="{{asset('framework/jquery-3.6.0.min.js')}}"></script>
         <script src="{{asset('js/parallax.js')}}"></script>
         <script src="{{asset('js/frise.js')}}"></script>
+        <script src="{{asset('js/dashboard.js')}}"></script>
         <script src="{{asset('js/projet.js')}}"></script>
         <script src="{{asset('js/asset.js')}}"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        <script src="{{asset('js/burger.js')}}"></script>
+        <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
         integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
-        crossorigin="anonymous"></script>
+        crossorigin="anonymous"></script>-->
 
     </body>
 

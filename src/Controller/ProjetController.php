@@ -2,8 +2,10 @@
 
 namespace App\Controller;
 
+use App\Entity\BanqueImage;
 use App\Entity\Projet;
 use App\Form\ProjetType;
+use App\Repository\BanqueImageRepository;
 use App\Repository\ProjetRepository;
 use App\Repository\CategorieRepository;
 use Symfony\Component\Filesystem\Filesystem;
@@ -27,37 +29,72 @@ class ProjetController extends AbstractController
     {
         $this->denyAccessUnlessGranted('ROLE_ADMIN');
 
-        
         $projet = new Projet();
-        $form = $this->createForm(ProjetType::class, $projet);
+
         $categorie = $categorieRepository->findOneBy(['nom'=>$type]);
 
+        $form = $this->createForm(ProjetType::class, $projet);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $lienFile = $form->get('lien')->getData();
-            if ($lienFile) {
-                $originalFilename = pathinfo($lienFile->getClientOriginalName(), PATHINFO_FILENAME);
-                $safeFilename = $slugger->slug($originalFilename);
-                $newFilename = 'img/Projet/'.$safeFilename.'-'.uniqid().'.'.$lienFile->guessExtension();
-                try {
-                    $lienFile->move(
-                        $this->getParameter('imgProjet_directory'),
-                        $newFilename
-                    );
-                } catch (FileException $e) {
-                    // ... handle exception if something happens during file upload
-                }
-                $projet->setLien($newFilename);
-            }
-            $data = $form->getData();
+            $lienFiles = $form->get('images')->getData();
+            $logoFiles = $form->get('logo')->getData();
+            $buildFiles = $form->get('build')->getData();
+            $docFiles = $form->get('document')->getData();
+
+            $nom = str_replace(' ', '-', $form->get('nom')->getData());
+
+            //$data = $form->getData();
             $projet->setIdCategorie($categorie);
+
+
+            if ($buildFiles) {
+                $newFilename = 'img/Projet/'.$nom.'/build'.'-'.uniqid().'.'.$buildFiles->guessExtension();
+                self::addFiles($newFilename,$buildFiles, $nom, $this);
+                $projet->setBuild($newFilename);
+            }
+
+            if ($docFiles) {
+                $newFilename = 'img/Projet/'.$nom.'/doc'.'-'.uniqid().'.'.$docFiles->guessExtension();
+                self::addFiles($newFilename,$docFiles, $nom, $this);
+                $projet->setDocument($newFilename);
+            }
 
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($projet);
             $entityManager->flush();
 
-            return $this->redirectToRoute('listeprojets', ['type' =>  $data->getIdCategorie()->getNom()], Response::HTTP_SEE_OTHER);
+            if ($logoFiles) {
+                $newFilename = 'img/Projet/'.$nom.'/logo'.'-'.uniqid().'.'.$logoFiles->guessExtension();
+                self::addFiles($newFilename,$logoFiles, $nom, $this);
+                $image = new BanqueImage();
+                $image->setNom('logo');
+                $image->setLien($newFilename);
+                $image->setIdProjet($projet);
+                $entityManager->persist($image);
+                $entityManager->flush();
+            }
+
+            if ($lienFiles) {
+                $i = 0;
+                foreach($lienFiles as $lienFile){
+                    $newFilename = 'img/Projet/'.$nom.'/screen'.$i.'-'.uniqid().'.'.$lienFile->guessExtension();
+                    self::addFiles($newFilename,$lienFile, $nom, $this);
+                    $image = new BanqueImage();
+                    $image->setNom('screen');
+                    $image->setLien($newFilename);
+                    $image->setIdProjet($projet);
+                    $entityManager->persist($image);
+                    $i++;
+                }
+                $entityManager->flush();
+            }
+
+            $this->addFlash('success', 'L\'élément a bien été ajouté aux projets !');
+            return $this->redirectToRoute('listeprojets', ['type' =>  $type], Response::HTTP_SEE_OTHER);
+        }
+        elseif($form->isSubmitted()){
+            $this->addFlash('error', 'Une erreur c\'est produite !');
         }
 
         return $this->renderForm('commun/new.html.twig', [
@@ -68,22 +105,37 @@ class ProjetController extends AbstractController
         ]);
     }
 
-    /*#[Route('/{id}', name: 'projet_show', methods: ['GET'])]
-    public function show(Projet $projet): Response
+    /**
+     * @Route("/details/{id}", name="detailprojet")
+     */
+    public function show(Projet $projet, BanqueImageRepository $banquerepository): Response
     {
+        $images = $banquerepository->findByLimit($projet->getId());
+        $logo = $banquerepository->findLogo();
+
         return $this->render('projet/show.html.twig', [
+            'titre' => $projet->getNom(),
+            'utilisateurs' => $projet->getIdUtilisateur(),
             'projet' => $projet,
+            'images' => $images,
+            'logo' => $logo,
         ]);
-    }*/
+    }
 
     /**
      * @Route("/modif/{id}", name="modifprojet")
      */
-    public function edit(Request $request, Projet $projet, SluggerInterface $slugger): Response
+    public function edit(Request $request, Projet $projet, SluggerInterface $slugger, BanqueImageRepository $banqueImageRepository): Response
     {
         $this->denyAccessUnlessGranted('ROLE_ADMIN');
 
-        $oldFile = basename($projet->getLien());
+        $logo = $banqueImageRepository->findBy(['nom' => 'logo']);
+        $build = $projet->getBuild();
+        $doc = $projet->getDocument();
+
+        $oldLogo = basename($logo[0]->getLien());
+        $oldBuild = basename($build);
+        $oldDoc = basename($doc);
 
         $form = $this->createForm(ProjetType::class, $projet);
         $form->handleRequest($request);
@@ -91,53 +143,102 @@ class ProjetController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $data = $form->getData();
 
-            $lienFile = $form->get('lien')->getData();
-            if (!empty($lienFile)) {
-                $originalFilename = pathinfo($lienFile->getClientOriginalName(), PATHINFO_FILENAME);
-                $safeFilename = $slugger->slug($originalFilename);
-                $newFilename = 'img/Galerie/'.$safeFilename.'-'.uniqid().'.'.$lienFile->guessExtension();
+            $lienFiles = $form->get('images')->getData();
+            $logoFiles = $form->get('logo')->getData();
+            $buildFiles = $form->get('build')->getData();
+            $docFiles = $form->get('document')->getData();
 
-                try {
-                    $lienFile->move(
-                        $this->getParameter('imgLogo_directory'),
-                        $newFilename
-                    );
-                } catch (FileException $e) {
-                    // ... handle exception if something happens during file upload
+            $nom = str_replace(' ', '-', $form->get('nom')->getData());
+
+            if (!empty($buildFiles)) {
+                $newFilename = 'img/Projet/'.$nom.'/build'.'-'.uniqid().'.'.$buildFiles->guessExtension();
+                self::addFiles($newFilename,$buildFiles, $nom, $this);
+                self::removeFiles($oldBuild, $nom, $this);
+                $projet->setBuild($newFilename);
+            }
+
+            if (!empty($docFiles)) {
+                $newFilename = 'img/Projet/'.$nom.'/doc'.'-'.uniqid().'.'.$docFiles->guessExtension();
+                self::addFiles($newFilename,$docFiles, $nom, $this);
+
+                self::removeFiles($oldDoc, $nom, $this);
+                $projet->setDocument($newFilename);
+            }
+
+            if (!empty($logoFiles)) {
+                $newFilename = 'img/Projet/'.$nom.'/logo'.'-'.uniqid().'.'.$logoFiles->guessExtension();
+                self::addFiles($newFilename,$logoFiles, $nom, $this);
+
+                if(!empty($oldLogo)){
+                    self::removeFiles($oldLogo, $nom, $this);
+                    $this->getDoctrine()->getManager()->remove($logo[0]);
                 }
+                
+                $image = new BanqueImage();
+                $image->setNom('logo');
+                $image->setLien($newFilename);
+                $image->setIdProjet($projet);
+                $this->getDoctrine()->getManager()->persist($image);
+            }
 
-                if(!empty($oldFile)){
-                    $ancienFilename = $this->getParameter('imgLogo_directory') . $oldFile;
-                    $filesystem= new Filesystem();
-                    $filesystem->remove($ancienFilename);
+            if (!empty($lienFiles)) {
+                $i = 0;
+                foreach($lienFiles as $lienFile){
+                    $newFilename = 'img/Projet/'.$nom.'/screen'.$i.'-'.uniqid().'.'.$lienFile->guessExtension();
+                    self::addFiles($newFilename,$lienFile, $nom, $this);
+
+                    $image = new BanqueImage();
+                    $image->setNom('screen');
+                    $image->setLien($newFilename);
+                    $image->setIdProjet($projet);
+                    $this->getDoctrine()->getManager()->persist($image);
+                    $i++;
                 }
-
-
-                $projet->setLien($newFilename);
             }
 
             $this->getDoctrine()->getManager()->flush();
+            $this->addFlash('success', 'Le projet a bien été modifié !');
 
             return $this->redirectToRoute('listeprojets', ['type' => $data->getIdCategorie()->getNom()], Response::HTTP_SEE_OTHER);
+        }
+        elseif($form->isSubmitted()){
+            $this->addFlash('error', 'Une erreur c\'est produite !');
         }
 
         return $this->renderForm('commun/edit.html.twig', [
             'projet' => $projet,
             'form' => $form,
-            'titre' => "Modification".$projet->getNom(),
-
+            'titre' => $projet->getNom(),
+            'titre2' => "Modification ".$projet->getNom(),
         ]);
     }
 
     /**
      * @Route("/sup/{id}", name="supprojet")
      */
-    public function delete(Request $requete, Projet $projet): Response
+    public function delete(Request $requete, Projet $projet, BanqueImageRepository $banquerepository): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
+
         if ($this->isCsrfTokenValid('delete'.$projet->getId(), $requete->query->get('csrf'))) {
+            $images = $banquerepository->findBy(['id_projet' => $projet->getId()]);
             $entityManager = $this->getDoctrine()->getManager();
+            $nom = str_replace(' ', '-', $projet->getNom());
+
+            self::removeFiles($projet->getDocument(), $nom, $this);
+            self::removeFiles($projet->getBuild(), $nom, $this);
+
+            foreach($images as $image){
+                self::removeFiles($image->getLien(), $nom, $this);
+                $entityManager->remove($image);
+            }
             $entityManager->remove($projet);
             $entityManager->flush();
+            $this->addFlash('success', 'L\'élément a bien été supprimé aux projets !');
+
+        }
+        else{
+            $this->addFlash('error', 'Une erreur c\'est produite !');
         }
 
         return $this->redirectToRoute('listeprojets', ['type' => $projet->getIdCategorie()->getNom()], Response::HTTP_SEE_OTHER);
@@ -147,7 +248,6 @@ class ProjetController extends AbstractController
      * @Route("/{type}", name="listeprojets")
      */
     public function afficheProjets($type, ProjetRepository $repository){
-        $_SESSION['role'] = "admin";
         $projets = $repository->findByJoin($type);
 
         return $this->render(
@@ -155,11 +255,27 @@ class ProjetController extends AbstractController
             [
                 'titre' => "Liste $type",
                 'projets' => $projets,
-                'autorisation' => $_SESSION['role'],
                 'categorie' => $type,
                 'i' => 0
             ]);
     }
 
+    static function removeFiles($basename, $nomProjet,$projetParam){
+        if(!empty($basename)){
+            $ancienFilename = $projetParam->getParameter('imgProjet_directory').$nomProjet .'/'. basename($basename);
+            $filesystem= new Filesystem();
+            $filesystem->remove($ancienFilename);
+        }
+    }
 
+    static function addFiles($newFilename,$basename, $nomProjet,$projetParam){
+        try {
+            $basename->move(
+                $projetParam->getParameter('imgProjet_directory').'/'.$nomProjet,
+                $newFilename
+            );
+        } catch (FileException $e) {
+            // ... handle exception if something happens during file upload
+        }
+    }
 }

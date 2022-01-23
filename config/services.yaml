@@ -6,8 +6,11 @@
 parameters:
     img_directory: '%kernel.project_dir%/public/img/'
     imgFrise_directory: '%kernel.project_dir%/public/img/Frise/'
+    imgUtilisateur_directory: '%kernel.project_dir%/public/img/Utilisateur/'
     imgLogo_directory: '%kernel.project_dir%/public/img/Logo/'
     imgProjet_directory: '%kernel.project_dir%/public/img/Projet/'
+    imgGalerie_directory: '%kernel.project_dir%/public/img/Galerie/'
+
 
 
 services:

@@ -1,0 +1,219 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Accueil{% endblock %}
+
+{% block body %}
+
+    <!--MAIN-->
+    <main class="profil">
+
+        <div class="dashboardMenu">
+            <ul>
+                <li id="dashboardDomaines">Domaines</li>
+                <li id="dashboardFrises">Frises</li>
+                <li id="dashboardReseaux">Réseaux</li>
+                <li id="dashboardUtilisateurs">Utilisateurs</li>
+            </ul>
+        </div>
+
+        <div class="dashboard">
+            <section class="dashboardSection" id="dashboardDomainesInfo">
+                <h2>Domaines</h2>
+                <div class="table">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Nom</th>
+                                <th>Groupe</th>
+                                <th>actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        {% for domaine in domaines %}
+                            <tr>
+                                <td>{{ domaine.domaine }}</td>
+                                <td>{{domaine.groupe}} : {{domaine.capacite}}</td>
+                                <td>
+                                    <a class="none" onclick="return confirm('Es-tu sûr de vouloir supprimer cet élément?');" href="{{ path( 'supdomaine', {'id': domaine.domaine_id}) }}?csrf={{csrf_token('delete' ~ domaine.domaine_id)}}">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" class="bi bi-trash-fill trash" viewBox="0 0 16 16">
+                                            <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0z"/>
+                                        </svg>
+                                    </a>
+                                    <a class="none" href="{{ path('modifdomaine', {'id': domaine.domaine_id}) }}">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" class="bi bi-gear-fill param" viewBox="0 0 16 16">
+                                            <path d="M9.405 1.05c-.413-1.4-2.397-1.4-2.81 0l-.1.34a1.464 1.464 0 0 1-2.105.872l-.31-.17c-1.283-.698-2.686.705-1.987 1.987l.169.311c.446.82.023 1.841-.872 2.105l-.34.1c-1.4.413-1.4 2.397 0 2.81l.34.1a1.464 1.464 0 0 1 .872 2.105l-.17.31c-.698 1.283.705 2.686 1.987 1.987l.311-.169a1.464 1.464 0 0 1 2.105.872l.1.34c.413 1.4 2.397 1.4 2.81 0l.1-.34a1.464 1.464 0 0 1 2.105-.872l.31.17c1.283.698 2.686-.705 1.987-1.987l-.169-.311a1.464 1.464 0 0 1 .872-2.105l.34-.1c1.4-.413 1.4-2.397 0-2.81l-.34-.1a1.464 1.464 0 0 1-.872-2.105l.17-.31c.698-1.283-.705-2.686-1.987-1.987l-.311.169a1.464 1.464 0 0 1-2.105-.872l-.1-.34zM8 10.93a2.929 2.929 0 1 1 0-5.86 2.929 2.929 0 0 1 0 5.858z"/>
+                                        </svg>
+                                    </a>
+                                </td>
+                            </tr>
+                        {% else %}
+                            <tr>
+                                <td colspan="7">Aucun élément trouvé</td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                    <div class="add addDomaine">
+                        <h3 ><a class="ajout" href="#">Nouveau</a></h3>
+
+                    </div>
+                </div>
+                <div id="myModal" class="modal">
+                    <span class="close">&times;</span>
+                    <div>
+                        <form action ="{{ path('ajoutdomaine')}}" method="post">
+                            <h2>Domaine</h2>
+                            <!--Email-->
+                            <div>
+                                <p>Combien de Categorie ?</p>
+                                <input type="number" value="" id="inputNombre" name="nombre" min="1" max="100" required/>
+                            </div>
+                
+                            <!--Validation-->
+                        
+                            <button class="" type="submit">Créer</button>
+            
+                        </div>
+                        </form>
+                    </div>
+                </div>
+            </section>
+
+
+
+            <section class="dashboardSection" id="dashboardFrisesInfo">
+                <h2>Frises</h2>
+                <div class="table">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Titre</th>
+                                <th>Contenu</th>
+                                <th>Image</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        {% for frise in frises %}
+                            <tr>
+                                <td>{{ frise.date ? frise.date|date('Y') : '' }}</td>
+                                <td>{{ frise.nom }}</td>
+                                <td>{{ frise.contenu ? 'Oui' : '' }}</td>
+                                <td>{{ frise.lien ? 'Oui' : '' }}</td>
+                                <td>
+                                        <a class="none" onclick="return confirm('Es-tu sûr de vouloir supprimer cet élément?');" href="{{ path( 'supfrise', {'id': frise.id}) }}?csrf={{csrf_token('delete' ~ frise.id)}}">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" class="bi bi-trash-fill trash" viewBox="0 0 16 16">
+                                                <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0z"/>
+                                            </svg>
+                                        </a>
+                                        <a class="none" href="{{ path('modiffrise', {'id': frise.id}) }}">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" class="bi bi-gear-fill param" viewBox="0 0 16 16">
+                                                <path d="M9.405 1.05c-.413-1.4-2.397-1.4-2.81 0l-.1.34a1.464 1.464 0 0 1-2.105.872l-.31-.17c-1.283-.698-2.686.705-1.987 1.987l.169.311c.446.82.023 1.841-.872 2.105l-.34.1c-1.4.413-1.4 2.397 0 2.81l.34.1a1.464 1.464 0 0 1 .872 2.105l-.17.31c-.698 1.283.705 2.686 1.987 1.987l.311-.169a1.464 1.464 0 0 1 2.105.872l.1.34c.413 1.4 2.397 1.4 2.81 0l.1-.34a1.464 1.464 0 0 1 2.105-.872l.31.17c1.283.698 2.686-.705 1.987-1.987l-.169-.311a1.464 1.464 0 0 1 .872-2.105l.34-.1c1.4-.413 1.4-2.397 0-2.81l-.34-.1a1.464 1.464 0 0 1-.872-2.105l.17-.31c.698-1.283-.705-2.686-1.987-1.987l-.311.169a1.464 1.464 0 0 1-2.105-.872l-.1-.34zM8 10.93a2.929 2.929 0 1 1 0-5.86 2.929 2.929 0 0 1 0 5.858z"/>
+                                            </svg>
+                                        </a>
+                                </td>
+                            </tr>
+                        {% else %}
+                            <tr>
+                                <td colspan="7">Aucun élément trouvé</td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                    <h3><a class="ajout" href="{{ path('ajoutfrise') }}">Nouveau</a></h3>
+                </div>
+            </section>
+
+
+
+            <section class="dashboardSection" id="dashboardReseauxInfo">
+                <h2>Réseaux</h2>        
+                <div class="table">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Liens</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        {% for reseau in reseaux %}
+                            <tr>
+                                <td ><span class="dashboardLien">{{ reseau.lien }}</span><span class="dashboardLienReverse">Oui</span></td>
+
+                                <td>
+                                    <a class="none" onclick="return confirm('Es-tu sûr de vouloir supprimer cet élément?');" href="{{ path( 'supreseau', {'id': reseau.id}) }}?csrf={{csrf_token('delete' ~ reseau.id)}}">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" class="bi bi-trash-fill trash" viewBox="0 0 16 16">
+                                            <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0z"/>
+                                        </svg>
+                                    </a>
+                                    <a class="none" href="{{ path('modifreseau', {'id': reseau.id}) }}">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" class="bi bi-gear-fill param" viewBox="0 0 16 16">
+                                            <path d="M9.405 1.05c-.413-1.4-2.397-1.4-2.81 0l-.1.34a1.464 1.464 0 0 1-2.105.872l-.31-.17c-1.283-.698-2.686.705-1.987 1.987l.169.311c.446.82.023 1.841-.872 2.105l-.34.1c-1.4.413-1.4 2.397 0 2.81l.34.1a1.464 1.464 0 0 1 .872 2.105l-.17.31c-.698 1.283.705 2.686 1.987 1.987l.311-.169a1.464 1.464 0 0 1 2.105.872l.1.34c.413 1.4 2.397 1.4 2.81 0l.1-.34a1.464 1.464 0 0 1 2.105-.872l.31.17c1.283.698 2.686-.705 1.987-1.987l-.169-.311a1.464 1.464 0 0 1 .872-2.105l.34-.1c1.4-.413 1.4-2.397 0-2.81l-.34-.1a1.464 1.464 0 0 1-.872-2.105l.17-.31c.698-1.283-.705-2.686-1.987-1.987l-.311.169a1.464 1.464 0 0 1-2.105-.872l-.1-.34zM8 10.93a2.929 2.929 0 1 1 0-5.86 2.929 2.929 0 0 1 0 5.858z"/>
+                                        </svg>
+                                    </a>
+                                </td>
+                            </tr>
+                        {% else %}
+                            <tr>
+                                <td colspan="7">Aucun élément trouvé</td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                    <h3 ><a class="ajout" href="{{ path('ajoutreseau') }}">Nouveau</a></h3>
+            
+                </div>
+            </section>
+
+
+            
+            <section class="dashboardSection" id="dashboardUtilisateursInfo">
+                <h2>Utilisateurs</h2>
+                <div class="table">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Email</th>
+                                <th>Nom</th>
+                                <th>Prenom</th>
+                                <th>Pseudo</th>
+                                <th>actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        {% for utilisateur in utilisateurs %}
+                            <tr>
+                                <td ><span class="dashboardLien">{{ utilisateur.email }}</span><span class="dashboardLienReverse">Oui</span></td>
+                                <td>{{ utilisateur.nom }}</td>
+                                <td>{{ utilisateur.prenom }}</td>
+                                <td>{{ utilisateur.pseudo }}</td>
+                                <td>
+                                    <a class="none" onclick="return confirm('Es-tu sûr de vouloir supprimer cet élément?');" href="{{ path( 'suputilisateur', {'id': utilisateur.id}) }}?csrf={{csrf_token('delete' ~ utilisateur.id)}}">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" class="bi bi-trash-fill trash" viewBox="0 0 16 16">
+                                            <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0z"/>
+                                        </svg>
+                                    </a>
+                                    <a class="none" href="{{ path('modifutilisateur', {'id': utilisateur.id}) }}">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" class="bi bi-gear-fill param" viewBox="0 0 16 16">
+                                            <path d="M9.405 1.05c-.413-1.4-2.397-1.4-2.81 0l-.1.34a1.464 1.464 0 0 1-2.105.872l-.31-.17c-1.283-.698-2.686.705-1.987 1.987l.169.311c.446.82.023 1.841-.872 2.105l-.34.1c-1.4.413-1.4 2.397 0 2.81l.34.1a1.464 1.464 0 0 1 .872 2.105l-.17.31c-.698 1.283.705 2.686 1.987 1.987l.311-.169a1.464 1.464 0 0 1 2.105.872l.1.34c.413 1.4 2.397 1.4 2.81 0l.1-.34a1.464 1.464 0 0 1 2.105-.872l.31.17c1.283.698 2.686-.705 1.987-1.987l-.169-.311a1.464 1.464 0 0 1 .872-2.105l.34-.1c1.4-.413 1.4-2.397 0-2.81l-.34-.1a1.464 1.464 0 0 1-.872-2.105l.17-.31c.698-1.283-.705-2.686-1.987-1.987l-.311.169a1.464 1.464 0 0 1-2.105-.872l-.1-.34zM8 10.93a2.929 2.929 0 1 1 0-5.86 2.929 2.929 0 0 1 0 5.858z"/>
+                                        </svg>
+                                    </a>
+                                </td>
+                            </tr>
+                        {% else %}
+                            <tr>
+                                <td colspan="8">Aucun Utilisateur Retrouvé</td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                    <h3 ><a class="ajout" href="{{ path('ajoututilisateur') }}">Nouveau</a></h3>
+
+                </div>
+            </section>
+        </div>
+    </main>
+
+{% endblock %}

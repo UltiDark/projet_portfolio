@@ -6,46 +6,60 @@
 
 <main class="explo">
 
-    <h1>Utilisateur</h1>
+    <h1>
+        Bonjour, {{utilisateur.pseudo}}
+        {% if is_granted('ROLE_ADMIN') or utilisateur.id == app.user.id %}
+        <a class="none" onclick="return confirm('Es-tu sûr de vouloir supprimer cet élément?');" href="{{ path( 'suputilisateur', {'id': utilisateur.id}) }}?csrf={{csrf_token('delete' ~ utilisateur.id)}}">
+            <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" class="bi bi-trash-fill trash" viewBox="0 0 16 16">
+                <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0z"/>
+            </svg>
+        </a>
+        <a class="none" href="{{ path('modifutilisateur', {'id': utilisateur.id}) }}">
+            <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" class="bi bi-gear-fill param" viewBox="0 0 16 16">
+                <path d="M9.405 1.05c-.413-1.4-2.397-1.4-2.81 0l-.1.34a1.464 1.464 0 0 1-2.105.872l-.31-.17c-1.283-.698-2.686.705-1.987 1.987l.169.311c.446.82.023 1.841-.872 2.105l-.34.1c-1.4.413-1.4 2.397 0 2.81l.34.1a1.464 1.464 0 0 1 .872 2.105l-.17.31c-.698 1.283.705 2.686 1.987 1.987l.311-.169a1.464 1.464 0 0 1 2.105.872l.1.34c.413 1.4 2.397 1.4 2.81 0l.1-.34a1.464 1.464 0 0 1 2.105-.872l.31.17c1.283.698 2.686-.705 1.987-1.987l-.169-.311a1.464 1.464 0 0 1 .872-2.105l.34-.1c1.4-.413 1.4-2.397 0-2.81l-.34-.1a1.464 1.464 0 0 1-.872-2.105l.17-.31c.698-1.283-.705-2.686-1.987-1.987l-.311.169a1.464 1.464 0 0 1-2.105-.872l-.1-.34zM8 10.93a2.929 2.929 0 1 1 0-5.86 2.929 2.929 0 0 1 0 5.858z"/>
+            </svg>
+        </a>
+        {% endif %}
+    </h1>
 
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ utilisateur.id }}</td>
-            </tr>
-            <tr>
-                <th>Email</th>
-                <td>{{ utilisateur.email }}</td>
-            </tr>
-            <tr>
-                <th>Roles</th>
-                <td>{{ utilisateur.roles ? utilisateur.roles|json_encode : '' }}</td>
-            </tr>
-            <tr>
-                <th>Password</th>
-                <td>{{ utilisateur.password }}</td>
-            </tr>
-            <tr>
-                <th>Nom</th>
-                <td>{{ utilisateur.nom }}</td>
-            </tr>
-            <tr>
-                <th>Prenom</th>
-                <td>{{ utilisateur.prenom }}</td>
-            </tr>
-            <tr>
-                <th>Pseudo</th>
-                <td>{{ utilisateur.pseudo }}</td>
-            </tr>
-        </tbody>
-    </table>
+    <div class="flex ">
+        <div class="profilUtilisateur1 profilUser">
+            <h2>Profil</h2>
+            {% if utilisateur.photo is not empty %}
+                <div class ='photoUtilisateur'>
+                    <img src="{{asset(utilisateur.photo)}}" alt="Photo invisible"/>
+                </div>
+            {% endif %}
 
-    <a href="{{ path('listeutilisateurs') }}">back to list</a>
+            {% if utilisateur.nom is not empty %}
+                <h3>Nom : {{ utilisateur.nom }}</h3>
+            {% endif %}
+            {% if utilisateur.prenom is not empty %}
+                <h3>Prenom : {{ utilisateur.prenom }}</h3>
+            {% endif %}
+            {% if utilisateur.pseudo is not empty %}
+                <h3>Pseudo : {{ utilisateur.pseudo }}</h3>
+            {% endif %}
+            <h3>Email : {{ utilisateur.email }}</h3>
+            
+            {% if utilisateur.pseudo is not empty %}
+                <h3>Lien : <a href="{{utilisateur.lien}}" target="_blank">{{ utilisateur.lien }}</a></h3>
+            {% endif %}
 
-    <a href="{{ path('utilisateur_edit', {'id': utilisateur.id}) }}">edit</a>
+            <h3>Mot de passe : ------- <a href="{{path('passwordutilisateur',{id : utilisateur.id})}}">Modifier</a></h3>
+        </div>
+        
+        <div class="profilUtilisateur2 profilUser">
+            <h2>Projets</h2>
+            {% for projet in projets %}
+                <div class ='projetUtilisateur'>
+                    <a href="{{path('detailprojet',{id : projet.idProjet})}}">
+                        <img src="{{asset(projet.lienImage)}}" alt="{{projet.nomImage}} invisible"/>
+                    </a>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</main>
 
-    {{ include('utilisateur/_delete_form.html.twig') }}
-
-    </main> 
 {% endblock %}

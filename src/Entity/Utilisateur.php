@@ -59,9 +59,30 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private $reseaux;
 
+    /**
+     * @ORM\ManyToMany(targetEntity=Projet::class, mappedBy="id_utilisateur")
+     */
+    private $projets;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $photo;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $lien;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $reset_token;
+
     public function __construct()
     {
         $this->reseaux = new ArrayCollection();
+        $this->projets = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -215,6 +236,69 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
                 $reseaux->setIdUtilisateur(null);
             }
         }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Projet[]
+     */
+    public function getProjets(): Collection
+    {
+        return $this->projets;
+    }
+
+    public function addProjet(Projet $projet): self
+    {
+        if (!$this->projets->contains($projet)) {
+            $this->projets[] = $projet;
+            $projet->addIdUtilisateur($this);
+        }
+
+        return $this;
+    }
+
+    public function removeProjet(Projet $projet): self
+    {
+        if ($this->projets->removeElement($projet)) {
+            $projet->removeIdUtilisateur($this);
+        }
+
+        return $this;
+    }
+
+    public function getPhoto(): ?string
+    {
+        return $this->photo;
+    }
+
+    public function setPhoto(?string $photo): self
+    {
+        $this->photo = $photo;
+
+        return $this;
+    }
+
+    public function getLien(): ?string
+    {
+        return $this->lien;
+    }
+
+    public function setLien(?string $lien): self
+    {
+        $this->lien = $lien;
+
+        return $this;
+    }
+
+    public function getResetToken(): ?string
+    {
+        return $this->reset_token;
+    }
+
+    public function setResetToken(?string $reset_token): self
+    {
+        $this->reset_token = $reset_token;
 
         return $this;
     }
