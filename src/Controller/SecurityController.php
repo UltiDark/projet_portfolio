@@ -66,7 +66,8 @@ class SecurityController extends AbstractController {
                 $entityManager->persist($utilisateur);
                 $entityManager->flush();
             } catch (FileException $e) {
-                // ... handle exception if something happens during file upload
+                $this->addFlash('error', 'Le mouvement a échoué !');
+                return $this->redirectToRoute('accueil');
             }
             
             $url = $this->generateUrl('app_reset_password', array('token' => $token), UrlGeneratorInterface::ABSOLUTE_URL);

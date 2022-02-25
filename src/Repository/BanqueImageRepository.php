@@ -48,15 +48,17 @@ class BanqueImageRepository extends ServiceEntityRepository
         ->andWhere('b.nom = :val2')
         ->setParameter('val', $value)
         ->setParameter('val2', 'screen')
-        ->setFirstResult(1)
 
         ->getQuery()
         ->getResult()
         ;
 
-        $tabAlea = array_rand($tab, 5);
+        //dd($tab);
+
+        //$tabAlea = array_rand($tab, 5);
 
         if (count($tab) >= 5){
+            $tabAlea = array_rand($tab, 5);
             for ($i=0; $i<count($tabAlea); $i++){
                 $tabFinal[$i] = $tab[$tabAlea[$i]];
             }
@@ -75,10 +77,12 @@ class BanqueImageRepository extends ServiceEntityRepository
         return $tabFinal;
     }
 
-    public function findLogo(){
+    public function findLogo($value){
         return $this->createQueryBuilder('b')
-        ->andWhere('b.nom = :val')
-        ->setParameter('val', 'logo')
+        ->andWhere('b.id_projet = :val')
+        ->andWhere('b.nom = :val2')
+        ->setParameter('val', $value)
+        ->setParameter('val2', 'logo')
         ->setMaxResults(1)
         ->getQuery()
         ->getResult()

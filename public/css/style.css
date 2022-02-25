@@ -865,11 +865,16 @@ input[pattern]:valid, input[required]:valid, input[type="email"]:valid{
 }
 
 @media(max-width: 1400px){
-    .menu-btn{
-        display: flex;
+    header{
+        padding: 30px 50px;
     }
-    nav{
-        display: none;
+    
+    header a{
+        font-size: 14pt;
+    }
+
+    header ul li a.active{
+        font-size: 21pt;
     }
 }
 
@@ -893,16 +898,14 @@ input[pattern]:valid, input[required]:valid, input[type="email"]:valid{
 
 /*Responsive 992px*/
 @media(max-width: 992px){
-    header{
-        padding: 30px 50px;
-    }
-    
+
+
     header a{
-        font-size: 14pt;
+        font-size: 10pt;
     }
 
-    header ul li a.active{
-        font-size: 21pt;
+    header ul li a{
+        padding: 3px 8px 3px 8px;
     }
     
     article{
@@ -1005,12 +1008,25 @@ input[pattern]:valid, input[required]:valid, input[type="email"]:valid{
 
 /*Responsive 750px*/
 @media(max-width: 750px){
+    .menu-btn{
+        display: flex;
+    }
+    nav{
+        display: none;
+    }
+
     header a{
         font-size: 10pt;
     }
 
     header ul li a{
         padding: 3px 8px 3px 8px;
+    }
+    .menu-btn{
+        display: flex;
+    }
+    nav{
+        display: none;
     }
 
     header ul li a.active{

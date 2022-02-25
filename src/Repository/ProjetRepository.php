@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\BanqueImage;
 use App\Entity\Categorie;
 use App\Entity\Projet;
+use App\Entity\Utilisateur;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\Query\Expr\Join;
 use Doctrine\Persistence\ManagerRegistry;

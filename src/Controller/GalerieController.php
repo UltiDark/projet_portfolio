@@ -50,7 +50,8 @@ class GalerieController extends AbstractController
                         $newFilename
                     );
                 } catch (FileException $e) {
-                    // ... handle exception if something happens during file upload
+                    $this->addFlash('error', 'Le mouvement a échoué !');
+                    return $this->redirectToRoute('accueil');
                 }
                 $galerie->setLien($newFilename);
             }
@@ -109,7 +110,8 @@ class GalerieController extends AbstractController
                         $newFilename
                     );
                 } catch (FileException $e) {
-                    // ... handle exception if something happens during file upload
+                    $this->addFlash('error', 'Le mouvement a échoué !');
+                    return $this->redirectToRoute('accueil');
                 }
 
                 if(!empty($oldFile)){
@@ -172,7 +174,7 @@ class GalerieController extends AbstractController
             $this->addFlash('success', 'L\'élément a bien été supprimé dans la galerie !');
         }
         else{
-            $this->addFlash('error', 'Une erreur c\'est produite !'); 
+            $this->addFlash('error', 'Le csrf n\'est pas valide !'); 
         }
 
     return $this->redirectToRoute('listegaleries', ['type' => $galerie->getIdCategorie()->getNom()], Response::HTTP_SEE_OTHER);

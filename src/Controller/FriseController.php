@@ -60,7 +60,8 @@ class FriseController extends AbstractController
                         $newFilename
                     );
                 } catch (FileException $e) {
-                    // ... handle exception if something happens during file upload
+                    $this->addFlash('error', 'Le mouvement a échoué !');
+                    return $this->redirectToRoute('accueil');
                 }
                 $frise->setLien($newFilename);
             }
@@ -126,7 +127,8 @@ class FriseController extends AbstractController
                         $newFilename
                     );
                 } catch (FileException $e) {
-                    // ... handle exception if something happens during file upload
+                    $this->addFlash('error', 'Le mouvement a échoué !');
+                    return $this->redirectToRoute('accueil');
                 }
 
                 if(!empty($oldFile)){

@@ -96,7 +96,7 @@
             <!--Visuel-->
             <section class='flexDev'>
                 <h2>Chartes Graphiques</h2>
-                <div>
+                <div class="visuel">
                     <!--Screen 5-->
                     {% if images[4] is not empty %}
                         <div class ='iconeImage gauche'>
@@ -118,17 +118,15 @@
 
 
             <!--Demonstration-->
-            <section class='flexDev'>
-                <h2>Démonstration</h2>
+            {% if projet.lien is not empty %}
+                <section class='flexDev'>
+                    <h2>Démonstration</h2>
+                        <div class="videoProjet">
+                            <iframe src="{{asset(projet.lien)}}" title="YouTube video player" frameborder="0" allowfullscreen></iframe>    
+                        </div>
+                </section>
+            {% endif %}
 
-                {% if projet.lien is empty %}
-                    <div class="videoProjet">
-                        <iframe src="https://www.youtube.com/embed/Jx75L2jfhtw" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>    
-                    </div>
-
-                {% endif %}
-
-            </section>
 
 
         </div>

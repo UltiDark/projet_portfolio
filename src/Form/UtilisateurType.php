@@ -58,11 +58,11 @@ class UtilisateurType extends AbstractType
             if($role == 'ROLE_ADMIN')
             {
                 $builder
-                
-                ->add('plainPassword', RepeatedType::class, [
+                /*->add('plainPassword', RepeatedType::class, [
                     'type' => PasswordType::class,
                     'first_options'  => [
                         'label' => 'Nouveau mot de passe',
+                        'required' => false,
                         'constraints' => [
                             new NotBlank([
                                 'message' => 'Veuillez entrer un mot de passe',
@@ -70,11 +70,14 @@ class UtilisateurType extends AbstractType
                             new Regex('/^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[$&+,:;=?@#|<>.^*()%!]).{12,}$/')
                         ],
                     ],
-                    'second_options' => ['label' => 'Confirmation du mot de passe'],
+                    'second_options' => [
+                        'label' => 'Confirmation du mot de passe',
+                        'required' => false,
+                    ],
+                    'required' => false,
                     'mapped' => false,
                     'attr' => ['autocomplete' => 'new-password'],
-                    
-                ])
+                ])*/
                 ->add('roles', ChoiceType::class, [
                     'label' => 'Rôles',
                     'choice_attr' => [
@@ -88,16 +91,13 @@ class UtilisateurType extends AbstractType
                         'Créateur' => 'ROLE_CREATEUR',
                         'Administrateur' => 'ROLE_ADMIN',
                     ]
-                    ]);
+                    ])
+                ;
             }
         }
 
-        
-        
-
         $builder
-        ->add('Modifier', SubmitType::class)
-        ;
+        ->add('Modifier', SubmitType::class);
     }
 
     public function configureOptions(OptionsResolver $resolver)

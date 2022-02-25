@@ -49,14 +49,14 @@ class UtilisateurController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-            /*if(preg_match('/^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[$&+,:;=?@#|<>.^*()%!]).{12,}$/', $form->get('plainPassword')->getData()) === 0){
+            if(preg_match('/^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[$&+,:;=?@#|<>.^*()%!]).{12,}$/', $form->get('plainPassword')->getData()) === 0){
                 $this->addFlash('error', 'Le mot de passe n\'est pas valide');
                 return $this->renderForm('commun/new.html.twig', [
                     'utilisateur' => $utilisateur,
                     'form' => $form,
                     'titre' => 'Nouvel Utilisateur',
                 ]);
-            }*/
+            }
 
             $utilisateur->setPassword(
                 $userPasswordHasherInterface->hashPassword(
@@ -81,7 +81,6 @@ class UtilisateurController extends AbstractController
         }
 
         return $this->renderForm('commun/new.html.twig', [
-            'utilisateur' => $utilisateur,
             'form' => $form,
             'titre' => 'Nouvel Utilisateur'
 
@@ -94,8 +93,7 @@ class UtilisateurController extends AbstractController
 
     public function show(Utilisateur $utilisateur, BanqueImageRepository $banqueImageRepository): Response
     {
-
-        if($this->IsGranted('ROLE_ADMIN') || $utilisateur->getId() != $this->getUser()->getId()){
+        if($utilisateur->getId() != $this->getUser()->getId()){
             $this->addFlash('error', 'Vous n\'avez pas accès');
             return $this->redirectToRoute('accueil');
         }
@@ -174,16 +172,25 @@ class UtilisateurController extends AbstractController
     /**
      * @Route("/modif/{id}", name="modifutilisateur")
      */
-    public function edit(Request $request, Utilisateur $utilisateur, SluggerInterface $slugger, UserInterface $user): Response
+    public function edit(Request $request, Utilisateur $utilisateur, SluggerInterface $slugger, UserInterface $user, UserPasswordHasherInterface  $userPasswordHasherInterface): Response
     {
         if($this->IsGranted('ROLE_ADMIN') || $utilisateur->getId() == $this->getUser()->getId()){
 
             $oldFile = basename($utilisateur->getPhoto());
 
-            $form = $this->createForm(UtilisateurType::class, $utilisateur, ['roles' => $utilisateur->getRoles()]);
+            $form = $this->createForm(UtilisateurType::class, $utilisateur, ['roles' => $user->getRoles()]);
             $form->handleRequest($request);
 
             if ($form->isSubmitted() && $form->isValid()) {
+                /*if(!empty($form->get('plainPassword')->getData()) && preg_match('/^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[$&+,:;=?@#|<>.^*()%!]).{12,}$/', $form->get('plainPassword')->getData()) == 1){
+                    $utilisateur->setPassword(
+                        $userPasswordHasherInterface->hashPassword(
+                            $utilisateur,
+                            $form->get('plainPassword')->getData()
+                        )
+                    );
+                }*/
+
                 $lienFile = $form->get('photo')->getData();
                 if (!empty($lienFile)) {
                     $originalFilename = pathinfo($lienFile->getClientOriginalName(), PATHINFO_FILENAME);
@@ -196,7 +203,8 @@ class UtilisateurController extends AbstractController
                             $newFilename
                         );
                     } catch (FileException $e) {
-                        // ... handle exception if something happens during file upload
+                        $this->addFlash('error', 'Le mouvement a échoué !');
+                        return $this->redirectToRoute('accueil');
                     }
 
                     if(!empty($oldFile)){

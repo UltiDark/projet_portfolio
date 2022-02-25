@@ -111,7 +111,12 @@ class ProjetController extends AbstractController
     public function show(Projet $projet, BanqueImageRepository $banquerepository): Response
     {
         $images = $banquerepository->findByLimit($projet->getId());
-        $logo = $banquerepository->findLogo();
+        $logo = $banquerepository->findLogo($projet->getId());
+
+        if ($images == null){
+            $this->addFlash('error', 'Pas assez d\'image');
+            return $this->redirectToRoute('accueil');
+        }
 
         return $this->render('projet/show.html.twig', [
             'titre' => $projet->getNom(),
@@ -127,7 +132,21 @@ class ProjetController extends AbstractController
      */
     public function edit(Request $request, Projet $projet, SluggerInterface $slugger, BanqueImageRepository $banqueImageRepository): Response
     {
-        $this->denyAccessUnlessGranted('ROLE_ADMIN');
+
+        foreach($projet->getIdUtilisateur() as $user){
+            if($this->getUser()->getEmail() != $user->getEmail()){
+                $acces = false;
+            }
+            else{
+                $acces = true;
+                break;
+            }
+        }
+
+        if(!$this->isGranted('ROLE_ADMIN') && $acces == false){
+            $this->addFlash('error', 'L\'utilisateur n\'a pas accès');
+            return $this->redirectToRoute('app_login');
+        }
 
         $logo = $banqueImageRepository->findBy(['nom' => 'logo']);
         $build = $projet->getBuild();
@@ -238,7 +257,7 @@ class ProjetController extends AbstractController
 
         }
         else{
-            $this->addFlash('error', 'Une erreur c\'est produite !');
+            $this->addFlash('error', 'Le csrf n\'est pas valide!');
         }
 
         return $this->redirectToRoute('listeprojets', ['type' => $projet->getIdCategorie()->getNom()], Response::HTTP_SEE_OTHER);
@@ -250,13 +269,21 @@ class ProjetController extends AbstractController
     public function afficheProjets($type, ProjetRepository $repository){
         $projets = $repository->findByJoin($type);
 
+        /*foreach ($projets as $value){
+            dd($value[0]->getIdUtilisateur()[0]->getEmail());
+            foreach($value[0]->getIdUtilisateur() as $user){
+                dd($user->getEmail());
+            }
+        }*/
+
         return $this->render(
             'projet/projets.html.twig',
             [
                 'titre' => "Liste $type",
                 'projets' => $projets,
                 'categorie' => $type,
-                'i' => 0
+                'i' => 0,
+                'j' => 0
             ]);
     }
 
@@ -275,7 +302,9 @@ class ProjetController extends AbstractController
                 $newFilename
             );
         } catch (FileException $e) {
-            // ... handle exception if something happens during file upload
+            $projetParam->addFlash('error', 'Le mouvement a échoué !');
+            return $projetParam->redirectToRoute('accueil');
+
         }
     }
 }
