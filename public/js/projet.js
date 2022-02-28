@@ -1,10 +1,10 @@
 var lastWidth = $(window).width();
 $('.tempo').hide();
 
-$(document).ready(
-    positionEnfant(),
+$(document).ready(function(){
+    positionEnfant()
     $('.tempo').hide()
-    );
+});
 
 $(window).resize(function(){
     if($(window).width()!=lastWidth){
