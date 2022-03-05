@@ -7,6 +7,8 @@
     <main id="explo">
         <div class="container">
             <section>
+
+                <!-- LISTE PROJETS -->
                 <h2 id="rea">Mes réalisations</h2>
                 <div class="rea" id="main">
                     {% for projet in projets %}
@@ -33,7 +35,7 @@
                                 </a>
                             </div>
                         {% endif %}
-                        <!-- Bouton Modication & Suppression-->
+                        <!-- Bouton modication et Suppression -->
                         {% for utilisateur in projet[0].getIdUtilisateur() %}
                             {% if not is_granted('ROLE_ADMIN') and utilisateur.email is empty and utilisateur.email == app.user.email %}
                                 <div class="centre" id={{ i }}>
@@ -54,7 +56,8 @@
 
                     {% endfor %}
                 </div>
-                
+            
+            <!-- Bouton ajout -->
             {% if is_granted('ROLE_ADMIN') %}
                 <div class="add">
                     <a class="none" href="{{ path('ajoutprojet', {type : categorie}) }}">

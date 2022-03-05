@@ -3,9 +3,11 @@
 {% block title %}{{titre}}{% endblock %}
 
 {% block body %}
-<main class="exploi">
 
+<!-- Formulaire commun à toutes les ajouts -->
+<main class="exploi">
     <h1>{{titre}}</h1>
     {{ form(form) }}
 </main>
+
 {% endblock %}

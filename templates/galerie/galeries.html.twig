@@ -8,10 +8,12 @@
         <section>
             <h2>  Mes Réalisations {{titre|slice(titre|length -2)}}</h2>
 
+            <!-- GALERIE IMAGE -->
             <div class="rea" id="main">
                 {% for galerie in galeries %}
                     <div>
                         <img class="galerie" src="{{asset(galerie.lien)}}" alt="{{galerie.nom}} invisible"/>
+                        <!-- Boutons modification et suppression -->
                         {% if is_granted('ROLE_ADMIN') %}
                             <div class="centre" id={{ i }}>
                                 <a class="none" onclick="return confirm('Es-tu sûr de vouloir supprimer cet élément?');" href="{{ path( 'supgalerie', {'id': galerie.id}) }}?csrf={{csrf_token('delete' ~ galerie.id)}}">
@@ -30,6 +32,8 @@
                     </div>
                {% endfor %}
             </div>
+
+            <!-- Boutons ajout -->
             {% if is_granted('ROLE_ADMIN') %}
                 <div class="add">
                     <a class="none" href="{{ path('ajoutgalerie') }}">
@@ -41,6 +45,7 @@
             {% endif %}
         </section>
 
+        <!-- POP-UP AVEC COMMENTAIRE -->
         <div id="myModal" class="modal">
             <span class="close">&times;</span>
             <div>

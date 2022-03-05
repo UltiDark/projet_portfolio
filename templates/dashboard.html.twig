@@ -7,6 +7,7 @@
     <!--MAIN-->
     <main class="profil" id="explo">
 
+        <!-- Menu Selection -->
         <div class="dashboardMenu">
             <ul>
                 <li id="dashboardDomaines">Domaines</li>
@@ -17,6 +18,8 @@
         </div>
 
         <div class="dashboard">
+
+            <!-- Tableau Domaines -->
             <section class="dashboardSection" id="dashboardDomainesInfo">
                 <h2>Domaines</h2>
                 <div class="table">
@@ -29,6 +32,7 @@
                             </tr>
                         </thead>
                         <tbody>
+
                         {% for domaine in domaines %}
                             <tr>
                                 <td>{{ domaine.domaine }}</td>
@@ -63,7 +67,7 @@
                     <div>
                         <form action ="{{ path('ajoutdomaine')}}" method="post">
                             <h2>Domaine</h2>
-                            <!--Email-->
+                            <!-- Nombre de catégorie-->
                             <div>
                                 <p>Combien de Categorie ?</p>
                                 <input type="number" value="" id="inputNombre" name="nombre" min="1" max="100" required/>
@@ -80,7 +84,7 @@
             </section>
 
 
-
+            <!-- Tableau Frise -->
             <section class="dashboardSection" id="dashboardFrisesInfo">
                 <h2>Frises</h2>
                 <div class="table">
@@ -125,8 +129,7 @@
                 </div>
             </section>
 
-
-
+            <!-- Tableau Réseaux Sociaux -->
             <section class="dashboardSection" id="dashboardReseauxInfo">
                 <h2>Réseaux</h2>        
                 <div class="table">
@@ -168,7 +171,7 @@
             </section>
 
 
-            
+            <!-- Tableau Utilisateurs -->
             <section class="dashboardSection" id="dashboardUtilisateursInfo">
                 <h2>Utilisateurs</h2>
                 <div class="table">

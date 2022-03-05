@@ -21,6 +21,7 @@
                             {% endif %}
                         </h3>
 
+                        <!-- RÉSEAUX SOCIAUX -->
                         <div>
                             {% for reseau in reseaux %}
                                 <a href="{{reseau.lien}}" target="_blank">
@@ -37,6 +38,8 @@
                         </div>
                     </div>
                 </div>
+
+                <!-- FORMULAIRE CONTACT-->
                 <div>
                     {{ form_start(form) }}
                         <h3>Me Contacter par Email</h3>
@@ -45,35 +48,29 @@
                         <div class="content">
                             <div class="content2">
                                 {{ form_widget(form.nom) }}
-                                <!--<input type="text" id="lastname" name="user_lastname" placeholder="Nom (Requis)" pattern="[A-Za-z]{3,}" required/>-->
                             </div>
                             <div class="content3">
                                 {{ form_widget(form.prenom) }}
-                                <!--<input type="text" id="firstname" name="user_firstname" placeholder="Prénom (Requis)" pattern="[A-Za-z]{3,}" required/>-->
                             </div>
                         </div>
 
                         <!--Email-->
                         <div>
                             {{ form_widget(form.mail) }}
-                            <!--<input type="email" id="mail" name="user_email" placeholder="Email (Requis)" required/>-->
                         </div>
             
                         <div>
                             {{ form_widget(form.objet) }}
-                            <!--<input type="text" id="object" name="user_object" placeholder="Objet de l'email (Requis)" required/>-->
                         </div>
 
                         <!--Message-->
                         <div>
                             {{ form_row(form.contenu) }}
-                            <!--<label for="msg">Message :</label>
-                            <textarea id="msg" name="user_message" placeholder="Commentaire (Requis)" required></textarea>-->
+                        
                         </div>
             
                         <!--Validation-->
                         {{ form_widget(form.submit) }}
-                        <!--<input type="submit" value="Envoyer"/>-->
                     {{ form_end(form) }}
                 </div>
             </section>
