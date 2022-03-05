@@ -19,6 +19,8 @@ class IntroRepository extends ServiceEntityRepository
         parent::__construct($registry, Intro::class);
     }
 
+
+    // Récupération de tous les paragraphes par ordre de classement
     public function getByOrder()
     {
         return $this->createQueryBuilder('i')
@@ -28,6 +30,8 @@ class IntroRepository extends ServiceEntityRepository
         ;
     }
 
+
+    // Récupération du dernier paragraphe dans la liste
     public function getLast()
     {
         return $this->createQueryBuilder('i')
@@ -38,6 +42,8 @@ class IntroRepository extends ServiceEntityRepository
         ;
     }
 
+
+    // Récupération des paragraphes  en fonction d'une certaine place pour modifier les leurs ( les déplacer dans la liste)
     public function getFrom($from)
     {
         return $this->createQueryBuilder('i')
@@ -47,33 +53,4 @@ class IntroRepository extends ServiceEntityRepository
             ->getResult()
         ;
     }
-
-    // /**
-    //  * @return Intro[] Returns an array of Intro objects
-    //  */
-    /*
-    public function findByExampleField($value)
-    {
-        return $this->createQueryBuilder('i')
-            ->andWhere('i.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('i.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-    */
-
-    /*
-    public function findOneBySomeField($value): ?Intro
-    {
-        return $this->createQueryBuilder('i')
-            ->andWhere('i.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
-    }
-    */
 }

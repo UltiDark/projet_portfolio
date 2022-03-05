@@ -19,6 +19,7 @@ class DomaineRepository extends ServiceEntityRepository
         parent::__construct($registry, Domaine::class);
     }
 
+    // Récupération des capacités en les regroupant dans des catégories (groupe), elles-mêmes regroupées dans les domaines
     public function getDomaine()
     {
         $sql = 
@@ -43,6 +44,7 @@ class DomaineRepository extends ServiceEntityRepository
         $groupes = $stmt->fetchAll();
         $domaines = [];
 
+        // Regrouper les catégories (groupe) dans les domaines
         foreach ($groupes as $groupe) {
             $domaines[$groupe['domaine_id']]['id'] = $groupe['domaine_id'];
             $domaines[$groupe['domaine_id']]['nom'] = $groupe['domaine'];
@@ -52,6 +54,7 @@ class DomaineRepository extends ServiceEntityRepository
         return $domaines;
     }
 
+    // Récupération de toutes les catégories (groupes) sans les regrouper dans des domaines
     public function getGroupe()
     {
         $sql = 
@@ -75,6 +78,8 @@ class DomaineRepository extends ServiceEntityRepository
         return $stmt->fetchAll();
     }
 
+
+    // Récupération d'un domaine en particulier
     public function getOneDomaine($id)
     {
         $sql = 

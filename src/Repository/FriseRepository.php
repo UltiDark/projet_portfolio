@@ -19,6 +19,8 @@ class FriseRepository extends ServiceEntityRepository
         parent::__construct($registry, Frise::class);
     }
 
+
+    // Récupération de tous les éléments par ordre chronologique
     public function getByOrder()
     {
         return $this->createQueryBuilder('f')
@@ -27,34 +29,4 @@ class FriseRepository extends ServiceEntityRepository
             ->getResult()
         ;
     }
-
-
-    // /**
-    //  * @return Frise[] Returns an array of Frise objects
-    //  */
-    /*
-    public function findByExampleField($value)
-    {
-        return $this->createQueryBuilder('f')
-            ->andWhere('f.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('f.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-    */
-
-    /*
-    public function findOneBySomeField($value): ?Frise
-    {
-        return $this->createQueryBuilder('f')
-            ->andWhere('f.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
-    }
-    */
 }

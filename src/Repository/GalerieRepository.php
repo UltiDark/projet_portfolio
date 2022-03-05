@@ -21,6 +21,8 @@ class GalerieRepository extends ServiceEntityRepository
         parent::__construct($registry, Galerie::class);
     }
 
+
+    // Récupération de tous les éléments en fonction de sa catégorie (2D ou 3D)
     public function findByJoin($value)
     {
         return $this->createQueryBuilder('g')
@@ -32,6 +34,7 @@ class GalerieRepository extends ServiceEntityRepository
         ;
     }
 
+    // Récupération de tous les éléments par ordre alphabétique
     public function getByOrder()
     {
         return $this->createQueryBuilder('g')
@@ -40,33 +43,4 @@ class GalerieRepository extends ServiceEntityRepository
             ->getResult()
         ;
     }
-
-    // /**
-    //  * @return Galerie[] Returns an array of Galerie objects
-    //  */
-    /*
-    public function findByExampleField($value)
-    {
-        return $this->createQueryBuilder('g')
-            ->andWhere('g.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('g.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-    */
-
-    /*
-    public function findOneBySomeField($value): ?Galerie
-    {
-        return $this->createQueryBuilder('g')
-            ->andWhere('g.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
-    }
-    */
 }

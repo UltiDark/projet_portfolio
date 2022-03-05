@@ -23,26 +23,9 @@ class BanqueImageRepository extends ServiceEntityRepository
         parent::__construct($registry, BanqueImage::class);
     }
 
-    // /**
-    //  * @return BanqueImage[] Returns an array of BanqueImage objects
-    //  */
-    /*
-    public function findByExampleField($value)
-    {
-        return $this->createQueryBuilder('b')
-            ->andWhere('b.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('b.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-    */
 
-
+    // Récupération de toutes les screens en fonction du projet
     public function findByLimit($value){
-
         $tab = $this->createQueryBuilder('b')
         ->andWhere('b.id_projet = :val')
         ->andWhere('b.nom = :val2')
@@ -53,10 +36,7 @@ class BanqueImageRepository extends ServiceEntityRepository
         ->getResult()
         ;
 
-        //dd($tab);
-
-        //$tabAlea = array_rand($tab, 5);
-
+        // Choix aléatoire de 5 images dans la selection
         if (count($tab) >= 5){
             $tabAlea = array_rand($tab, 5);
             for ($i=0; $i<count($tabAlea); $i++){
@@ -67,6 +47,7 @@ class BanqueImageRepository extends ServiceEntityRepository
             return null;
         }
         else{
+            // Duplication d'image si moins de 5
             $j = 5 - count($tab);
             for($i = 0; $i < $j; $i++){
                 array_push($tab, $tab[0]);
@@ -77,6 +58,8 @@ class BanqueImageRepository extends ServiceEntityRepository
         return $tabFinal;
     }
 
+
+    // Récupération du logo en fonction du projet
     public function findLogo($value){
         return $this->createQueryBuilder('b')
         ->andWhere('b.id_projet = :val')
@@ -89,6 +72,7 @@ class BanqueImageRepository extends ServiceEntityRepository
     ;
     }
 
+    // Récupération de tous les logos en fonction des projets sur lesquels l'utilisateur a été ajouté
     public function findAllLogo($value){
     $sql = 
         "SELECT 
@@ -110,16 +94,4 @@ class BanqueImageRepository extends ServiceEntityRepository
         $stmt->execute();
         return $stmt->fetchAll();
     }
-
-    /*
-    public function findOneBySomeField($value): ?BanqueImage
-    {
-        return $this->createQueryBuilder('b')
-            ->andWhere('b.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
-    }
-    */
 }
