@@ -97,7 +97,7 @@
             </div>
         {% endfor %}
 
-        {% for message in app.flashes('error') %}
+        {% for message in app.flashes('error') %} 
             <div class="alert">
                 <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
                 <strong>Erreur ! </strong>{{ message }}

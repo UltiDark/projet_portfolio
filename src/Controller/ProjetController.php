@@ -287,6 +287,7 @@ class ProjetController extends AbstractController
             ]);
     }
 
+
     static function removeFiles($basename, $nomProjet,$projetParam){
         if(!empty($basename)){
             $ancienFilename = $projetParam->getParameter('imgProjet_directory').$nomProjet .'/'. basename($basename);
@@ -296,6 +297,8 @@ class ProjetController extends AbstractController
     }
 
     static function addFiles($newFilename,$basename, $nomProjet,$projetParam){
+
+        // 
         try {
             $basename->move(
                 $projetParam->getParameter('imgProjet_directory').'/'.$nomProjet,
@@ -304,7 +307,6 @@ class ProjetController extends AbstractController
         } catch (FileException $e) {
             $projetParam->addFlash('error', 'Le mouvement a échoué !');
             return $projetParam->redirectToRoute('accueil');
-
         }
     }
 }

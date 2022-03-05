@@ -33,6 +33,7 @@
                                 </a>
                             </div>
                         {% endif %}
+                        <!-- Bouton Modication & Suppression-->
                         {% for utilisateur in projet[0].getIdUtilisateur() %}
                             {% if not is_granted('ROLE_ADMIN') and utilisateur.email is empty and utilisateur.email == app.user.email %}
                                 <div class="centre" id={{ i }}>

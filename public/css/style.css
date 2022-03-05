@@ -878,6 +878,7 @@ input[pattern]:valid, input[required]:valid, input[type="email"]:valid{
     }
 }
 
+/*Responsive 1300px*/
 @media(max-width: 1300px){
     main{
         margin :0px 3% 5px 3%;
