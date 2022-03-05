@@ -86,6 +86,47 @@ li{
     font-size: 14pt;
 }
 
+a{
+    text-decoration: none;
+}
+
+a > span{
+    margin-left : 10px;
+    position: absolute;
+    top: 50%; /* poussé de la moitié de hauteur du référent */
+    transform: translateY(-50%); 
+}
+
+.cgu li{
+    margin-left: 100px;
+}
+
+.table,
+td {
+    text-align: center;
+}
+
+thead,
+tfoot
+{
+    background-color: #901AAD;
+    color: #ccc;
+    border-radius: 50px;
+
+}
+.table a{
+    text-decoration: none;
+}
+
+.table table{
+    width: 100%;
+}
+
+
+.table a:hover{
+    color: #901AAD;
+}
+
 /*------------------------------------ END PRINCIPAL -----------------------------------*/
 
 
@@ -261,6 +302,46 @@ header ul li a.active{
 /*------------------------------------- END HEADER -------------------------------------*/
 
 
+/*------------------------------------ START FLASH ----------------------------------*/
+
+.succes, .alert{
+    padding: 20px;
+    color: #ccc;
+    z-index : 999;
+    font-family: "Lato", sans-serif;
+    font-size: 14pt;
+    font-weight: 700;
+    position: fixed;
+    width: 100%;
+    margin-top : 115px;
+}
+
+.succes {
+    background-color: rgba(47,185,134,0.5);
+}
+
+.alert {
+    background-color: rgba(244,67,54,0.5);
+}
+  
+.closebtn {
+  margin-left: 15px;
+  color: #ccc;
+  font-weight: bold;
+  float: right;
+  font-size: 22px;
+  line-height: 20px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+  
+.closebtn:hover {
+  color: black;
+}
+
+/*------------------------------------ END FLASH ----------------------------------*/
+
+
 /*------------------------------------- START MENU -------------------------------------*/
 
 .menu{
@@ -402,7 +483,6 @@ nav li:hover .sous{
 
 
 /*------------------------------------- START BODY -------------------------------------*/
-
 
 /* Utilisateur */
 .flex{
@@ -679,6 +759,7 @@ article, section:not(.parallax, .formul, .projet){
 .aside{
     display: none;
 }
+
 /*-------------------------------------- END BODY --------------------------------------*/
 
 
@@ -839,7 +920,151 @@ input[pattern]:valid, input[required]:valid, input[type="email"]:valid{
 /*------------------------------------ END CONTACTS ------------------------------------*/
 
 
+/*------------------------------------ START DASHBOARD ----------------------------------*/
 
+.dashboard{
+    margin-bottom: 150px;
+}
+
+.dashboardSection{
+    display:none;
+}
+
+#dashboardDomaines{
+    display: block;
+}
+
+.dashboardMenu{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.dashboardMenu ul{
+    display: flex;
+    width: 80%;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    text-align: center;
+}
+
+.dashboardMenu ul li{
+    list-style: none;
+    padding: 10px 50px;
+    border-left: solid #ccc;
+    border-right: solid #ccc;
+    font-size: 20pt;
+}
+
+.dashboardMenu li:hover{
+    transition: all .5s;
+    background-color: #ccc;
+    color:rgb(77, 77, 77);
+}
+
+table td{
+    white-space: normal;
+}
+
+.dashboardLienReverse{
+    display: none;
+}
+
+/*------------------------------------ END DASHBOARD ----------------------------------*/
+
+
+/*------------------------------------ START ADMIN ----------------------------------*/
+
+.ajout{
+    background-color: rgba(255, 255, 255, 0.3);
+    color: #ccc;
+    border-radius: 500px;
+    padding : 5px 10px;
+
+}
+
+th{
+    border-radius: 500px;
+}
+
+td{
+    padding: 10px 0px;
+    border-color: #ccc;
+    border-bottom: solid;
+
+}
+
+svg{
+    fill : #ccc;
+    border-radius: 5px;
+    padding : 10px;
+}
+
+.trash{
+    background-color: red;
+    border : 2px solid #ccc;
+
+}
+
+.param{
+    background-color: blue;
+    border : 2px solid #ccc;
+}
+
+.none{
+    text-align: center;
+    width: 100%;
+    opacity: 25%;
+}
+
+
+.none:hover{
+    opacity: 100%;
+}
+
+.trash:hover{
+    background-color: darkred;
+    fill:lightslategray;
+    filter: drop-shadow(2px 2px 2px rgb(255, 0, 0));
+}
+
+.param:hover{
+    background-color: darkblue;
+    fill:lightslategray;
+    filter: drop-shadow(2px 2px 2px rgb(0, 0, 255));
+}
+
+.add:hover{
+    fill:lightslategray;
+    filter: drop-shadow(5px 5px rgb(144, 26, 173));
+}
+
+
+
+.add:not(.formul .add){
+    display:flex;
+    justify-content: center;
+}
+
+.check{
+    width: auto;
+    font-size: 14pt;
+    font-weight: 600;
+    margin : 5px;
+}
+
+.inputcheck{
+    width: auto;
+    margin : 5px;
+}
+
+.demi{
+    width: 100% !important;
+    display: flex;
+    justify-content: space-around;
+}
+
+/*------------------------------------ END ADMIN ----------------------------------*/
 
 
 /*----------------------------------- START ANIMATION ----------------------------------*/
@@ -855,7 +1080,6 @@ input[pattern]:valid, input[required]:valid, input[type="email"]:valid{
 
 
 /*----------------------------------- START RESPONSIVE ---------------------------------*/
-
 
 /*Responsive 1600px*/
 @media(max-width: 1600px){
@@ -1007,6 +1231,24 @@ input[pattern]:valid, input[required]:valid, input[type="email"]:valid{
     }
 }
 
+/*Responsive 900px*/
+@media(max-width:900px){
+    .dashboardLien{
+        display: none;
+    }
+    .dashboardLienReverse{
+        display: block;
+    }
+    .flex{
+        display: flex;
+        flex-direction: column;
+    }
+    
+    .flex > div{
+        width: 100%;
+    }
+}
+
 /*Responsive 750px*/
 @media(max-width: 750px){
     .menu-btn{
@@ -1056,11 +1298,29 @@ input[pattern]:valid, input[required]:valid, input[type="email"]:valid{
     }
 }
 
+/*Responsive 600px*/
+@media(max-width:600px){
+    .dashboardLienReverse{
+        display: block;
+    }
+    form, .table{
+        padding : 10px;
+    }
+
+    thead, tfoot {
+        background-color: transparent;
+        border-radius: 0;
+    }
+
+    th{
+        font-size: 14pt;
+    }
+}
+
 /*Responsive 500px*/
 @media(max-width: 500px){
     header ul{
         flex-direction: column;
-
     }
 
     footer p{
@@ -1082,266 +1342,6 @@ input[pattern]:valid, input[required]:valid, input[type="email"]:valid{
     h4{
         font-size: 14pt;
     }
-
-
 }
 
 /*------------------------------------ END RESPONSIVE ----------------------------------*/
-.table,
-td {
-    text-align: center;
-}
-
-thead,
-tfoot
-{
-    background-color: #901AAD;
-    color: #ccc;
-    border-radius: 50px;
-
-}
-.table a{
-    text-decoration: none;
-}
-
-.table table{
-    width: 100%;
-}
-
-
-.table a:hover{
-    color: #901AAD;
-}
-
-.ajout{
-    background-color: rgba(255, 255, 255, 0.3);
-    color: #ccc;
-    border-radius: 500px;
-    padding : 5px 10px;
-
-}
-
-th{
-    border-radius: 500px;
-}
-
-td{
-    padding: 10px 0px;
-    border-color: #ccc;
-    border-bottom: solid;
-
-}
-
-svg{
-    fill : #ccc;
-    border-radius: 5px;
-    padding : 10px;
-}
-
-.trash{
-    background-color: red;
-    border : 2px solid #ccc;
-
-}
-
-.param{
-    background-color: blue;
-    border : 2px solid #ccc;
-}
-
-.none{
-    text-align: center;
-    width: 100%;
-    opacity: 25%;
-}
-
-
-.none:hover{
-    opacity: 100%;
-}
-
-.trash:hover{
-    background-color: darkred;
-    fill:lightslategray;
-    filter: drop-shadow(2px 2px 2px rgb(255, 0, 0));
-}
-
-.param:hover{
-    background-color: darkblue;
-    fill:lightslategray;
-    filter: drop-shadow(2px 2px 2px rgb(0, 0, 255));
-}
-
-.add:hover{
-    fill:lightslategray;
-    filter: drop-shadow(5px 5px rgb(144, 26, 173));
-}
-
-
-
-.add:not(.formul .add){
-    display:flex;
-    justify-content: center;
-}
-
-.check{
-    width: auto;
-    font-size: 14pt;
-    font-weight: 600;
-    margin : 5px;
-}
-
-.inputcheck{
-    width: auto;
-    margin : 5px;
-}
-
-.demi{
-    width: 100% !important;
-    display: flex;
-    justify-content: space-around;
-}
-
-a{
-    text-decoration: none;
-}
-
-a > span{
-    margin-left : 10px;
-    position: absolute;
-    top: 50%; /* poussé de la moitié de hauteur du référent */
-    transform: translateY(-50%); 
-}
-
-.cgu li{
-    margin-left: 100px;
-}
-
-
-.dashboard{
-    margin-bottom: 150px;
-}
-
-.dashboardSection{
-    display:none;
-}
-
-#dashboardDomaines{
-    display: block;
-}
-
-.dashboardMenu{
-    width: 100%;
-    display: flex;
-    justify-content: center;
-}
-
-.dashboardMenu ul{
-    display: flex;
-    width: 80%;
-    justify-content: space-around;
-    flex-wrap: wrap;
-    text-align: center;
-}
-
-.dashboardMenu ul li{
-    list-style: none;
-    padding: 10px 50px;
-    border-left: solid #ccc;
-    border-right: solid #ccc;
-    font-size: 20pt;
-}
-
-.dashboardMenu li:hover{
-    transition: all .5s;
-    background-color: #ccc;
-    color:rgb(77, 77, 77);
-}
-
-table td{
-    white-space: normal;
-}
-
-.dashboardLienReverse{
-    display: none;
-}
-
-.succes, .alert{
-    padding: 20px;
-    color: #ccc;
-    z-index : 999;
-    font-family: "Lato", sans-serif;
-    font-size: 14pt;
-    font-weight: 700;
-    position: fixed;
-    width: 100%;
-    margin-top : 115px;
-}
-
-.succes {
-    background-color: rgba(47,185,134,0.5);
-}
-
-.alert {
-    background-color: rgba(244,67,54,0.5);
-}
-  
-.closebtn {
-  margin-left: 15px;
-  color: #ccc;
-  font-weight: bold;
-  float: right;
-  font-size: 22px;
-  line-height: 20px;
-  cursor: pointer;
-  transition: 0.3s;
-}
-  
-.closebtn:hover {
-  color: black;
-}
-
-@media(max-width:900px){
-    .dashboardLien{
-        display: none;
-    }
-    .dashboardLienReverse{
-        display: block;
-    }
-}
-
-@media(max-width:900px){
-    .dashboardLien{
-        display: none;
-    }
-    .dashboardLienReverse{
-        display: block;
-    }
-    .flex{
-        display: flex;
-        flex-direction: column;
-    }
-    
-    .flex > div{
-        width: 100%;
-    }
-}
-
-
-@media(max-width:600px){
-    .dashboardLienReverse{
-        display: block;
-    }
-    form, .table{
-        padding : 10px;
-    }
-
-    thead, tfoot {
-        background-color: transparent;
-        border-radius: 0;
-    }
-
-    th{
-        font-size: 14pt;
-    }
-}

@@ -1,7 +1,8 @@
+/*----------------------------------- START PRINCIPAL ----------------------------------*/
+
 .rea{
     display: flex;
     justify-content: center;
-
 }
 
 .tempo {
@@ -46,6 +47,12 @@
     margin-right : 50px;
 }
 
+/*----------------------------------- END PRINCIPAL ----------------------------------*/
+
+
+/*------------------------------------ START BODY ----------------------------------*/
+
+/* Image */
 .grandeImage{
     text-align: center;
 }
@@ -67,17 +74,7 @@
     border-radius: 20px;
 }
 
-.flexIntro{
-    display: flex;
-    align-items: flex-start ;
-    margin-top: 150px;
-}
-
-.flexIntro h2, .flexDev h2, .asideInfoProjet h2{
-    margin-bottom: 50px;
-}
-
-
+/* Info Projet*/
 .asideInfoProjet{
     width: 25%;
     height: auto;
@@ -112,6 +109,17 @@
     text-align: center;
 }
 
+/* Paragraphe */
+.flexIntro{
+    display: flex;
+    align-items: flex-start ;
+    margin-top: 150px;
+}
+
+.flexIntro h2, .flexDev h2, .asideInfoProjet h2{
+    margin-bottom: 50px;
+}
+
 .small{
     font-size: medium;
     font-style: italic;
@@ -121,7 +129,6 @@
     width: 100%;
     border-radius: 20px;
 }
-
 
 .flexDev > div{
     display: flex;
@@ -146,6 +153,7 @@
     width: 800px;
 }
 
+/* Video */
 .videoProjet{
     text-align: center;
     width: 80%;
@@ -169,13 +177,15 @@
     transform: translate(-40%);
 }
 
+/*------------------------------------ END BODY ----------------------------------*/
+
+/*------------------------------------ START MEMBRE ----------------------------------*/
 
 .membres{
     display: flex;
     text-align: center;
     flex-wrap: wrap;
     justify-content: space-around;
-
 }
 
 .membres div{
@@ -191,6 +201,12 @@
     margin: 10px 0px;
 }
 
+/*------------------------------------ END MEMBRE ----------------------------------*/
+
+
+/*------------------------------------ START RESPONSIVE ----------------------------------*/
+
+/*Responsive 800px*/
 @media(max-width: 800px){
     .flexIntro{
         flex-direction: column-reverse;
@@ -215,15 +231,14 @@
         position: relative;
     }
     
-    
     .gauche{
         margin:0px;
         margin-bottom :50px;
-
     }
 
     .petiteImage{
         display: none;
     }
-    
 }
+
+/*------------------------------------ END RESPONSIVE ----------------------------------*/

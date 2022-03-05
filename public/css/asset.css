@@ -1,4 +1,4 @@
-/*Affichage Galerie*/
+/*----------------------------------- START PRINCIPAL ----------------------------------*/
 
 #main{
   width: 100%;
@@ -32,7 +32,16 @@ svg{
   margin: 5px;
 }
 
-/*Affichage Modal*/
+
+center{
+  display: block;
+  text-align: center !important;
+}
+
+/*----------------------------------- END PRINCIPAL ----------------------------------*/
+
+
+/*----------------------------------- START MODAL ----------------------------------*/
 
 .modal{
   display: none;
@@ -77,12 +86,6 @@ svg{
   justify-content: center;
   align-content: center;
   text-align: center;
-}
-
-
-center{
-  display: block;
-  text-align: center !important;
 }
 
 #selectedImg{
@@ -151,6 +154,13 @@ textarea{
   cursor: pointer;
 }
 
+/*----------------------------------- END MODAL ----------------------------------*/
+
+
+/*------------------------------------ START RESPONSIVE ----------------------------------*/
+
+
+/*Responsive 1000px*/
 @media(max-width: 1000px){
   .modal{
     padding-top : 50px;
@@ -173,9 +183,6 @@ textarea{
 
   }
 
-}
-
-@media(max-width: 1000px){
   #myModal > div{
     flex-direction: column;
     max-width: 690px;
@@ -188,8 +195,11 @@ textarea{
 
 }
 
+/*Responsive 800px*/
 @media(max-width: 800px){
   #main div{
     width: 100%;
   }
 }
+
+/*------------------------------------ END RESPONSIVE ----------------------------------*/
